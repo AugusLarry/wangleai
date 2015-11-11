@@ -39,7 +39,7 @@
                   <form class="form-horizontal" role="form">
                      <div class="form-group">
                         <div class="col-md-12">
-                           <input type="username" class="form-control " id="username" placeholder="邮箱或者账号">
+                           <input type="username" class="form-control " id="username" placeholder="账号">
                            <i class="fa fa-user"></i>
                         </div>
                      </div>
@@ -127,9 +127,10 @@
             success : function (data) {
                if (data.status) {
                   alert("登录成功!");
+                  window.location.href = data.url;
                } else {
                   alert(data.info);
-                  return false;
+                  window.location.href = data.url;
                }
             },
             error : function (XMLHttpRequest, textStatus) {

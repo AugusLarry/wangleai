@@ -14,10 +14,10 @@ class LoginController extends Controller
 			$this->error("非法访问", U('index'));
 		}
 		$user = D("User");
-		if (!$user->validate($user->loginRules)->create()) {
-			$this->error($user->getError(), U("Index/index"), true);
+		if (!$user->create(I("post."), 4)) {
+			$this->error($user->getError(), U("Login/index"), true);
 		} else {
-			$this->success("登录成功", "", true);
+			$this->success("登录成功", U("Index/index"), true);
 		}
 	}
 
