@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>登录系统</title>
+   <meta name="description" content="">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <!-- Favicon -->
+   <link rel="shortcut icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon">
+   <!-- Bootstrap core CSS -->
+   <link rel="stylesheet" href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css">
+   <!-- Fonts from Font Awsome -->
+   <link rel="stylesheet" href="__PUBLIC__/css/font-awesome.min.css">
+   <!-- CSS Animate -->
+   <link rel="stylesheet" href="__PUBLIC__/css/animate.css">
+   <!-- Custom styles for this theme -->
+   <link rel="stylesheet" href="__PUBLIC__/css/main.css">
+   <script src="__PUBLIC__/js/modernizr-2.6.2.min.js"></script>
+   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+   <!--[if lt IE 9]>
+      <script src="__PUBLIC__/js/html5shiv.js"></script>
+      <script src="__PUBLIC__/js/respond.min.js"></script>
+   <![endif]-->
+</head>
+<body>
+   <section id="login-container">
+      <div class="row">
+         <div class="col-md-3" id="login-wrapper">
+            <div class="panel panel-primary animated flipInY">
+               <div class="panel-heading"><h3 class="panel-title">登录</h3></div>
+               <div class="panel-body">
+                  <p>登录访问您的帐户.</p>
+                  <form class="form-horizontal" role="form">
+                     <div class="form-group">
+                        <div class="col-md-12">
+                           <input type="username" class="form-control " id="username" placeholder="邮箱或者账号">
+                           <i class="fa fa-user"></i>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="col-md-12">
+                           <input type="password" class="form-control" id="password" placeholder="密码">
+                           <i class="fa fa-lock"></i>
+                           <a href="javascript:void(0)" class="passwordreset">忘记密码?</a>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="col-md-12">
+                           <input type="text" class="form-control" id="verify" placeholder="验证码">
+                           <i class="fa fa-picture-o"></i>
+                           <img src="{:U('verify')}" class="verify">
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <div class="col-md-12">
+                           <!-- <a href="index.html" class="btn btn-primary btn-block">登录</a> -->
+                           <input type="button" class="btn btn-primary btn-block" id="login" value="登录">
+                           <hr />
+                           <a href="pages-sign-up.html" class="btn btn-default btn-block">没有账号?注册一个</a>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <!--Global JS-->
+   <script src="__PUBLIC__/js/jquery-1.10.2.min.js"></script>
+   <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+   <script src="__PUBLIC__/plugins/waypoints/waypoints.min.js"></script>
+   <script src="__PUBLIC__/plugins/nanoScroller/jquery.nanoscroller.min.js"></script>
+   <script src="__PUBLIC__/js/application.js"></script>
+   <script>
+      $(".verify").click(function()
+      {
+         $(this).attr("src", "{:U('verify')}/" + Math.random());
+         return false;
+      })
+      $("#login").click(function()
+      {
+         var username    = $("#username"),
+             password = $("#password"),
+             verify   = $("#verify"),
+             _csrf    = $("input[name=_csrf]");
+         if (username.val() == "")
+         {
+            alert("用户名不能为空!");
+            username.parents("div.form-group").addClass("has-error");
+            username.focus();
+            return false;
+         }
+         if (password.val() == "")
+         {
+            alert("密码不能为空!");
+            $(".form-horizontal").find("div.form-group").removeClass("has-error");
+            password.parents("div.form-group").addClass("has-error");
+            password.focus();
+            return false;
+         }
+         if (verify.val() == "")
+         {
+            alert("验证码不能为空!");
+            $(".form-horizontal").find("div.form-group").removeClass("has-error");
+            verify.parents("div.form-group").addClass("has-error");
+            verify.focus();
+            return false;
+         }
+         var data = {
+            username : username.val(),
+            password : password.val(),
+            verify : verify.val(),
+            _csrf  : _csrf.val(),
+         };
+         $.ajax({
+            url : "{:U('login')}",
+            data    : data,
+            type    : "POST",
+            cache   : false,
+            dataType: "json",
+            success : function (data) {
+               if (data.status) {
+                  alert("登录成功!");
+               } else {
+                  alert(data.info);
+                  return false;
+               }
+            },
+            error : function (XMLHttpRequest, textStatus) {
+               alert(textStatus);
+               return false;
+            }
+         });
+      })
+   </script>
+</body>
+</html>
