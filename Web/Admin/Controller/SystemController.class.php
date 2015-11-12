@@ -1,14 +1,19 @@
 <?php
 namespace Admin\Controller;
 use Common\Controller\CommonController;
+/**
+ * 系统设置控制器
+ */
 class SystemController extends CommonController
 {
+	//验证码设置视图
 	public function verify()
 	{
 		C('TOKEN_ON',false);
 		$this->display();
 	}
 
+	//验证码提交表单
 	public function updateVerify()
 	{
 		$data = [
