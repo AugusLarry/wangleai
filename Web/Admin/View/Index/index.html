@@ -5,7 +5,6 @@
 <!--[if gt IE 8]><!-->
 <html class="no-js">
 <!--<![endif]-->
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,40 +12,36 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="__PUBLIC__/img/favicon.ico" type="image/x-icon">
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/plugins/bootstrap/css/bootstrap.min.css">
     <!-- Fonts from Font Awsome -->
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/font-awesome.min.css">
     <!-- CSS Animate -->
-    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/animate.css">
     <!-- Custom styles for this theme -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="__PUBLIC__/css/main.css">
     <!-- Vector Map  -->
-    <link rel="stylesheet" href="assets/plugins/jvectormap/css/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="__PUBLIC__/plugins/jvectormap/css/jquery-jvectormap-1.2.2.css">
     <!-- ToDos  -->
-    <link rel="stylesheet" href="assets/plugins/todo/css/todos.css">
+    <link rel="stylesheet" href="__PUBLIC__/plugins/todo/css/todos.css">
     <!-- Morris  -->
-    <link rel="stylesheet" href="assets/plugins/morris/css/morris.css">
-    <!-- Fonts -->
-    <!-- <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
+    <link rel="stylesheet" href="__PUBLIC__/plugins/morris/css/morris.css">
     <!-- Feature detection -->
-    <script src="assets/js/modernizr-2.6.2.min.js"></script>
+    <script src="__PUBLIC__/js/modernizr-2.6.2.min.js"></script>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="assets/js/html5shiv.js"></script>
-    <script src="assets/js/respond.min.js"></script>
+    <script src="__PUBLIC__/js/html5shiv.js"></script>
+    <script src="__PUBLIC__/js/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
     <section id="container">
         <header id="header">
             <!--logo start-->
             <div class="brand">
                 <a href="index.html" class="logo">
-                    <span>Space</span>Lab</a>
+                    <span>WangLeAI</span>blog</a>
             </div>
             <!--logo end-->
             <div class="toggle-navigation toggle-left">
@@ -69,7 +64,7 @@
                             <li>
                                 <a href="#">
                                     <div class="profile-photo">
-                                        <img src="assets/img/avatar.gif" alt="" class="img-circle">
+                                        <img src="__PUBLIC__/img/avatar.gif" alt="" class="img-circle">
                                     </div>
                                     <div class="message-info">
                                         <span class="sender">James Bagian</span>
@@ -82,7 +77,7 @@
                             <li>
                                 <a href="#">
                                     <div class="profile-photo">
-                                        <img src="assets/img/avatar1.gif" alt="" class="img-circle">
+                                        <img src="__PUBLIC__/img/avatar1.gif" alt="" class="img-circle">
                                     </div>
                                     <div class="message-info">
                                         <span class="sender">Jeffrey Ashby</span>
@@ -95,7 +90,7 @@
                             <li>
                                 <a href="#">
                                     <div class="profile-photo">
-                                        <img src="assets/img/avatar2.gif" alt="" class="img-circle">
+                                        <img src="__PUBLIC__/img/avatar2.gif" alt="" class="img-circle">
                                     </div>
                                     <div class="message-info">
                                         <span class="sender">John Douey</span>
@@ -108,7 +103,7 @@
                             <li>
                                 <a href="#">
                                     <div class="profile-photo">
-                                        <img src="assets/img/avatar3.gif" alt="" class="img-circle">
+                                        <img src="__PUBLIC__/img/avatar3.gif" alt="" class="img-circle">
                                     </div>
                                     <div class="message-info">
                                         <span class="sender">Ellen Baker</span>
@@ -120,7 +115,7 @@
                             <li>
                                 <a href="#">
                                     <div class="profile-photo">
-                                        <img src="assets/img/avatar4.gif" alt="" class="img-circle">
+                                        <img src="__PUBLIC__/img/avatar4.gif" alt="" class="img-circle">
                                     </div>
                                     <div class="message-info">
                                         <span class="sender">Ivan Bella</span>
@@ -132,10 +127,9 @@
                             <li><a href="#">Check all messages <i class="fa fa-angle-right"></i></a>
                             </li>
                         </ul>
-
                     </li>
                     <li class="profile-photo">
-                        <img src="assets/img/avatar.png" alt="" class="img-circle">
+                        <img src="__PUBLIC__/img/avatar.png" alt="" class="img-circle">
                     </li>
                     <li class="dropdown settings">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -152,7 +146,7 @@
                                 <a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge badge-danager" id="user-inbox">5</span></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-power-off"></i> Logout</a>
+                                <a href="{:U('Admin/Index/logout')}"><i class="fa fa-power-off"></i>退出登录</a>
                             </li>
                         </ul>
                     </li>
@@ -163,7 +157,6 @@
                             </button>
                         </div>
                     </li>
-
                 </ul>
             </div>
         </header>
@@ -172,112 +165,41 @@
             <div id="leftside-navigation" class="nano">
                 <ul class="nano-content">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                        <a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i><span>首页</span></a>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>UI Elements</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-book"></i><span>文章管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-
-                            <li><a href="ui-alerts-notifications.html">Alerts &amp; Notifications</a>
-                            </li>
-                            <li><a href="ui-panels.html">Panels</a>
-                            </li>
-                            <li><a href="ui-buttons.html">Buttons</a>
-                            </li>
-                            <li><a href="ui-slider-progress.html">Sliders &amp; Progress</a>
-                            </li>
-                            <li><a href="ui-modals-popups.html">Modals &amp; Popups</a>
-                            </li>
-                            <li><a href="ui-icons.html">Icons</a>
-                            </li>
-                            <li><a href="ui-grid.html">Grid</a>
-                            </li>
-                            <li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a>
-                            </li>
-                            <li><a href="ui-nestable-list.html">Nestable Lists</a>
-                            </li>
+                            <li><a href="{:U('Admin/Articles/index')}">文章列表</a></li>
+                            <li><a href="{:U('Admin/Articles/create')}">写文章</a></li>
+                            <li><a href="{:U('Admin/Articles/tags')}">标签列表</a></li>
+                            <li><a href="{:U('Admin/Articles/tags')}">属性列表</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-table"></i><span>Tables</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-list-ul"></i><span>分类管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-                            <li><a href="tables-basic.html">Basic Tables</a>
-                            </li>
-                            <li><a href="tables-data.html">Data Tables</a>
-                            </li>
+                            <li><a href="{:U('Admin/Category/index')}">分类列表</a></li>
+                            <li><a href="{:U('Admin/Category/create')}">添加分类</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa fa-tasks"></i><span>Forms</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-users"></i><span>用户管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-                            <li><a href="forms-components.html">Components</a>
-                            </li>
-                            <li><a href="forms-validation.html">Validation</a>
-                            </li>
-                            <li><a href="forms-mask.html">Mask</a>
-                            </li>
-                            <li><a href="forms-wizard.html">Wizard</a>
-                            </li>
-                            <li><a href="forms-multiple-file.html">Multiple File Upload</a>
-                            </li>
-                            <li><a href="forms-wysiwyg.html">WYSIWYG Editor</a>
-                            </li>
+                            <li><a href="{:U('Admin/User/index')}">用户列表</a></li>
+                            <li><a href="{:U('Admin/User/create')}">添加用户</a></li>
+                            <li><a href="{:U('Admin/User/role')}">角色列表</a></li>
                         </ul>
                     </li>
                     <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-envelope"></i><span>Mail</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+                        <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>系统设置</span><i class="arrow fa fa-angle-right pull-right"></i></a>
                         <ul>
-                            <li><a href="mail-inbox.html">Inbox</a>
-                            </li>
-                            <li><a href="mail-compose.html">Compose Mail</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-bar-chart-o"></i><span>Charts</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            <li><a href="charts-chartjs.html">Chartjs</a>
-                            </li>
-                            <li><a href="charts-morris.html">Morris</a>
-                            </li>
-                            <li><a href="charts-c3.html">C3 Charts</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-map-marker"></i><span>Maps</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            <li><a href="map-google.html">Google Map</a>
-                            </li>
-                            <li><a href="map-vector.html">Vector Map</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="typography.html"><i class="fa fa-text-height"></i><span>Typography</span></a>
-                    </li>
-                    <li class="sub-menu">
-                        <a href="javascript:void(0);"><i class="fa fa-file"></i><span>Pages</span><i class="arrow fa fa-angle-right pull-right"></i></a>
-                        <ul>
-                            <li><a href="pages-blank.html">Blank Page</a>
-                            </li>
-                            <li><a href="pages-login.html">Login</a>
-                            </li>
-                            <li><a href="pages-sign-up.html">Sign Up</a>
-                            </li>
-                            <li><a href="pages-calendar.html">Calendar</a>
-                            </li>
-                            <li><a href="pages-timeline.html">Timeline</a>
-                            </li>
-                            <li><a href="pages-404.html">404</a>
-                            </li>
-                            <li><a href="pages-500.html">500</a>
-                            </li>
+                            <li><a href="{:U('Admin/System/index')}">基本设置</a></li>
+                            <li><a href="{:U('Admin/System/verify')}">验证码设置</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
-
         </aside>
         <!--sidebar left end-->
         <!--main content start-->
@@ -527,7 +449,7 @@
                 <div class="list-contacts">
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>James Bagian</h4>
@@ -537,7 +459,7 @@
                     </a>
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar1.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar1.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>Jeffrey Ashby</h4>
@@ -547,7 +469,7 @@
                     </a>
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar2.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar2.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>John Douey</h4>
@@ -557,7 +479,7 @@
                     </a>
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar3.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar3.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>Ellen Baker</h4>
@@ -571,7 +493,7 @@
                 <div class="list-contacts">
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar4.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar4.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>Ivan Bella</h4>
@@ -581,7 +503,7 @@
                     </a>
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar5.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar5.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>Gerald Carr</h4>
@@ -591,7 +513,7 @@
                     </a>
                     <a href="javascript:void(0)" class="list-item">
                         <div class="list-item-image">
-                            <img src="assets/img/avatar6.gif" class="img-circle">
+                            <img src="__PUBLIC__/img/avatar6.gif" class="img-circle">
                         </div>
                         <div class="list-item-content">
                             <h4>Viktor Gorbatko</h4>
@@ -605,39 +527,39 @@
         <!--sidebar right end-->
     </section>
     <!--Global JS-->
-    <script src="assets/js/jquery-1.10.2.min.js"></script>
-    <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/plugins/waypoints/waypoints.min.js"></script>
-    <script src="assets/js/application.js"></script>
+    <script src="__PUBLIC__/js/jquery-1.10.2.min.js"></script>
+    <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="__PUBLIC__/plugins/waypoints/waypoints.min.js"></script>
+    <script src="__PUBLIC__/js/application.js"></script>
     <!--Page Level JS-->
-    <script src="assets/plugins/countTo/jquery.countTo.js"></script>
-    <script src="assets/plugins/weather/js/skycons.js"></script>
+    <script src="__PUBLIC__/plugins/countTo/jquery.countTo.js"></script>
+    <script src="__PUBLIC__/plugins/weather/js/skycons.js"></script>
     <!-- FlotCharts  -->
-    <script src="assets/plugins/flot/js/jquery.flot.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.resize.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.canvas.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.image.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.categories.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.crosshair.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.errorbars.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.fillbetween.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.navigate.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.pie.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.selection.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.stack.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.symbol.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.threshold.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.colorhelpers.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.time.min.js"></script>
-    <script src="assets/plugins/flot/js/jquery.flot.example.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.resize.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.canvas.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.image.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.categories.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.crosshair.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.errorbars.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.fillbetween.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.navigate.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.pie.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.selection.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.stack.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.symbol.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.threshold.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.colorhelpers.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.time.min.js"></script>
+    <script src="__PUBLIC__/plugins/flot/js/jquery.flot.example.js"></script>
     <!-- Morris  -->
-    <script src="assets/plugins/morris/js/morris.min.js"></script>
-    <script src="assets/plugins/morris/js/raphael.2.1.0.min.js"></script>
+    <script src="__PUBLIC__/plugins/morris/js/morris.min.js"></script>
+    <script src="__PUBLIC__/plugins/morris/js/raphael.2.1.0.min.js"></script>
     <!-- Vector Map  -->
-    <script src="assets/plugins/jvectormap/js/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="assets/plugins/jvectormap/js/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="__PUBLIC__/plugins/jvectormap/js/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="__PUBLIC__/plugins/jvectormap/js/jquery-jvectormap-world-mill-en.js"></script>
     <!-- ToDo List  -->
-    <script src="assets/plugins/todo/js/todos.js"></script>
+    <script src="__PUBLIC__/plugins/todo/js/todos.js"></script>
     <!--Load these page level functions-->
     <script>
     $(document).ready(function() {

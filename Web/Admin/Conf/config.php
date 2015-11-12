@@ -8,4 +8,5 @@ return array(
 	'TOKEN_NAME' => '_csrf',
 	'TOKEN_TYPE' => 'md5',
 	'TOKEN_RESET' => true,
+	'TMPL_CACHE_ON' => false,
 );

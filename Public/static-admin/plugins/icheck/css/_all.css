@@ -292,6 +292,7 @@
     background: url("grey.png")/*tpa=http://authenticgoods.co/wrapbootstrap/themes/spacelab/assets/plugins/icheck/css/grey.png*/ no-repeat;
     border: none;
     cursor: pointer;
+    margin-right: 5px;
 }
 
 .icheckbox_flat-grey {
