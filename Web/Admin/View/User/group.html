@@ -25,7 +25,6 @@
    <link rel="stylesheet" href="__PUBLIC__/css/animate.css">
    <!-- Custom styles for this theme -->
    <link rel="stylesheet" href="__PUBLIC__/css/main.css">
-   <link rel="stylesheet" href="__PUBLIC__/plugins/icheck/css/_all.css">
    <script src="__PUBLIC__/js/modernizr-2.6.2.min.js"></script>
    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
    <!--[if lt IE 9]>
@@ -206,136 +205,34 @@
                <div class="col-md-12">
                   <div class="panel panel-default">
                      <div class="panel-heading">
-                        <h3 class="panel-title">验证码设置</h3>
+                        <h3 class="panel-title">角色列表</h3>
+                        <div class="actions pull-right">
+                           <a href="{:U('Admin/User/addGroup')}"><i class="fa fa-plus"></i></a>
+                        </div>
                      </div>
                      <div class="panel-body">
-                        <form class="form-horizontal form-border" action="{:U('Admin/System/updateVerify')}" method="post">
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">使用中文验证码</label>
-                              <div class="col-sm-6">
-                                 <if condition="$Think.config.useZh eq true">
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useZh" checked value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useZh" value="0">否</label>
-                                 <else/>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useZh" value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useZh" checked value="0">否</label>
-                                 </if>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">使用背景图片</label>
-                              <div class="col-sm-6">
-                                 <if condition="$Think.config.useImgBg eq true">
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useImgBg" checked value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useImgBg" value="0">否</label>
-                                 <else/>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useImgBg" value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useImgBg" checked value="0">否</label>
-                                 </if>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">是否画混淆曲线</label>
-                              <div class="col-sm-6">
-                                 <if condition="$Think.config.useCurve eq true">
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useCurve" checked value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useCurve" value="0">否</label>
-                                 <else/>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useCurve" value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useCurve" checked value="0">否</label>
-                                 </if>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">是否添加杂点</label>
-                              <div class="col-sm-6">
-                                 <if condition="$Think.config.useNoise eq true">
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useNoise" checked value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useNoise" value="0">否</label>
-                                 <else/>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useNoise" value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="useNoise" checked value="0">否</label>
-                                 </if>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码加密密钥</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="seKey" value="{$Think.config.seKey}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码字符集合</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="codeSet" value="{$Think.config.codeSet}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码过期时间(s)</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="expire" value="{$Think.config.expire}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">中文验证码字符串</label>
-                              <div class="col-sm-6">
-                                 <textarea name="zhSet" class="form-control" rows="6">{$Think.config.zhSet}</textarea>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码字体大小(px)</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="fontSize" value="{$Think.config.fontSize}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码图片高度(px)</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="imageH" value="{$Think.config.imageH}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码图片宽度(px)</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="imageW" value="{$Think.config.imageW}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码位数</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="length" value="{$Think.config.length}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证码字体,不设置随机获取</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="fontttf" value="{$Think.config.fontttf}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">背景颜色</label>
-                              <div class="col-sm-6">
-                                 <input type="text" class="form-control" name="bg" value="{$Think.config.bg.0},{$Think.config.bg.1},{$Think.config.bg.2}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label class="col-sm-3 control-label">验证成功后是否重置</label>
-                              <div class="col-sm-6">
-                                 <if condition="$Think.config.useZh eq true">
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="reset" checked value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="reset" value="0">否</label>
-                                 <else/>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="reset" value="1">是</label>
-                                    <label class="radio-inline"><input class="icheck" type="radio" name="reset" checked value="0">否</label>
-                                 </if>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <div class="col-sm-2 col-sm-offset-4">
-                                 <input type="submit" class="btn btn-primary btn-block" id="updateVerify" value="提交">
-                              </div>
-                           </div>
-                        </form>
+                        <table class="table table-hover">
+                           <thead>
+                              <tr>
+                                 <th>#</th>
+                                 <th>名称</th>
+                                 <th>状态</th>
+                                 <th>权限</th>
+                                 <th>操作</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <foreach name="group" item="v">
+                                 <tr>
+                                    <td>{$v.id}</td>
+                                    <td>{$v.title}</td>
+                                    <td><if condition="$v.status eq true">开启<else/>关闭</if></td>
+                                    <td>{$v.rules}</td>
+                                    <td><a href="{:U('Admin/User/updateGroup', ['id' => $v['id']])}">修改</a></td>
+                                 </tr>
+                              </foreach>
+                           </tbody>
+                        </table>
                      </div>
                   </div>
                </div>
@@ -347,15 +244,7 @@
    <script src="__PUBLIC__/js/jquery-1.10.2.min.js"></script>
    <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
    <script src="__PUBLIC__/plugins/waypoints/waypoints.min.js"></script>
+   <script src="__PUBLIC__/plugins/nanoScroller/jquery.nanoscroller.min.js"></script>
    <script src="__PUBLIC__/js/application.js"></script>
-   <script src="__PUBLIC__/plugins/icheck/js/icheck.min.js"></script>
-   <script>
-    $(document).ready(function() {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_flat-grey',
-            radioClass: 'iradio_flat-grey'
-        });
-    });
-    </script>
 </body>
 </html>

@@ -2,18 +2,75 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50540
+Source Server Version : 50617
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-12 23:18:15
+Date: 2015-11-13 16:50:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `wla_auth_group`
+-- ----------------------------
+DROP TABLE IF EXISTS `wla_auth_group`;
+CREATE TABLE `wla_auth_group` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户组ID',
+  `title` char(100) NOT NULL DEFAULT '' COMMENT '用户组中文名称',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
+  `rules` char(80) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id,多个规则","隔开',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户组表';
+
+-- ----------------------------
+-- Records of wla_auth_group
+-- ----------------------------
+INSERT INTO `wla_auth_group` VALUES ('1', '作者', '1', '1,2');
+INSERT INTO `wla_auth_group` VALUES ('2', '管理员', '1', '1,2');
+
+-- ----------------------------
+-- Table structure for `wla_auth_group_access`
+-- ----------------------------
+DROP TABLE IF EXISTS `wla_auth_group_access`;
+CREATE TABLE `wla_auth_group_access` (
+  `uid` mediumint(8) unsigned NOT NULL COMMENT '用户id',
+  `group_id` mediumint(8) unsigned NOT NULL COMMENT '用户组id',
+  UNIQUE KEY `uid_group_id` (`uid`,`group_id`),
+  KEY `uid` (`uid`),
+  KEY `group_id` (`group_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户组明细表';
+
+-- ----------------------------
+-- Records of wla_auth_group_access
+-- ----------------------------
+INSERT INTO `wla_auth_group_access` VALUES ('13', '2');
+INSERT INTO `wla_auth_group_access` VALUES ('14', '1');
+
+-- ----------------------------
+-- Table structure for `wla_auth_rule`
+-- ----------------------------
+DROP TABLE IF EXISTS `wla_auth_rule`;
+CREATE TABLE `wla_auth_rule` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT '规则ID',
+  `name` char(80) NOT NULL DEFAULT '' COMMENT '规则唯一标识',
+  `title` char(20) NOT NULL DEFAULT '' COMMENT '规则中文名称',
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '规则类型，如果type为1，condition字段就可以定义规则表达式。 如定义{score}>5  and {score}<100  表示用户的分数在5-100之间时这条规则才会通过。',
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
+  `condition` char(100) NOT NULL DEFAULT '' COMMENT '规则附件条件,满足附加条件的规则,才认为是有效的规则',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='规则表';
+
+-- ----------------------------
+-- Records of wla_auth_rule
+-- ----------------------------
+INSERT INTO `wla_auth_rule` VALUES ('1', 'Admin/User/index', '查看用户列表', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('2', 'Admin/User/rule', '查看规则列表', '1', '1', '');
 
 -- ----------------------------
 -- Table structure for `wla_comments`
@@ -139,7 +196,7 @@ CREATE TABLE `wla_term_taxonomy` (
 -- ----------------------------
 DROP TABLE IF EXISTS `wla_user`;
 CREATE TABLE `wla_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '标识',
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '标识',
   `username` varchar(255) NOT NULL COMMENT '登录帐号',
   `email` varchar(255) NOT NULL COMMENT '邮箱',
   `password` varchar(255) NOT NULL COMMENT '密码',
@@ -161,5 +218,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('13', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', null, null, null, '10', null, '1447243913', '1447328520', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('13', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', null, null, null, '10', null, '1447243913', '1447403935', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('14', 'test002', 'test002@qq.com', '351523b8e6eb36ae5115205886f36f86', null, null, null, '10', null, '1447249369', '1447249369', '127.0.0.1');

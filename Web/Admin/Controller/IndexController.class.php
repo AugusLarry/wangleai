@@ -10,8 +10,6 @@ class IndexController extends CommonController
 	//首页视图
     public function index()
     {
-        header ( "Cache-Control: no-cache, must-revalidate" );
-        header ( "Expires: Sat, 26 Jul 1997 05:00:00 GMT" );
     	$this->display();
     }
 
