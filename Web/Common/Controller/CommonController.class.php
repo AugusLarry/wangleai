@@ -12,5 +12,12 @@ class CommonController extends Controller
 		if (!isset($_SESSION['uid'])) {
 			$this->error("请重新登录!", U("Login/index"));
 		}
+		$auth = new \Think\Auth();
+		$url = strtolower(MODULE_NAME . '/'. CONTROLLER_NAME . '/' . ACTION_NAME);
+		if (!in_array($url, C("AUTH_CONFIG.NOT_AUTH"))) {
+			if(!$auth->check($url, $_SESSION['uid'])) {
+				$this->error('你没有权限',U('Admin/Index/index'));
+			}
+		}
 	}
 }

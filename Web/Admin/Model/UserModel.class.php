@@ -14,14 +14,22 @@ class UserModel extends Model
 	//自动验证
 	protected $_validate = [
 		['username', 'require', '账号不能为空!'],
-		['password', 'require', '密码不能为空!'],
-		['verify', 'require', '验证码不能为空!'],
-		['username', '6,12', '账号长度在6-12位字符之间', 1, 'length'],
-		['password', '6,12', '密码长度在6-12位字符之间', 1, 'length'],
-		['verify', 'check_verify', '验证码错误', 1, 'function'],
+		['password', 'require', '密码不能为空!', 2],
+		['verify', 'require', '验证码不能为空!', 2],
+		['username', '6,12', '账号长度在6-12位字符之间', 2, 'length'],
+		['password', '6,12', '密码长度在6-12位字符之间', 2, 'length'],
+		['verify', 'check_verify', '验证码错误', 2, 'function'],
 		['email', 'email', '不是正确的邮箱格式!', 0, 'regex', 1],
 		['password', 'checkPwd', '用户名或密码错误', 1, 'callback', 4],//登录的时候验证
 		['status', 'checkStatus', '用户被锁定,请联系管理员!', 1, 'callback', 4],//登录的时候验证
+	];
+
+	//自动完成
+	protected $_auto = [
+		['created_at', 'time', 1, 'function'],
+		['updated_at', 'time', 1, 'function'],
+		['password', 'md5', 3, 'function'],
+		['password', '', 2, 'ignore']
 	];
 
 	//验证密码
@@ -56,6 +64,22 @@ class UserModel extends Model
 			session("login_time", $login_time);
 			session("login_ip",$login_ip);
 			return true;
+		}
+		return false;
+	}
+
+	//后台添加处理
+	public function addUser()
+	{
+		$this->login_ip = '127.0.0.1';
+		if ($result = $this->add()) {
+			$data = [
+				'uid' => $result,
+				'group_id' => I("post.group"),
+			];
+			if(M("AuthGroupAccess")->data($data)->add()){
+				return true;
+			};
 		}
 		return false;
 	}

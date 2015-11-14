@@ -15,9 +15,7 @@ class LoginController extends Controller
 	//登录表单处理
 	public function login()
 	{
-		if (!IS_AJAX || empty(I("post."))) {
-			$this->error("非法访问", U('index'));
-		}
+		if (!IS_AJAX || empty(I("post."))) $this->error("非法访问", U('index'));
 		$user = D("User");
 		if ($user->create(I("post."), 4) && $user->login()) {
 			$this->success("登录成功", U("Index/index"), true);

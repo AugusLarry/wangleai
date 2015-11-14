@@ -1,0 +1,41 @@
+<!--菜单开始-->
+<aside class="sidebar">
+   <div id="leftside-navigation" class="nano">
+      <ul class="nano-content">
+         <li class="active"><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i><span>首页</span></a></li>
+         <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-book"></i><span>文章管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+               <li><a href="{:U('Admin/Articles/index')}">文章列表</a></li>
+               <li><a href="{:U('Admin/Articles/create')}">写文章</a></li>
+               <li><a href="{:U('Admin/Articles/tags')}">标签列表</a></li>
+               <li><a href="{:U('Admin/Articles/tags')}">属性列表</a></li>
+            </ul>
+         </li>
+         <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-list-ul"></i><span>分类管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+               <li><a href="{:U('Admin/Category/index')}">分类列表</a></li>
+               <li><a href="{:U('Admin/Category/create')}">添加分类</a></li>
+            </ul>
+         </li>
+         <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-users"></i><span>用户管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+               <li><a href="{:U('Admin/User/index')}">用户列表</a></li>
+               <li><a href="{:U('Admin/User/addUser')}">添加用户</a></li>
+               <li><a href="{:U('Admin/User/group')}">角色列表</a></li>
+               <li><a href="{:U('Admin/User/rule')}">规则列表</a></li>
+            </ul>
+         </li>
+         <li class="sub-menu">
+            <a href="javascript:void(0);"><i class="fa fa-cogs"></i><span>系统设置</span><i class="arrow fa fa-angle-right pull-right"></i></a>
+            <ul>
+               <li><a href="{:U('Admin/System/index')}">基本设置</a></li>
+               <li><a href="{:U('Admin/System/verify')}">验证码设置</a></li>
+            </ul>
+         </li>
+      </ul>
+   </div>
+</aside>
+<!--菜单结束-->

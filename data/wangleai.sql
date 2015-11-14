@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-11-13 16:50:50
+Date: 2015-11-14 22:47:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,13 +25,11 @@ CREATE TABLE `wla_auth_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
   `rules` char(80) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id,多个规则","隔开',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户组表';
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户组表';
 
 -- ----------------------------
 -- Records of wla_auth_group
 -- ----------------------------
-INSERT INTO `wla_auth_group` VALUES ('1', '作者', '1', '1,2');
-INSERT INTO `wla_auth_group` VALUES ('2', '管理员', '1', '1,2');
 
 -- ----------------------------
 -- Table structure for `wla_auth_group_access`
@@ -48,8 +46,6 @@ CREATE TABLE `wla_auth_group_access` (
 -- ----------------------------
 -- Records of wla_auth_group_access
 -- ----------------------------
-INSERT INTO `wla_auth_group_access` VALUES ('13', '2');
-INSERT INTO `wla_auth_group_access` VALUES ('14', '1');
 
 -- ----------------------------
 -- Table structure for `wla_auth_rule`
@@ -64,13 +60,11 @@ CREATE TABLE `wla_auth_rule` (
   `condition` char(100) NOT NULL DEFAULT '' COMMENT '规则附件条件,满足附加条件的规则,才认为是有效的规则',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='规则表';
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='规则表';
 
 -- ----------------------------
 -- Records of wla_auth_rule
 -- ----------------------------
-INSERT INTO `wla_auth_rule` VALUES ('1', 'Admin/User/index', '查看用户列表', '1', '1', '');
-INSERT INTO `wla_auth_rule` VALUES ('2', 'Admin/User/rule', '查看规则列表', '1', '1', '');
 
 -- ----------------------------
 -- Table structure for `wla_comments`
@@ -213,10 +207,8 @@ CREATE TABLE `wla_user` (
   UNIQUE KEY `email` (`email`) USING BTREE,
   UNIQUE KEY `password_reset_key` (`password_reset_key`) USING BTREE,
   UNIQUE KEY `display_name` (`display_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('13', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', null, null, null, '10', null, '1447243913', '1447403935', '127.0.0.1');
-INSERT INTO `wla_user` VALUES ('14', 'test002', 'test002@qq.com', '351523b8e6eb36ae5115205886f36f86', null, null, null, '10', null, '1447249369', '1447249369', '127.0.0.1');
