@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-11-15 16:49:40
+Date: 2015-11-15 21:37:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -88,7 +88,7 @@ CREATE TABLE `wla_auth_group_access` (
 -- Records of wla_auth_group_access
 -- ----------------------------
 INSERT INTO `wla_auth_group_access` VALUES ('1', '1');
-INSERT INTO `wla_auth_group_access` VALUES ('2', '2');
+INSERT INTO `wla_auth_group_access` VALUES ('3', '2');
 
 -- ----------------------------
 -- Table structure for `wla_auth_rule`
@@ -138,7 +138,7 @@ CREATE TABLE `wla_comments` (
   `comment_author_email` varchar(100) NOT NULL COMMENT '评论者email',
   `comment_author_url` varchar(200) NOT NULL COMMENT '评论者URL',
   `comment_author_ip` varchar(15) NOT NULL COMMENT '评论者IP',
-  `comment_date` int(11) NOT NULL COMMENT '评论时间',
+  `created_at` int(11) NOT NULL COMMENT '评论时间',
   `comment_content` text NOT NULL COMMENT '评论内容',
   `comment_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '评论状态(0:审核;1:正常;2:垃圾;)',
   `comment_agent` varchar(255) NOT NULL COMMENT '评论者浏览器信息',
@@ -161,7 +161,7 @@ DROP TABLE IF EXISTS `wla_posts`;
 CREATE TABLE `wla_posts` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文章ID',
   `post_author` int(20) NOT NULL COMMENT '文章作者',
-  `post_date` int(11) NOT NULL COMMENT '发布时间',
+  `created_at` int(11) NOT NULL COMMENT '发布时间',
   `post_title` text NOT NULL COMMENT '文章标题',
   `post_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '文章类型(0:普通;1:心情;2:音乐;3:图片;4:视频;)',
   `post_description` text NOT NULL COMMENT '文章描述',
@@ -173,7 +173,7 @@ CREATE TABLE `wla_posts` (
   `click_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '点击数',
   PRIMARY KEY (`id`),
   KEY `post_author` (`post_author`) USING BTREE,
-  KEY `type_status_date` (`id`,`post_date`,`post_type`,`post_status`) USING BTREE
+  KEY `type_status_date` (`id`,`created_at`,`post_type`,`post_status`) USING BTREE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章表';
 
 -- ----------------------------
@@ -268,10 +268,10 @@ CREATE TABLE `wla_user` (
   UNIQUE KEY `email` (`email`) USING BTREE,
   UNIQUE KEY `password_reset_key` (`password_reset_key`) USING BTREE,
   UNIQUE KEY `display_name` (`display_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447576041', '127.0.0.1');
-INSERT INTO `wla_user` VALUES ('2', 'test002', 'test002@qq.com', '351523b8e6eb36ae5115205886f36f86', '测试账号2', '/Public/Uploads/avatar/2015-11-15/5647f166413c3.jpg', '这是一个测试账号', '10', null, '1447549841', '1447575803', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447594577', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

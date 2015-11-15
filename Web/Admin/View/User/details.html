@@ -15,6 +15,7 @@
             <h3 class="panel-title">角色列表</h3>
             <div class="actions pull-right">
                <a href="{:U('Admin/User/updateUser', ['id' => $user['id']])}"><i class="fa fa-edit"></i></a>
+               <a id="delete"><i class="fa fa-times"></i></a>
             </div>
          </div>
          <div class="panel-body">
@@ -137,6 +138,13 @@
             window.location.href = str.replace(/\/onepagenum\/\d+/g, "") + "/onepagenum/" + $(this).children('option:selected').val();
          } else {
             window.location.href = str + "/onepagenum/" + $(this).children('option:selected').val();
+         }
+      })
+      $("#delete").click(function(){
+         if(!confirm("确定要删除吗?")) {
+            return false;
+         } else {
+            window.location.href = "{:U('Admin/User/deleteUser')}/id/{$user.id}";
          }
       })
    });

@@ -74,6 +74,11 @@
          </div>
       </div>
    </section>
+   <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm">
+         <div class="modal-content"><div class="modal-header"><h4 class="modal-title">温馨提示:</h4></div><div class="modal-body"></div></div>
+      </div>
+   </div>
    <!--Global JS-->
    <script src="__PUBLIC__/js/jquery-1.10.2.min.js"></script>
    <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -129,15 +134,21 @@
             dataType: "json",
             success : function (data) {
                if (data.status) {
-                  alert("登录成功!");
+                  $(".modal-body").html("登录成功!");
+                  $('#myModal').modal({keyboard: false});
+                  setTimeout(function(){$("#myModal").modal("hide")},2000);
                   window.location.href = data.url;
                } else {
-                  alert(data.info);
-                  window.location.href = data.url;
+                  $(".modal-body").html(data.info);
+                  $('#myModal').modal({keyboard: false});
+                  setTimeout(function(){$("#myModal").modal("hide")},2000);
+                  return false;
                }
             },
             error : function (XMLHttpRequest, textStatus) {
-               alert(textStatus);
+               $(".modal-body").html(textStatus);
+               $('#myModal').modal({keyboard: false});
+               setTimeout(function(){$("#myModal").modal("hide")},2000);
                return false;
             }
          });

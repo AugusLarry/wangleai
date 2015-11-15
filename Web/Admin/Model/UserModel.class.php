@@ -53,6 +53,8 @@ class UserModel extends Model
 		if ($user) {
 			$login_time = date('Y-m-d H:i:s', $user['updated_at']);
 			$login_ip = $user['login_ip'];
+			$avatar = $user['avatar'] ? $user['avatar'] : "";
+			$uname = $user['display_name'] ? $user['display_name'] : $user['username'];
 			$data = [
 				'id' => $user['id'],
 				'updated_at' => NOW_TIME,
@@ -60,15 +62,16 @@ class UserModel extends Model
 			];
 			$this->save($data);
 			session("uid", $user['id']);
-			session("uname", $user['username']);
+			session("uname", $uname);
 			session("login_time", $login_time);
 			session("login_ip",$login_ip);
+			session("avatar", $avatar);
 			return true;
 		}
 		return false;
 	}
 
-	//后台添加处理
+	//后台添加用户处理
 	public function addUser()
 	{
 		$this->login_ip = '127.0.0.1';
@@ -80,6 +83,21 @@ class UserModel extends Model
 			if(M("AuthGroupAccess")->data($data)->add()){
 				return true;
 			};
+		}
+		return false;
+	}
+
+	//删除用户处理
+	public function deleteUserAndThisGroup($id)
+	{
+		if (!$this->delete($id)){
+			return false;
+		} else {
+			if (!M("AuthGroupAccess")->where(['uid' => $id])->delete()) {
+				return false;
+			} else {
+				return true;
+			}
 		}
 		return false;
 	}

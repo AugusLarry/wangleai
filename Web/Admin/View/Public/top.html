@@ -79,12 +79,18 @@
                <li><a href="#">Check all messages <i class="fa fa-angle-right"></i></a></li>
             </ul>
          </li>
-         <li class="profile-photo"><img src="__PUBLIC__/img/avatar.png" alt="" class="img-circle"></li>
+         <li class="profile-photo">
+            <if condition="$Think.session.avatar eq true">
+               <img src="{$Think.session.avatar}" alt="" width="60" class="img-circle">
+            <else/>
+               <img src="__PUBLIC__/img/default-avatar.png" width="60" alt="" class="img-circle">
+            </if>
+         </li>
          <li class="dropdown settings">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mike Adams <i class="fa fa-angle-down"></i></a>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">{$Think.session.uname} <i class="fa fa-angle-down"></i></a>
             <ul class="dropdown-menu animated fadeInDown">
-               <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-               <li><a href="#"><i class="fa fa-calendar"></i> Calendar</a></li>
+               <li><a href="{:U('Admin/User/details')}/id/{$Think.session.uid}"><i class="fa fa-user"></i> 个人资料</a></li>
+               <li><a href="#"><i class="fa fa-edit"></i> 写文章</a></li>
                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge badge-danager" id="user-inbox">5</span></a></li>
                <li><a href="{:U('Admin/Index/logout')}"><i class="fa fa-power-off"></i>退出登录</a></li>
             </ul>

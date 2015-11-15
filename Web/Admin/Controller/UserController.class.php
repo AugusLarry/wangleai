@@ -68,7 +68,7 @@ class UserController extends CommonController
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错!", U("Admin/Index/index"));
 		$user = D("User");
 		if (!$user->create(I("post."), 2)) {
-			$this->error($user->getError(), U("Admin/User/details", ['id' => I("get.id")]));
+			$this->error($user->getError(), U("Admin/User/details", ['id' => I("post.id")]));
 		} else {
 			$user->save();
 			$data = ['group_id' => I("post.group")];
@@ -80,7 +80,15 @@ class UserController extends CommonController
 	//删除用户
 	public function deleteUser()
 	{
-		$this->display();
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("details"));
+		$user = D("User")->where(['id' => I("get.id")])->find();
+		if (!$user) $this->error("访问出错!", U("details"));
+		if ($user['status'] == 10) $this->error("该用户为启用状态,请先修改用户状态再删除!", U("details", ['id' => I("get.id")]), 5);
+		if (!D("User")->deleteUserAndThisGroup(I("get.id"))){
+			$this->error($user->getError(), U("Admin/User/details", ['id' => I("get.id")]));
+		} else {
+			$this->success("成功删除该用户!", U("Admin/User/index"));
+		}
 	}
 
 	//角色列表
