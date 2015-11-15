@@ -9,17 +9,26 @@ class UserController extends CommonController
 	//用户列表
 	public function index()
 	{
-		$this->user = D("User")->field(['id', 'username', 'email', 'updated_at', 'login_ip', 'status'])->order('id desc')->select();
+		$user = D("User");
+		$page = getpage($user, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$this->show = $page->show();
+		$fields = ['id', 'username', 'email', 'updated_at', 'login_ip', 'status'];
+		$this->user = $user->field($fields)->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
 		$this->display();
 	}
 
 	//用户详情
 	public function details()
 	{
-		if (!IS_GET) $this->error("访问出错!", U("Admin/Index/index"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
 		$auth = new \Think\Auth();
 		$this->group = current($auth->getGroups(I("get.id")));
 		$this->user = D("User")->where(['id' => I("get.id")])->find();
+		if (!$this->user) $this->error("访问出错!", U("Admin/Index/index"));
+		$active = M("ActiveRecord");
+		$page = getpage($active, ['uid' => I("get.id")], I("get.onepagenum", C("PAGE_SIZE")));
+		$this->show = $page->show();
+		$this->active = $active->where(['uid' => I("get.id")])->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
 		$this->display();
 	}
 
@@ -45,8 +54,9 @@ class UserController extends CommonController
 	//修改用户
 	public function updateUser()
 	{
-		if (!IS_GET) $this->error("访问出错!", U("details"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("details"));
 		$this->user = D("User")->where(['id' => I("get.id")])->find();
+		if (!$this->user) $this->error("访问出错!", U("Admin/Index/index"));
 		$this->group = D("AuthGroup")->order('id desc')->select();
 		$this->group_id = M("AuthGroupAccess")->where(['uid' => $this->user['id']])->getField("group_id");
 		$this->display();
@@ -67,10 +77,19 @@ class UserController extends CommonController
 		}
 	}
 
+	//删除用户
+	public function deleteUser()
+	{
+		$this->display();
+	}
+
 	//角色列表
 	public function group()
 	{
-		$this->group = D("AuthGroup")->order('id desc')->select();
+		$group = D("AuthGroup");
+		$page = getpage($group, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$this->show = $page->show();
+		$this->group = $group->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
 		$this->display();
 	}
 
@@ -99,8 +118,9 @@ class UserController extends CommonController
 	//修改角色
 	public function updateGroup()
 	{
-		if (!IS_GET) $this->error("访问出错!", U("Admin/Index/index"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
 		$group = D("AuthGroup")->where(['id' => I("get.id")])->find();
+		if (!$group) $this->error("访问出错!", U("Admin/Index/index"));
 		$group["rules"] = explode(",", $group["rules"]);
 		$this->rule = D("AuthRule")->where(['status' => 1])->field(['id', 'title'])->order('id desc')->select();
 		$this->group = $group;
@@ -125,7 +145,10 @@ class UserController extends CommonController
 	//规则列表
 	public function rule()
 	{
-		$this->rule = D("AuthRule")->order('id desc')->select();
+		$rule = D("AuthRule");
+		$page = getpage($rule, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$this->show = $page->show();
+		$this->rule = $rule->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
 		$this->display();
 	}
 
@@ -150,8 +173,9 @@ class UserController extends CommonController
 	//修改规则
 	public function updateRule()
 	{
-		if (!IS_GET) $this->error("访问出错!", U("Admin/Index/index"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
 		$this->rule = D("AuthRule")->where(['id' => I("get.id")])->find();
+		if (!$this->rule) $this->error("访问出错!", U("Admin/Index/index"));
 		$this->display();
 	}
 
@@ -165,6 +189,39 @@ class UserController extends CommonController
 		} else {
 			$rule->data(I("post."))->save();
 			$this->success("修改成功", U("Admin/User/rule"));
+		}
+	}
+
+	//上传头像
+	public function upload()
+	{
+		if (!IS_AJAX || empty(I("post."))) $this->error("非法访问", U('index'));
+		$config = [
+			'mimes'        => C("mimes"),
+		    'maxSize'      => C("maxSize"),
+		    'exts'         => C("exts"),
+		    'autoSub'      => C("autoSub"),
+		    'subName'      => C("subName"),
+		    'rootPath'     => C("rootPath"),
+		    'savePath'     => C("savePath"),
+		    'saveName'     => C("saveName"),
+		    'saveExt'      => C("saveExt"),
+		    'replace'      => C("replace"),
+		    'hash'         => C("hash"),
+		    'callback'     => C("callback"),
+		    'driver'       => C("driver"),
+		    'driverConfig' => C("driverConfig"),
+		];
+		$upload = new \Think\Upload($config);// 实例化上传类
+		$upload->maxSize = 1024*1021*5;//设置上传大小为5M
+		$upload->exts = ['jpg', 'gif', 'png', 'jpeg'];//设置上传文件后缀
+		$upload->savePath = 'avatar/';//设置保存目录
+		$info = $upload->uploadOne($_FILES['upload']);
+		if (!$info) {
+			$this->error($upload->getError(), "", true);
+		} else {
+			$avatar = ltrim($upload->rootPath . $info['savepath'] . $info['savename'], ".");
+			$this->success($avatar, "", true);
 		}
 	}
 }

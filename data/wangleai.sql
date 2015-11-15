@@ -2,18 +2,57 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50540
+Source Server Version : 50617
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-14 22:47:03
+Date: 2015-11-15 16:49:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `wla_active_record`
+-- ----------------------------
+DROP TABLE IF EXISTS `wla_active_record`;
+CREATE TABLE `wla_active_record` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `uid` int(11) NOT NULL COMMENT '用户id',
+  `dateline` int(11) NOT NULL COMMENT '操作时间',
+  `ip` char(255) NOT NULL COMMENT '操作IP',
+  `module` varchar(255) NOT NULL COMMENT '操作模块',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='用户操作记录表';
+
+-- ----------------------------
+-- Records of wla_active_record
+-- ----------------------------
+INSERT INTO `wla_active_record` VALUES ('1', '1', '1447575305', '127.0.0.1', 'admin/index/index');
+INSERT INTO `wla_active_record` VALUES ('2', '1', '1447575309', '127.0.0.1', 'admin/user/index');
+INSERT INTO `wla_active_record` VALUES ('3', '1', '1447575311', '127.0.0.1', 'admin/user/details');
+INSERT INTO `wla_active_record` VALUES ('4', '1', '1447575634', '127.0.0.1', 'admin/user/details');
+INSERT INTO `wla_active_record` VALUES ('5', '1', '1447575707', '127.0.0.1', 'admin/user/details');
+INSERT INTO `wla_active_record` VALUES ('6', '1', '1447575786', '127.0.0.1', 'admin/index/logout');
+INSERT INTO `wla_active_record` VALUES ('7', '2', '1447575804', '127.0.0.1', 'admin/index/index');
+INSERT INTO `wla_active_record` VALUES ('8', '2', '1447575818', '127.0.0.1', 'admin/index/index');
+INSERT INTO `wla_active_record` VALUES ('9', '2', '1447575830', '127.0.0.1', 'admin/index/index');
+INSERT INTO `wla_active_record` VALUES ('10', '2', '1447576033', '127.0.0.1', 'admin/index/logout');
+INSERT INTO `wla_active_record` VALUES ('11', '1', '1447576042', '127.0.0.1', 'admin/index/index');
+INSERT INTO `wla_active_record` VALUES ('12', '1', '1447576044', '127.0.0.1', 'admin/user/index');
+INSERT INTO `wla_active_record` VALUES ('13', '1', '1447576045', '127.0.0.1', 'admin/user/details');
+INSERT INTO `wla_active_record` VALUES ('14', '1', '1447576058', '127.0.0.1', 'admin/user/details');
+INSERT INTO `wla_active_record` VALUES ('15', '1', '1447576598', '127.0.0.1', '/index.php/Admin/Index/index');
+INSERT INTO `wla_active_record` VALUES ('16', '1', '1447576601', '127.0.0.1', '/index.php/Admin/User/index');
+INSERT INTO `wla_active_record` VALUES ('17', '1', '1447576605', '127.0.0.1', '/index.php/Admin/User/details/id/1');
+INSERT INTO `wla_active_record` VALUES ('18', '1', '1447576613', '127.0.0.1', '/index.php/Admin/User/updateUser/id/1');
+INSERT INTO `wla_active_record` VALUES ('19', '1', '1447576617', '127.0.0.1', '/index.php/Admin/Index/index');
+INSERT INTO `wla_active_record` VALUES ('20', '1', '1447576619', '127.0.0.1', '/index.php/Admin/User/index');
+INSERT INTO `wla_active_record` VALUES ('21', '1', '1447576620', '127.0.0.1', '/index.php/Admin/User/details/id/1');
 
 -- ----------------------------
 -- Table structure for `wla_auth_group`
@@ -25,11 +64,13 @@ CREATE TABLE `wla_auth_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态：为1正常，为0禁用',
   `rules` char(80) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id,多个规则","隔开',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户组表';
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户组表';
 
 -- ----------------------------
 -- Records of wla_auth_group
 -- ----------------------------
+INSERT INTO `wla_auth_group` VALUES ('1', '管理员', '1', '18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1');
+INSERT INTO `wla_auth_group` VALUES ('2', '作者', '1', '6');
 
 -- ----------------------------
 -- Table structure for `wla_auth_group_access`
@@ -46,6 +87,8 @@ CREATE TABLE `wla_auth_group_access` (
 -- ----------------------------
 -- Records of wla_auth_group_access
 -- ----------------------------
+INSERT INTO `wla_auth_group_access` VALUES ('1', '1');
+INSERT INTO `wla_auth_group_access` VALUES ('2', '2');
 
 -- ----------------------------
 -- Table structure for `wla_auth_rule`
@@ -60,11 +103,29 @@ CREATE TABLE `wla_auth_rule` (
   `condition` char(100) NOT NULL DEFAULT '' COMMENT '规则附件条件,满足附加条件的规则,才认为是有效的规则',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='规则表';
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='规则表';
 
 -- ----------------------------
 -- Records of wla_auth_rule
 -- ----------------------------
+INSERT INTO `wla_auth_rule` VALUES ('1', 'Admin/User/index', '用户列表', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('2', 'Admin/User/details', '用户详情', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('3', 'Admin/User/addUser', '添加用户', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('4', 'Admin/User/updateUser', '修改用户', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('5', 'Admin/User/deleteUser', '删除用户', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('6', 'Admin/User/group', '角色列表', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('7', 'Admin/User/addGroup', '添加角色', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('8', 'Admin/User/updateGroup', '修改角色', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('9', 'Admin/User/rule', '规则列表', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('10', 'Admin/User/addRule', '添加规则', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('11', 'Admin/User/updateRule', '修改规则', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('12', 'Admin/User/addUserForm', '添加用户表单', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('13', 'Admin/User/updateUserForm', '修改用户表单', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('14', 'Admin/User/addGroupForm', '添加角色表单', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('15', 'Admin/User/updateGroupForm', '修改角色表单', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('16', 'Admin/User/addRuleForm', '添加规则表单', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('17', 'Admin/User/updateRuleForm', '修改规则表单', '1', '1', '');
+INSERT INTO `wla_auth_rule` VALUES ('18', 'Admin/User/upload', '上传头像', '1', '1', '');
 
 -- ----------------------------
 -- Table structure for `wla_comments`
@@ -207,8 +268,10 @@ CREATE TABLE `wla_user` (
   UNIQUE KEY `email` (`email`) USING BTREE,
   UNIQUE KEY `password_reset_key` (`password_reset_key`) USING BTREE,
   UNIQUE KEY `display_name` (`display_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447576041', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('2', 'test002', 'test002@qq.com', '351523b8e6eb36ae5115205886f36f86', '测试账号2', '/Public/Uploads/avatar/2015-11-15/5647f166413c3.jpg', '这是一个测试账号', '10', null, '1447549841', '1447575803', '127.0.0.1');

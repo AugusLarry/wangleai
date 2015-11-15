@@ -5,7 +5,7 @@
    <meta name="description" content="">
 </block>
 <block name="css">
-   <link rel="stylesheet" href="__PUBLIC__/plugins/icheck/css/_all.css">
+   <link rel="stylesheet" href="__PUBLIC__/plugins/dataTables/css/dataTables.css">
 </block>
 <block name="content">
 <div class="row">
@@ -18,32 +18,63 @@
             </div>
          </div>
          <div class="panel-body">
-            <table class="table table-hover">
-               <thead>
-                  <tr>
-                     <th>#</th>
-                     <th>唯一名称</th>
-                     <th>中文描述</th>
-                     <th>类型</th>
-                     <th>状态</th>
-                     <th>条件</th>
-                     <th>操作</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <foreach name="rule" item="v">
+            <div class="dataTables_wrapper form-inline no-footer">
+               <div class="row">
+                  <div class="col-xs-6">
+                     <div class="dataTables_length">
+                        <label>
+                           <select name="onepagenum" class="form-control input-sm" id="onepagenum">
+                              <option value="" selected="selected">请选择</option>
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                           </select>　条每页
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xs-6">
+                     <div id="example_filter" class="dataTables_filter">
+                        <label>搜索:　<input type="search" class="form-control input-sm"></label>
+                     </div>
+                  </div>
+               </div>
+               <table class="table table-hover">
+                  <thead>
                      <tr>
-                        <td>{$v.id}</td>
-                        <td>{$v.name}</td>
-                        <td>{$v.title}</td>
-                        <td>{$v.type}</td>
-                        <td><if condition="$v.status eq true">开启<else/>关闭</if></td>
-                        <td>{$v.condition}</td>
-                        <td><a href="{:U('Admin/User/updateRule', ['id' => $v['id']])}">修改</a></td>
+                        <th>#</th>
+                        <th>唯一名称</th>
+                        <th>中文描述</th>
+                        <th>类型</th>
+                        <th>状态</th>
+                        <th>条件</th>
+                        <th>操作</th>
                      </tr>
-                  </foreach>
-               </tbody>
-            </table>
+                  </thead>
+                  <tbody>
+                     <foreach name="rule" item="v">
+                        <tr>
+                           <td>{$v.id}</td>
+                           <td>{$v.name}</td>
+                           <td>{$v.title}</td>
+                           <td>{$v.type}</td>
+                           <td><if condition="$v.status eq true">开启<else/>关闭</if></td>
+                           <td>{$v.condition}</td>
+                           <td><a href="{:U('Admin/User/updateRule', ['id' => $v['id']])}">修改</a></td>
+                        </tr>
+                     </foreach>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="panel-footer">
+            <div class="row">
+               <div class="col-xs-12">
+                  <div class="dataTables_paginate">
+                     {$show}
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
@@ -57,6 +88,14 @@
          checkboxClass: 'icheckbox_flat-grey',
          radioClass: 'iradio_flat-grey'
       });
+      $("#onepagenum").change(function(){
+         var str = window.location.href;
+         if (str.indexOf("/onepagenum/") > 0) {
+            window.location.href = str.replace(/\/onepagenum\/\d+/g, "") + "/onepagenum/" + $(this).children('option:selected').val();
+         } else {
+            window.location.href = str + "/onepagenum/" + $(this).children('option:selected').val();
+         }
+      })
    });
 </script>
 </block>

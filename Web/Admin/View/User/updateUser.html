@@ -63,17 +63,18 @@
                <div class="form-group">
                   <label class="col-sm-3 control-label">上传头像</label>
                   <div class="col-sm-3">
-                     <img src="__PUBLIC__/img/default-avatar.png">
+                     <if condition="$user.avatar eq ''"><img src="__PUBLIC__/img/default-avatar.png" id="avatarimg"><else/><img src="{$user.avatar}" width="200" id="avatarimg"></if>
                   </div>
                   <div class="col-sm-5">
                      <label for="uploadAvatar">从您的计算机选择头像:</label>
-                     <input type="file" id="uploadAvatar" class="btn">
+                     <input type="file" id="uploadAvatar" name="upload" class="btn">
                      <a class="btn btn-default btn-square" href="#" role="button">从资料库选择</a>
                   </div>
                </div>
                <div class="form-group">
                   <div class="col-sm-2 col-sm-offset-4">
                      <input type="hidden" name="id" value="{$user.id}">
+                     <input type="hidden" name="avatar" id="avatar">
                      <input type="submit" class="btn btn-primary btn-block" id="addRule" value="提交">
                   </div>
                </div>
@@ -121,6 +122,39 @@
       $("#reset").click(function(){
          validator.resetForm();
       });
+      //文件上传
+      $("#uploadAvatar").change(function(){
+         if($(this).val() == ""){
+            $(this).after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+            return false;
+         }
+         var formData = new FormData($("#addUser")[0]);
+         $.ajax({
+            url: "{:U('Admin/User/upload')}",
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(data){
+               console.log(data);
+               if (data.status) {
+                  $("#avatar").val(data.info);
+                  $("#avatarimg").attr("src", data.info);
+                  $("#uploadAvatar").after("<p class='help-block'>上传成功</p>");
+               } else {
+                  $("#uploadAvatar").after("<p class='help-block'>" + data.msg + "</p>");
+                  return false;
+               }
+            },
+            error : function(XMLHttpRequest, textStatus){
+               alert(textStatus);
+               return false;
+            }
+         })
+      })
    });
 </script>
 </block>

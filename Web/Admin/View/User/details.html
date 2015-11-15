@@ -9,7 +9,7 @@
 </block>
 <block name="content">
 <div class="row">
-   <div class="col-md-6">
+   <div class="col-md-5">
       <div class="panel panel-default">
          <div class="panel-heading">
             <h3 class="panel-title">角色列表</h3>
@@ -21,7 +21,7 @@
             <ul class="list-group">
                <li class="list-group-item">
                   <span class="col-md-4 text-right">头像:</span>
-                  <if condition="$user.avatar eq ''"><img src="__PUBLIC__/img/avatar3.gif"><else/><img src="{$user.avatar}"></if>
+                  <if condition="$user.avatar eq ''"><img src="__PUBLIC__/img/default-avatar.png"><else/><img src="{$user.avatar}" width="200"></if>
                </li>
                <li class="list-group-item">
                   <span class="col-md-4 text-right">账号:</span>
@@ -63,26 +63,61 @@
          </div>
       </div>
    </div>
-   <div class="col-md-6">
+   <div class="col-md-7">
       <div class="panel panel-default">
          <div class="panel-heading"><h3 class="panel-title">操作记录</h3></div>
          <div class="panel-body">
-            <table class="table table-hover">
-               <thead>
-                  <tr>
-                     <th>#</th>
-                     <th>时间</th>
-                     <th>操作</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>1</td>
-                     <td>2015/05/09</td>
-                     <td>登录</td>
-                  </tr>
-               </tbody>
-            </table>
+            <div class="dataTables_wrapper form-inline no-footer">
+               <div class="row">
+                  <div class="col-xs-6">
+                     <div class="dataTables_length">
+                        <label>
+                           <select name="onepagenum" class="form-control input-sm" id="onepagenum">
+                              <option value="" selected="selected">请选择</option>
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                           </select>　条每页
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xs-6">
+                     <div id="example_filter" class="dataTables_filter">
+                        <label>搜索:　<input type="search" class="form-control input-sm"></label>
+                     </div>
+                  </div>
+               </div>
+               <table class="table table-hover">
+                  <thead>
+                     <tr>
+                        <th>#</th>
+                        <th>时间</th>
+                        <th>IP</th>
+                        <th>模块</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <foreach name="active" item="v">
+                        <tr>
+                           <td>{$v.id}</td>
+                           <td>{$v.dateline|date="Y/m/d H:i:s", ###}</td>
+                           <td>{$v.ip}</td>
+                           <td>{$v.module}</td>
+                        </tr>
+                     </foreach>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="panel-footer">
+            <div class="row">
+               <div class="col-xs-12">
+                  <div class="dataTables_paginate">
+                     {$show}
+                  </div>
+               </div>
+            </div>
          </div>
       </div>
    </div>
@@ -96,6 +131,14 @@
          checkboxClass: 'icheckbox_flat-grey',
          radioClass: 'iradio_flat-grey'
       });
+      $("#onepagenum").change(function(){
+         var str = window.location.href;
+         if (str.indexOf("/onepagenum/") > 0) {
+            window.location.href = str.replace(/\/onepagenum\/\d+/g, "") + "/onepagenum/" + $(this).children('option:selected').val();
+         } else {
+            window.location.href = str + "/onepagenum/" + $(this).children('option:selected').val();
+         }
+      })
    });
 </script>
 </block>

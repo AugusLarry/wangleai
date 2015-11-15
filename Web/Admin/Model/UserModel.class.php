@@ -28,7 +28,7 @@ class UserModel extends Model
 	protected $_auto = [
 		['created_at', 'time', 1, 'function'],
 		['updated_at', 'time', 1, 'function'],
-		['password', 'md5', 3, 'function'],
+		['password', 'md5', 1, 'function'],
 		['password', '', 2, 'ignore']
 	];
 
