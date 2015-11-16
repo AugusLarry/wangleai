@@ -12,7 +12,7 @@ return [
 	'HTML_CACHE_ON'      => false,//静态缓存
 	'HTTP_CACHE_CONTROL' => 'no-cache',//HTTP请求缓存控制
 	'AUTH_CONFIG'        => [//AUTH权限验证
-		'AUTH_ON'           => true,  // 认证开关
+		'AUTH_ON'           => false,  // 认证开关
 		'AUTH_TYPE'         => 1, // 认证方式，1为实时认证；2为登录认证。
 		'AUTH_GROUP'        => 'wla_auth_group', // 用户组数据表名
 		'AUTH_GROUP_ACCESS' => 'wla_auth_group_access', // 用户-用户组关系表
@@ -20,4 +20,5 @@ return [
 		'AUTH_USER'         => 'wla_user', // 用户信息表
 		'NOT_AUTH'			=> ['admin/index/index', 'admin/index/logout'],
     ],
+    'SHOW_PAGE_TRACE' =>true,
 ];

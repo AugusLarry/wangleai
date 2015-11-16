@@ -1,0 +1,99 @@
+<extend name="Public:layout"/>
+<block name="seo">
+   <title>分类列表</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+</block>
+<block name="css">
+   <link rel="stylesheet" href="__PUBLIC__/plugins/dataTables/css/dataTables.css">
+</block>
+<block name="content">
+<div class="row">
+   <div class="col-md-12">
+      <div class="panel panel-default">
+         <div class="panel-heading">
+            <h3 class="panel-title">分类列表</h3>
+            <div class="actions pull-right">
+               <a href="{:U('Admin/Category/addCategory')}"><i class="fa fa-plus"></i></a>
+            </div>
+         </div>
+         <div class="panel-body">
+            <div class="dataTables_wrapper form-inline no-footer">
+               <div class="row">
+                  <div class="col-xs-6">
+                     <div class="dataTables_length">
+                        <label>
+                           <select name="onepagenum" class="form-control input-sm" id="onepagenum">
+                              <option value="" selected="selected">请选择</option>
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                           </select>　条每页
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xs-6">
+                     <div id="example_filter" class="dataTables_filter">
+                        <label>搜索:　<input type="search" class="form-control input-sm"></label>
+                     </div>
+                  </div>
+               </div>
+               <table class="table table-hover">
+                  <thead>
+                     <tr>
+                        <th>#</th>
+                        <th>名称</th>
+                        <th>图像描述</th>
+                        <th>别名</th>
+                        <th>文章总数</th>
+                        <th>操作</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <foreach name="category" item="v">
+                        <tr>
+                           <td>{$v.id}</td>
+                           <td>{$v.name}</td>
+                           <td>{$v.description}</td>
+                           <td>{$v.slug}</td>
+                           <td>{$v.count}</td>
+                           <td><a href="{:U('Admin/Category/updateCategory', ['id' => $v['id']])}">修改</a></td>
+                        </tr>
+                     </foreach>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+         <div class="panel-footer">
+            <div class="row">
+               <div class="col-xs-12">
+                  <div class="dataTables_paginate">
+                     {$show}
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+</block>
+<block name="js">
+<script src="__PUBLIC__/plugins/icheck/js/icheck.min.js"></script>
+<script>
+   $(document).ready(function() {
+      $('input').iCheck({
+         checkboxClass: 'icheckbox_flat-grey',
+         radioClass: 'iradio_flat-grey'
+      });
+      $("#onepagenum").change(function(){
+         var str = window.location.href;
+         if (str.indexOf("/onepagenum/") > 0) {
+            window.location.href = str.replace(/\/onepagenum\/\d+/g, "") + "/onepagenum/" + $(this).children('option:selected').val();
+         } else {
+            window.location.href = str + "/onepagenum/" + $(this).children('option:selected').val();
+         }
+      })
+   });
+</script>
+</block>
