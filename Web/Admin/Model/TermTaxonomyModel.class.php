@@ -1,7 +1,7 @@
 <?php
 namespace Admin\Model;
-use Think\Model\RelationModel;
-class TermTaxonomyModel extends RelationModel
+use Think\Model;
+class TermTaxonomyModel extends Model
 {
 	protected $fields = ['term_taxonomy_id', 'term_id', 'taxonomy', 'description', 'parent', 'count', '_pk' => 'term_taxonomy_id'];
 

@@ -18,7 +18,9 @@ class TermsModel extends RelationModel
 			'mapping_type' => self::HAS_ONE,
 			'class_name' => 'TermTaxonomy',
 			'mapping_name' => 'TermTaxonomy',
-			'foreign_key' => 'term_id'
+			'foreign_key' => 'term_id',
+			'mapping_key' => 'term_id',
+			'as_fields' => 'description,parent'
 		],
 	];
 }
