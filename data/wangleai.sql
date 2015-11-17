@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-11-17 17:00:12
+Date: 2015-11-17 23:18:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -199,17 +199,21 @@ CREATE TABLE `wla_property` (
 -- ----------------------------
 DROP TABLE IF EXISTS `wla_terms`;
 CREATE TABLE `wla_terms` (
-  `term_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(200) NOT NULL COMMENT '链接名',
   `slug` varchar(200) NOT NULL COMMENT '分类、标签缩写',
-  PRIMARY KEY (`term_id`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
 -- ----------------------------
+INSERT INTO `wla_terms` VALUES ('1', '测试顶级栏目1', 'testtop1');
+INSERT INTO `wla_terms` VALUES ('2', '测试顶级栏目2', 'testtop2');
+INSERT INTO `wla_terms` VALUES ('3', '测试顶级栏目3', 'testtop3');
 
 -- ----------------------------
 -- Table structure for `wla_term_relationships`
@@ -232,19 +236,23 @@ CREATE TABLE `wla_term_relationships` (
 DROP TABLE IF EXISTS `wla_term_taxonomy`;
 CREATE TABLE `wla_term_taxonomy` (
   `term_taxonomy_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '表自增ID,对应term_relationships表中的term_taxonomy_id',
-  `term_id` bigint(20) NOT NULL COMMENT 'terms表中对应的term_id',
+  `tid` bigint(20) NOT NULL COMMENT 'terms表中对应的term_id',
   `taxonomy` varchar(32) NOT NULL COMMENT '类型(0:category;1:tag;)',
   `description` longtext COMMENT '分类图片描述、标签描述',
   `parent` bigint(20) NOT NULL DEFAULT '0' COMMENT '父类ID',
   `count` bigint(20) NOT NULL DEFAULT '0' COMMENT '分类下文章数量、当前标签所拥有文章数量',
   PRIMARY KEY (`term_taxonomy_id`),
-  UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`) USING BTREE,
-  KEY `taxonomy` (`taxonomy`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
+  UNIQUE KEY `term_id_taxonomy` (`tid`,`taxonomy`) USING BTREE,
+  KEY `taxonomy` (`taxonomy`) USING BTREE,
+  KEY `tid` (`tid`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
 
 -- ----------------------------
 -- Records of wla_term_taxonomy
 -- ----------------------------
+INSERT INTO `wla_term_taxonomy` VALUES ('1', '1', '0', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('2', '2', '0', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('3', '3', '0', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -273,5 +281,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447731248', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447758697', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');
