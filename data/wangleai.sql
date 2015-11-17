@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50540
+Source Server Version : 50617
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-16 23:10:39
+Date: 2015-11-17 17:00:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -205,13 +205,11 @@ CREATE TABLE `wla_terms` (
   PRIMARY KEY (`term_id`),
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
 -- ----------------------------
-INSERT INTO `wla_terms` VALUES ('1', '测试栏目1', 'test1');
-INSERT INTO `wla_terms` VALUES ('2', '测试栏目2', 'test2');
 
 -- ----------------------------
 -- Table structure for `wla_term_relationships`
@@ -242,13 +240,11 @@ CREATE TABLE `wla_term_taxonomy` (
   PRIMARY KEY (`term_taxonomy_id`),
   UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`) USING BTREE,
   KEY `taxonomy` (`taxonomy`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
 
 -- ----------------------------
 -- Records of wla_term_taxonomy
 -- ----------------------------
-INSERT INTO `wla_term_taxonomy` VALUES ('1', '1', '0', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('2', '2', '0', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -277,5 +273,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447676719', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447731248', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');
