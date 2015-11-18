@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-11-18 16:52:52
+Date: 2015-11-18 23:20:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -166,7 +166,6 @@ CREATE TABLE `wla_posts` (
   `post_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '文章类型(0:普通;1:心情;2:音乐;3:图片;4:视频;)',
   `post_description` text NOT NULL COMMENT '文章描述',
   `post_content` longtext NOT NULL COMMENT '文章内容',
-  `post_category` int(20) NOT NULL COMMENT '所属分类',
   `post_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '文章状态(0:发布;1:草稿;2:垃圾箱)',
   `comment_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '评论状态(0:可以评论;1:不能评论)',
   `comment_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '评论总数',
@@ -226,7 +225,7 @@ CREATE TABLE `wla_terms` (
   UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
@@ -239,6 +238,16 @@ INSERT INTO `wla_terms` VALUES ('5', '测试二级栏目1', 'testsecend1', '100'
 INSERT INTO `wla_terms` VALUES ('6', '测试二级栏目2', 'testsecend2', '100');
 INSERT INTO `wla_terms` VALUES ('7', '测试二级栏目3', 'testsecend3', '100');
 INSERT INTO `wla_terms` VALUES ('8', '测试二级栏目4', 'testsecend4', '100');
+INSERT INTO `wla_terms` VALUES ('13', 'php函数定义', 'php函数定义', '100');
+INSERT INTO `wla_terms` VALUES ('14', '测试顶级栏目5', 'testtop5', '100');
+INSERT INTO `wla_terms` VALUES ('15', '测试二级栏目5', 'testsecond5', '100');
+INSERT INTO `wla_terms` VALUES ('16', '测试三级栏目1', 'testthr1', '100');
+INSERT INTO `wla_terms` VALUES ('19', 'Thinkphp教程', 'Thinkphp教程', '100');
+INSERT INTO `wla_terms` VALUES ('18', 'phpmyadmin教程', 'phpmyadmin教程', '100');
+INSERT INTO `wla_terms` VALUES ('20', 'php构造函数', 'php构造函数', '100');
+INSERT INTO `wla_terms` VALUES ('21', 'wordpress教程', 'wordpress教程', '100');
+INSERT INTO `wla_terms` VALUES ('22', 'nodejs', 'nodejs', '100');
+INSERT INTO `wla_terms` VALUES ('23', 'yii2', 'yii2', '100');
 
 -- ----------------------------
 -- Table structure for `wla_term_relationships`
@@ -270,7 +279,7 @@ CREATE TABLE `wla_term_taxonomy` (
   UNIQUE KEY `term_id_taxonomy` (`tid`,`taxonomy`) USING BTREE,
   KEY `taxonomy` (`taxonomy`) USING BTREE,
   KEY `tid` (`tid`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
 
 -- ----------------------------
 -- Records of wla_term_taxonomy
@@ -283,6 +292,16 @@ INSERT INTO `wla_term_taxonomy` VALUES ('5', '5', '0', '', '1', '0');
 INSERT INTO `wla_term_taxonomy` VALUES ('6', '6', '0', '', '1', '0');
 INSERT INTO `wla_term_taxonomy` VALUES ('7', '7', '0', '', '3', '0');
 INSERT INTO `wla_term_taxonomy` VALUES ('8', '8', '0', '', '4', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('13', '13', '1', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('14', '14', '0', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('15', '15', '0', '', '14', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('16', '16', '0', '', '15', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('19', '19', '1', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('18', '18', '1', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('20', '20', '1', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('21', '21', '1', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('22', '22', '1', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('23', '23', '1', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -311,5 +330,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447805785', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447859168', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

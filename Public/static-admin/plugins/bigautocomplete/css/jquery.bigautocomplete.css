@@ -1,0 +1,3 @@
+.autoSelect {position: relative;}
+.autoSelect .bigautocomplete-layout {position: absolute;top: 36px;background: #fff;z-index: 10000;}
+.autoSelect .bigautocomplete-layout table {margin-bottom: 0;}

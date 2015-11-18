@@ -15,11 +15,26 @@ class ArticlesController extends CommonController
 	//添加文章
 	public function addArticle()
 	{
-		$category = D("Terms")->relation(true)->select();
+		$model = D("Tags");
+		$category = $model->relation(true)->where(['taxonomy' => 0])->select();
 		vendor('myClass.Category', "", ".php");
 		$this->category = \Category::unlimitedForLevel($category, "--");
 		$this->property = M("Property")->where(['status' => 1])->select();
 		$this->display();
+	}
+
+	//ajax获取相似标签
+	public function getTags()
+	{
+		$wd = I("post.keyword");
+		//实例化详情模型
+		$tags = D("Terms")->relation(true)->where("name like '%".$wd."%' or slug like '%".$wd."%' ")->select();
+		foreach($tags as $v){
+			if ($v['taxonomy'] == "") {
+            	$suggestions[]= array('title' => $v['name'], 'id' => $v['id']);
+            }
+        }
+		echo json_encode(array('data' => $suggestions));
 	}
 
 	//添加文章表单
