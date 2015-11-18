@@ -20,7 +20,7 @@
          <div class="panel-body">
             <div class="dataTables_wrapper form-inline no-footer">
                <div class="row">
-                  <div class="col-xs-6">
+                  <div class="col-xs-2">
                      <div class="dataTables_length">
                         <label>
                            <select name="onepagenum" class="form-control input-sm" id="onepagenum">
@@ -39,7 +39,47 @@
                      </div>
                   </div>
                </div>
-               
+               <form action="{:U('Admin/Category/sortCategory')}" method="post">
+	               <table class="table table-bordered" cellspacing="0" width="100%">
+	               	<thead>
+	               		<tr>
+	               			<th>#</th>
+	               			<th>名称</th>
+	               			<th>别名</th>
+	               			<th>图像描述</th>
+	               			<th>文章</th>
+	               			<th>排序</th>
+	               			<th>操作</th>
+	               		</tr>
+	               	</thead>
+	               	<tbody>
+	               		<foreach name="category" item="v">
+	               			<tr <if condition="$v.parent eq 0">class="success"</if>>
+	               				<td>{$v.id}</td>
+	               				<td>{$v.html}{$v.name}</td>
+	               				<td>{$v.slug}</td>
+	               				<td>{$v.description}</td>
+	               				<td><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></td>
+	               				<td><input type="text" name="{$v.id}" value="{$v.sort}"></td>
+	               				<td>
+	               					<a href="{:U('Admin/Category/addCategory', ['parent' => $v['id']])}" id="add" data-toggle="tooltip" data-placement="top" title="" data-original-title="添加子分类"><i class="fa fa-plus"></i></a>
+	               					<a href="{:U('Admin/Category/updateCategory', ['id' => $v['id']])}" id="edit" data-toggle="tooltip" data-placement="top" title="" data-original-title="修改"><i class="fa fa-edit"></i></a>
+	               					<a href="{:U('Admin/Category/deleteCategory', ['id' => $v['id']])}" id="delete" class="delete" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i></a>
+	               				</td>
+	               			</tr>
+	               		</foreach>
+	               	</tbody>
+	               </table>
+	               <div class="row">
+	                  <div class="col-xs-4">
+	                  	<div class="dataTables_length">
+	                        <label>
+	                        	<button type="submit" class="btn btn-primary" style="margin-bottom: 0px;" id="sort" data-toggle="tooltip" data-placement="top" title="" data-original-title="排序"><i class="fa fa-sort-numeric-asc"></i></button>
+	                        </label>
+	                  	</div>
+	                  </div>
+	               </div>
+               </form>
             </div>
          </div>
          <div class="panel-footer">
@@ -63,6 +103,14 @@
          checkboxClass: 'icheckbox_flat-grey',
          radioClass: 'iradio_flat-grey'
       });
+      $('#sort,#add,#edit,#delete,#count').tooltip();
+      $(".delete").click(function(){
+         if (!confirm("确定要删除吗?")) {
+            return false;
+         } else {
+            return true;
+         }
+      })
    });
 </script>
 </block>

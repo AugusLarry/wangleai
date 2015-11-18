@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50540
+Source Server Version : 50617
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-17 23:18:26
+Date: 2015-11-18 16:52:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -167,7 +167,7 @@ CREATE TABLE `wla_posts` (
   `post_description` text NOT NULL COMMENT '文章描述',
   `post_content` longtext NOT NULL COMMENT '文章内容',
   `post_category` int(20) NOT NULL COMMENT '所属分类',
-  `post_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '文章状态(0:发布;1:草稿;2:锁定;3:垃圾箱)',
+  `post_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '文章状态(0:发布;1:草稿;2:垃圾箱)',
   `comment_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '评论状态(0:可以评论;1:不能评论)',
   `comment_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '评论总数',
   `click_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '点击数',
@@ -181,18 +181,37 @@ CREATE TABLE `wla_posts` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `wla_post_property`
+-- ----------------------------
+DROP TABLE IF EXISTS `wla_post_property`;
+CREATE TABLE `wla_post_property` (
+  `post_id` int(11) NOT NULL COMMENT '文章ID',
+  `property_id` int(11) NOT NULL COMMENT '属性ID',
+  UNIQUE KEY `post_id` (`post_id`) USING BTREE,
+  UNIQUE KEY `property_id` (`property_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章和属性中间表';
+
+-- ----------------------------
+-- Records of wla_post_property
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `wla_property`
 -- ----------------------------
 DROP TABLE IF EXISTS `wla_property`;
 CREATE TABLE `wla_property` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `property` varchar(255) NOT NULL COMMENT '属性名',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '属性状态(1:启用;0:关闭)',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章属性表';
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='文章属性表';
 
 -- ----------------------------
 -- Records of wla_property
 -- ----------------------------
+INSERT INTO `wla_property` VALUES ('1', '置顶', '1');
+INSERT INTO `wla_property` VALUES ('2', '推荐', '1');
+INSERT INTO `wla_property` VALUES ('3', '头条', '1');
 
 -- ----------------------------
 -- Table structure for `wla_terms`
@@ -202,18 +221,24 @@ CREATE TABLE `wla_terms` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(200) NOT NULL COMMENT '链接名',
   `slug` varchar(200) NOT NULL COMMENT '分类、标签缩写',
+  `sort` smallint(6) NOT NULL DEFAULT '100' COMMENT '排序',
   PRIMARY KEY (`id`),
   UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
 -- ----------------------------
-INSERT INTO `wla_terms` VALUES ('1', '测试顶级栏目1', 'testtop1');
-INSERT INTO `wla_terms` VALUES ('2', '测试顶级栏目2', 'testtop2');
-INSERT INTO `wla_terms` VALUES ('3', '测试顶级栏目3', 'testtop3');
+INSERT INTO `wla_terms` VALUES ('1', '测试顶级栏目1', 'testtop1', '100');
+INSERT INTO `wla_terms` VALUES ('2', '测试顶级栏目2', 'testtop2', '100');
+INSERT INTO `wla_terms` VALUES ('3', '测试顶级栏目3', 'testtop3', '100');
+INSERT INTO `wla_terms` VALUES ('4', '测试顶级栏目4', 'testtop4', '100');
+INSERT INTO `wla_terms` VALUES ('5', '测试二级栏目1', 'testsecend1', '100');
+INSERT INTO `wla_terms` VALUES ('6', '测试二级栏目2', 'testsecend2', '100');
+INSERT INTO `wla_terms` VALUES ('7', '测试二级栏目3', 'testsecend3', '100');
+INSERT INTO `wla_terms` VALUES ('8', '测试二级栏目4', 'testsecend4', '100');
 
 -- ----------------------------
 -- Table structure for `wla_term_relationships`
@@ -245,7 +270,7 @@ CREATE TABLE `wla_term_taxonomy` (
   UNIQUE KEY `term_id_taxonomy` (`tid`,`taxonomy`) USING BTREE,
   KEY `taxonomy` (`taxonomy`) USING BTREE,
   KEY `tid` (`tid`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
 
 -- ----------------------------
 -- Records of wla_term_taxonomy
@@ -253,6 +278,11 @@ CREATE TABLE `wla_term_taxonomy` (
 INSERT INTO `wla_term_taxonomy` VALUES ('1', '1', '0', '', '0', '0');
 INSERT INTO `wla_term_taxonomy` VALUES ('2', '2', '0', '', '0', '0');
 INSERT INTO `wla_term_taxonomy` VALUES ('3', '3', '0', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('4', '4', '0', '', '0', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('5', '5', '0', '', '1', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('6', '6', '0', '', '1', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('7', '7', '0', '', '3', '0');
+INSERT INTO `wla_term_taxonomy` VALUES ('8', '8', '0', '', '4', '0');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -281,5 +311,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447758697', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447805785', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');
