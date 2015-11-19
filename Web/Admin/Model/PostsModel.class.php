@@ -7,11 +7,11 @@ class PostsModel extends RelationModel
 	protected $_link = [
 		"Property" => [
 			'mapping_type' => self::MANY_TO_MANY,
-			'class_name' => 'Property',
-			'mapping_name' => 'propertys',
-			'foreign_key' => 'post_id',
-			'relation_foreign_key' => 'property_id',
-			'relation_table' => '__POSTS__PROPERTY__'
+			'class_name' => 'Property',//关联模型的类名称,不需要存在类文件
+			'mapping_name' => 'propertys',//关联数据名，获取数据用，作为关联表的键名
+			'foreign_key' => 'post_id',//当前模型外键
+			'relation_foreign_key' => 'property_id',//关联模型外键
+			'relation_table' => '__POSTS__PROPERTY__'//中间表名称
 		],
 		"TermsTaxonomy" => [
 			'mapping_type' => self::MANY_TO_MANY,

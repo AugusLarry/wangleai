@@ -153,13 +153,15 @@
             return false;
          }
          if ($("#help-block").find("span").text().indexOf(str) < 0) {
-            if ($("#help-block").find("span").length == 0) {
+            /*if ($("#help-block").find("span").length == 0) {
                str += ",";
-            }
+            }*/
+            str = str.replace(/,/gm, "-");
+            str += ",";
             $("#help-block").append("<span class='tag'>" + str + "<button type='button' class='close'>×</button>");
             $("#tags").val(tags += str);
          }
-         $("#post_terms").val("").attr("data", "");
+         $("#post_terms").val("");
       })
       $("#help-block").delegate("button", "click", function(){
          $(this).parent("span").remove();

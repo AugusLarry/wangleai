@@ -40,7 +40,19 @@ class ArticlesController extends CommonController
 	//添加文章表单
 	public function addArticleForm()
 	{
-		p($_POST);
+		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
+		$data = [
+			'post_author' => I("post.post_author", "", "htmlspecialchars"),
+			'create_at' => NOW_TIME,
+			'post_title' => I("post.post_title", "", "htmlspecialchars"),
+			'post_type' => I("post.post_type", 0, "intval"),
+			'post_description' => I("post.post_description", "", "htmlspecialchars"),
+			'post_content' => I("post.content", "", "htmlspecialchars"),
+			'post_status' => I("post.status", 0, "intval"),
+			'comment_status' => I("post.comment_status", 0, "intval"),
+			'comment_count' => 0,
+			'click_count' => 0,
+		];
 	}
 
 	//属性列表
