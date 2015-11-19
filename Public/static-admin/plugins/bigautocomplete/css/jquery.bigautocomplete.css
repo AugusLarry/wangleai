@@ -1,3 +1,6 @@
 .autoSelect {position: relative;}
 .autoSelect .bigautocomplete-layout {position: absolute;top: 36px;background: #fff;z-index: 10000;}
 .autoSelect .bigautocomplete-layout table {margin-bottom: 0;}
+.autoSelect .tag {display: inline-block;position: relative;font-size: 13px;font-weight: normal;vertical-align: baseline;white-space: nowrap;background: #48C9B0;color: #fff;text-shadow: 1px 1px 1px rgba(0,0,0,0.15);padding: 6px 22px 6px 6px;margin-bottom: 3px;margin-right: 3px;transition: all .2s;}
+.autoSelect .tag .close {font-size:15px;line-height:20px;opacity:1;filter:alpha(opacity=100);color:#FFF;text-shadow:none;float:none;position:absolute;right:0;top:0;bottom:0;width:18px;text-align:center}
+.autoSelect .tag .close:hover {background-color:rgba(0,0,0,0.2)}

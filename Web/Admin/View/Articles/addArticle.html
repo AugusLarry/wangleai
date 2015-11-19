@@ -40,9 +40,13 @@
                </div>
                <div class="form-group has-feedback">
                   <label class="col-sm-3 control-label">标签</label>
-                  <div class="col-sm-6 autoSelect">
+                  <div class="col-sm-5 autoSelect">
                      <input type="text" class="form-control" name="post_terms" id="post_terms" autocomplete="off">
+                     <p class="help-block" id="help-block"></p>
                   </div>
+                  <label class="col-sm-1" id="clickTag">
+                     <button type="button" class="btn btn-primary" id="add-tag">添加</button>
+                  </label>
                </div>
                <div class="form-group has-feedback">
                   <label class="col-sm-3 control-label">属性</label>
@@ -84,6 +88,7 @@
                </div>
                <div class="form-group">
                   <div class="col-sm-2 col-sm-offset-4">
+                     <textarea class="form-control hidden" rows="3" name="tags" id="tags"></textarea>
                      <input type="hidden" class="form-control" name="post_author" value="{$Think.session.uname}">
                      <input type="submit" class="btn btn-primary btn-block" id="addRule" value="提交">
                   </div>
@@ -138,8 +143,26 @@
       $("#post_terms").bigAutocomplete({
          url : "{:U('Admin/Articles/getTags')}",
          callback : function (data){
-            console.log(data);
+            //console.log(data);
          }
+      })
+      $("#clickTag").delegate("button", "click", function(){
+         var str = $("#post_terms").val();
+         var tags = $("#tags").val();
+         if (str == "") {
+            return false;
+         }
+         if ($("#help-block").find("span").text().indexOf(str) < 0) {
+            if ($("#help-block").find("span").length == 0) {
+               str += ",";
+            }
+            $("#help-block").append("<span class='tag'>" + str + "<button type='button' class='close'>×</button>");
+            $("#tags").val(tags += str);
+         }
+         $("#post_terms").val("").attr("data", "");
+      })
+      $("#help-block").delegate("button", "click", function(){
+         $(this).parent("span").remove();
       })
    });
 </script>

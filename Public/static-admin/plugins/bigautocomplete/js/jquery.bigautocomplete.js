@@ -184,7 +184,7 @@
 				
 				var cont = "<table class='table table-hover table-bordered'><tbody>";
 				for(var i=0;i<data_.length;i++){
-					cont += "<tr><td><div>" + data_[i].title + "</div></td></tr>"
+					cont += "<tr><td><div data='" + data_[i].id + "'>" + data_[i].title + "</div></td></tr>"
 				}
 				cont += "</tbody></table>";
 				$bigAutocompleteContent.html(cont);
