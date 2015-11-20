@@ -43,29 +43,53 @@
                   <thead>
                      <tr>
                         <th>#</th>
-                        <th>标题</th>
+                        <th width="45%">标题</th>
                         <th>作者</th>
-                        <th>评论数</th>
-                        <th>评论状态</th>
-                        <th>点击数</th>
-                        <th>时间</th>
                         <th>分类</th>
-                        <th>状态</th>
-                        <th>操作</th>
+                        <th>标签</th>
+                        <th><i class="fa fa-comment"></i></th>
+                        <th>日期</th>
                      </tr>
                   </thead>
                   <tbody>
-                     <foreach name="artilces" item="v">
-                        <tr>
+                     <foreach name="posts" item="v">
+                        <tr class="titleHover">
                            <td>{$v.id}</td>
-                           <td>{$v.post_title}</td>
+                           <td>
+                              <a href="{:U('Admin/Articles/updateArticle', ['id' => $v['id']])}">{$v.post_title}</a>
+                              <div class="hidden">
+                                 <a href="{:U('Admin/Articles/updateArticle', ['id' => $v['id']])}">编辑</a>
+                                 <a href="{:U('Admin/Articles/trash', ['id' => $v['id']])}">垃圾箱</a>
+                                 <a href="{:U('Admin/Articles/closeComment', ['id' => $v['id']])}">关闭评论</a>
+                              </div>
+                           </td>
                            <td>{$v.post_author}</td>
-                           <td>{$v.comment_count}</td>
-                           <td>{$v.click_count}</td>
-                           <td>{$v.created_at|date="Y-m-d H:i:s", ###}</td>
-                           <td>{$v.category}</td>
-                           <td>{$v.post_status}</td>
-                           <td><a href="{:U('Admin/User/editArticle', ['id' => $v['id']])}">编辑</a></td>
+                           <td><a href="{:U('Admin/Articles/getArticlesByCategory', ['term_id' => $v['category'][0]['id']])}">{$v['category'][0]['name']}</a></td>
+                           <td>
+                              <?php
+                              $url = U("Admin/Articles/getArticlesByTag");
+                              foreach($v['tags'] as $val) {
+                                 echo "<a href='" . $url . "/tag/" . $val . "'>" . $val . "</a>、";
+                              }
+                              ?>
+                           </td>
+                           <td>
+                              <if condition="$v.comment_count eq 0">
+                              <span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.comment_count}文章">{$v.comment_count}</span>
+                              <else/>
+                              <a href="{:U('Admin/Comments/getCommentsByPost', ['post_id' => $v['id']])}"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.comment_count}文章">{$v.comment_count}</span></a>
+                              </if>
+                           </td>
+                           <td>
+                              <p class="text-left" style="margin-bottom: 0;">{$v.created_at|date="Y-m-d", ###}</p>
+                              <p class="text-left" style="margin-bottom: 0;">
+                                 <if condition="$v['post_status'] eq 0">
+                                 已发布
+                                 <elseif condition="$v['post_status'] eq 1"/>
+                                 草稿
+                                 </if>
+                              </p>
+                           </td>
                         </tr>
                      </foreach>
                   </tbody>
@@ -93,6 +117,7 @@
          checkboxClass: 'icheckbox_flat-grey',
          radioClass: 'iradio_flat-grey'
       });
+      $('.count').tooltip();
       $("#onepagenum").change(function(){
          var str = window.location.href;
          if (str.indexOf("/onepagenum/") > 0) {
@@ -100,6 +125,12 @@
          } else {
             window.location.href = str + "/onepagenum/" + $(this).children('option:selected').val();
          }
+      })
+      $(".titleHover").mouseover(function(){
+         $(this).find("div.hidden").removeClass("hidden").addClass("show");
+         $(this).mouseout(function(){
+            $(this).find("div.show").removeClass("show").addClass("hidden");
+         })
       })
    });
 </script>

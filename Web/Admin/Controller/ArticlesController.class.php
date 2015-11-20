@@ -16,8 +16,28 @@ class ArticlesController extends CommonController
 		//获取分页标签
 		$this->show = $page->show();
 		//获取分页后的数据
-		$this->posts = $posts->relation(true)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
-		p($this->posts);
+		$posts = $posts->relation(true)->where('post_status<>2')->order('id')->limit($page->firstRow.','.$page->listRows)->select();
+		// p($posts);
+		foreach ($posts as $key => $val) {
+			foreach ($val['terms'] as $k => $v) {
+				if ($v['taxonomy'] == 0) {
+					$posts[$key]['category'][0]['id'] = $v['id'];
+					$posts[$key]['category'][0]['name'] = $v['name'];
+				}
+				if ($v['taxonomy'] == 1) {
+					$posts[$key]['tags'][] = $v['name'];
+				}
+			}
+			if (isset($val['property'])) {
+				foreach ($val['property'] as $v) {
+					$posts[$key]['attr'][] = $v['id'];
+				}
+			}
+			unset($posts[$key]['terms']);
+			unset($posts[$key]['property']);
+			unset($posts[$key]['attr']);
+		}
+		$this->posts = $posts;
 		$this->display();
 	}
 
@@ -48,6 +68,7 @@ class ArticlesController extends CommonController
 	public function addArticleForm()
 	{
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
+		//先组合POSTS表数据
 		$data = [
 			'post_author' => I("post.post_author", "", "htmlspecialchars"),
 			'created_at' => NOW_TIME,
@@ -60,15 +81,17 @@ class ArticlesController extends CommonController
 			'comment_count' => 0,
 			'click_count' => 0,
 		];
+		//如果存在标签
 		if (isset($_POST['tags'])) {
 			//将表单里标签最后一个","去掉并分割成数组
 			$tags = explode(",", rtrim(I("post.tags"), ","));
+			//查询出所有的标签
 			$model = D("Terms")->where(['taxonomy' => 1])->select();
 			//$TagsData(设置要插入标签的数据);$Tids(设置所有添加标签的ID)
 			$TagsData = $Tids = [];
 			//如果还没有标签
 			if (!$model) {
-				foreach ($tags as $k => $v) {
+				foreach ($tags as $k => $v) {//直接循环插入Terms表
 					$TagsData['name'] = $v;
 					$TagsData['slug'] = $v;
 					$TagsData['sort'] = 0;
@@ -81,12 +104,12 @@ class ArticlesController extends CommonController
 			} else {
 				// 取出所有的标签名
 				$TagsName = array_column($model, 'name');
-				foreach ($tags as $v) {
-					if (in_array($v, $TagsName)){
+				foreach ($tags as $v) {//循环表单提交过来的标签名
+					if (in_array($v, $TagsName)){//如果该标签已存在,将该标签count值加1
 						$id = M("Terms")->where(['name' => $v])->getField("id");
 						M("Terms")->where(['id' => $id])->setInc('count');
 						$Tids[] = $id;
-					} else {
+					} else {//如果该标签不存在,组合该标签数据并插入Terms表
 						$TagsData['name'] = $v;
 						$TagsData['slug'] = $v;
 						$TagsData['sort'] = 0;
@@ -97,17 +120,27 @@ class ArticlesController extends CommonController
 						$Tids[] = M("Terms")->data($TagsData)->add();
 					}
 				}
-			}
+			}//这里返回所有表单提交的标签ID
+			//这里组合标签数据到$data中
+			//注意组合格式应该是一个二维数组
+			//terms => [//terms是data数组的一个子元素,而terms的子元素必须是索引数组
+			//	0 => ['id' => id]//每个索引数组的键为terms表的主键ID
+			//	1 => ['id' => id]
+			//]
 			foreach ($Tids as $k => $v) {
 				$data['terms'][$k]['id'] = $v;
 			}
 		}
+		//如果存在属性
 		if (isset($_POST['property'])){
 			foreach ($_POST['property'] as $v) {
+				//这里组合方式跟上面terms一样
 				$data['property'][]['id'] = $v;
 			}
 		}
+		//将分类ID组合进data数组
 		$data['terms'][]['id'] = I("post.post_category", "", "intval");
+		//多对多插入
 		$result = D("Posts")->relation(true)->add($data);
 		if (!$result) {
 			$this->error("添加失败!", U("index"));

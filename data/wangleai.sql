@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-11-20 16:58:10
+Date: 2015-11-20 23:14:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -173,14 +173,13 @@ CREATE TABLE `wla_posts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`) USING BTREE,
   KEY `post_author` (`post_author`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='文章表';
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='文章表';
 
 -- ----------------------------
 -- Records of wla_posts
 -- ----------------------------
-INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448008589', '测试文章一', '0', '测试文章一', '&lt;p&gt;测试文章一测试文章一测试文章一&lt;/p&gt;', '0', '0', '0', '0');
-INSERT INTO `wla_posts` VALUES ('2', '测试账号001', '1448008973', '测试文章二', '0', '测试文章二', '&lt;p&gt;测试文章二测试文章二测试文章二测试文章二测试文章二&lt;/p&gt;', '0', '0', '0', '0');
-INSERT INTO `wla_posts` VALUES ('3', '测试账号001', '1448009496', '测试文章三', '0', '测试文章三', '&lt;p&gt;测试文章三测试文章三测试文章三测试文章三测试文章三&lt;/p&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448018992', 'PHP函数定义', '0', '怎样定义PHP函数', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;This&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('2', '测试账号001', '1448031303', 'Thinkphp多对多模型定义', '0', 'Thinkphp多对多模型定义', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;protected&amp;nbsp;$_link&amp;nbsp;=&amp;nbsp;[\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;Terms&amp;quot;&amp;nbsp;=&amp;gt;&amp;nbsp;[//标签\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;mapping_type&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;self::MANY_TO_MANY,//与POSTS表关联方式\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;class_name&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;Terms&amp;#39;,//关联表的类名\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;mapping_name&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;terms&amp;#39;,//关联表数据外层键值,不能与POSTS表字段重复\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;foreign_key&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;post_id&amp;#39;,//POSTS表外键\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;relation_foreign_key&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;term_id&amp;#39;,//关联表外键\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;relation_table&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;wla_post_term&amp;#39;,//中间表名称\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;],\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;quot;Property&amp;quot;&amp;nbsp;=&amp;gt;&amp;nbsp;[//属性\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;mapping_type&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;self::MANY_TO_MANY,\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;class_name&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;Property&amp;#39;,\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;mapping_name&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;property&amp;#39;,\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;foreign_key&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;post_id&amp;#39;,\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;relation_foreign_key&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;property_id&amp;#39;,\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;#39;relation_table&amp;#39;&amp;nbsp;=&amp;gt;&amp;nbsp;&amp;#39;wla_post_property&amp;#39;,\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;],\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;];&lt;/pre&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_post_property`
@@ -198,13 +197,9 @@ CREATE TABLE `wla_post_property` (
 -- ----------------------------
 INSERT INTO `wla_post_property` VALUES ('1', '1');
 INSERT INTO `wla_post_property` VALUES ('1', '2');
-INSERT INTO `wla_post_property` VALUES ('1', '3');
 INSERT INTO `wla_post_property` VALUES ('2', '1');
 INSERT INTO `wla_post_property` VALUES ('2', '2');
 INSERT INTO `wla_post_property` VALUES ('2', '3');
-INSERT INTO `wla_post_property` VALUES ('3', '1');
-INSERT INTO `wla_post_property` VALUES ('3', '2');
-INSERT INTO `wla_post_property` VALUES ('3', '3');
 
 -- ----------------------------
 -- Table structure for `wla_post_term`
@@ -220,18 +215,11 @@ CREATE TABLE `wla_post_term` (
 -- ----------------------------
 -- Records of wla_post_term
 -- ----------------------------
-INSERT INTO `wla_post_term` VALUES ('1', '1');
-INSERT INTO `wla_post_term` VALUES ('1', '12');
-INSERT INTO `wla_post_term` VALUES ('1', '16');
-INSERT INTO `wla_post_term` VALUES ('2', '7');
-INSERT INTO `wla_post_term` VALUES ('2', '12');
-INSERT INTO `wla_post_term` VALUES ('2', '14');
-INSERT INTO `wla_post_term` VALUES ('2', '15');
-INSERT INTO `wla_post_term` VALUES ('3', '9');
-INSERT INTO `wla_post_term` VALUES ('3', '12');
-INSERT INTO `wla_post_term` VALUES ('3', '14');
-INSERT INTO `wla_post_term` VALUES ('3', '15');
-INSERT INTO `wla_post_term` VALUES ('3', '17');
+INSERT INTO `wla_post_term` VALUES ('1', '7');
+INSERT INTO `wla_post_term` VALUES ('1', '18');
+INSERT INTO `wla_post_term` VALUES ('2', '8');
+INSERT INTO `wla_post_term` VALUES ('2', '19');
+INSERT INTO `wla_post_term` VALUES ('2', '20');
 
 -- ----------------------------
 -- Table structure for `wla_property`
@@ -268,7 +256,7 @@ CREATE TABLE `wla_terms` (
   UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
@@ -278,16 +266,19 @@ INSERT INTO `wla_terms` VALUES ('2', '顶级栏目二', 'top2', '2', '0', '', '0
 INSERT INTO `wla_terms` VALUES ('3', '顶级栏目三', 'top3', '3', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('4', '顶级栏目四', 'top4', '4', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('5', '顶级栏目五', 'top5', '5', '0', '', '0', '0');
-INSERT INTO `wla_terms` VALUES ('12', '标签一', 'tag1', '100', '1', '', '0', '6');
+INSERT INTO `wla_terms` VALUES ('12', '标签一', 'tag1', '100', '1', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('7', '二级栏目二', 'secend2', '2', '0', '', '1', '0');
 INSERT INTO `wla_terms` VALUES ('8', '二级栏目三', 'secend3', '1', '0', '', '4', '0');
 INSERT INTO `wla_terms` VALUES ('9', '三级栏目一', 'thr1', '1', '0', '', '8', '0');
 INSERT INTO `wla_terms` VALUES ('10', '三级栏目二', 'thr2', '2', '0', '', '8', '0');
 INSERT INTO `wla_terms` VALUES ('11', '三级栏目三', 'thr3', '100', '0', '', '8', '0');
-INSERT INTO `wla_terms` VALUES ('16', '测试一', '测试一', '100', '1', null, '0', '3');
-INSERT INTO `wla_terms` VALUES ('14', '标签三', 'tag3', '100', '1', '', '0', '3');
-INSERT INTO `wla_terms` VALUES ('15', '标签四', 'tag4', '100', '1', '', '0', '3');
-INSERT INTO `wla_terms` VALUES ('17', '新标签测试', '新标签测试', '0', '1', '', '0', '2');
+INSERT INTO `wla_terms` VALUES ('16', '测试一', '测试一', '100', '1', null, '0', '0');
+INSERT INTO `wla_terms` VALUES ('14', '标签三', 'tag3', '100', '1', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('15', '标签四', 'tag4', '100', '1', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('17', '新标签测试', '新标签测试', '0', '1', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('18', 'PHP函数', 'PHP函数', '0', '1', '', '0', '1');
+INSERT INTO `wla_terms` VALUES ('19', 'thinkphp', 'thinkphp', '0', '1', '', '0', '1');
+INSERT INTO `wla_terms` VALUES ('20', '多对多模型', '多对多模型', '0', '1', '', '0', '1');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -316,5 +307,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447979162', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448017369', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');
