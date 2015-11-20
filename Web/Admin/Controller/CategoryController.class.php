@@ -10,34 +10,53 @@ class CategoryController extends CommonController
 	public function index()
 	{
 		//实例化详情模型
-		$category = D("Tags");
+		$category = M("Terms");
 		//对用户列表分页显示
-		$page = getpage($category, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getpage($category, ['taxonomy' => 0], I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
 		$this->show = $page->show();
 		//获取分页后的数据
-		$category = $category->relation(true)->where(['taxonomy' => 0])->limit($page->firstRow.','.$page->listRows)->select();
+		$category = $category->where(['taxonomy' => 0])->order('sort')->limit($page->firstRow.','.$page->listRows)->select();
 		//加载无限级分类类库
 		vendor('myClass.Category', "", ".php");
 		$this->category = \Category::unlimitedForLevel($category, "<i class='fa fa-long-arrow-right'>&nbsp;</i>");
 		$this->display();
 	}
 
-	//对分类排序
-	public function sortCategory()
+	//标签列表视图
+	public function tags()
 	{
-		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$db = M("Terms");
-		foreach (I("post.") as $id => $sort) {
-			$db->where(['id' => $id])->setField('sort', $sort);
-		}
-		$this->redirect('Admin/Category/index');
+		//实例化详情模型
+		$tags = M("Terms");
+		//对用户列表分页显示
+		$page = getpage($tags, ['taxonomy' => 1], I("get.onepagenum", C("PAGE_SIZE")));
+		//获取分页标签
+		$this->show = $page->show();
+		//获取分页后的数据
+		$this->tags = $tags->where(['taxonomy' => 1])->limit($page->firstRow.','.$page->listRows)->select();
+		$this->display();
 	}
 
-	//添加分类
+	//排序
+	public function sort()
+	{
+		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
+		foreach(I("post.") as $k => $v) {
+			D("Terms")->where(['id' => $k])->setField('sort', $v);
+		}
+		$this->redirect("index");
+	}
+
+	//添加分类视图
 	public function addCategory()
 	{
-		$this->parent = I('parent', 0, 'intval');
+		$this->parent = I("get.parent", 0, "intval");
+		$this->display();
+	}
+
+	//添加标签视图
+	public function addTag()
+	{
 		$this->display();
 	}
 
@@ -45,30 +64,51 @@ class CategoryController extends CommonController
 	public function addCategoryForm()
 	{
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$data = [
-			'name' => I("post.name"),
-			'slug' => I("post.slug"),
-			'TermTaxonomy' => [
-				'taxonomy' => 0,
-				'description' => I("description", "", 'htmlspecialchars'),
-				'parent' => I("parent", 0, 'intval'),
-				'count' => 0,
-			]
-		];
-		$result = D("Terms")->relation(true)->add($data);
-		if (!$result) {
-			$this->error("添加失败!", U("index"));
+		$model = D("Terms");
+		if (!$model->create()) {
+			$this->error($model->getError(), U("index"));
 		} else {
-			$this->success("添加成功!", U("index"));
+			$result = $model->add();
+			if (!$result) {
+				$this->error($model->getError(), U("index"));
+			} else {
+				$this->success("添加成功!", U("index"));
+			}
 		}
 	}
 
-	//修改分类
+	//添加标签表单
+	public function addTagForm()
+	{
+		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
+		$model = D("Terms");
+		if (!$model->create()) {
+			$this->error($model->getError(), U("tags"));
+		} else {
+			$result = $model->add();
+			if (!$result) {
+				$this->error($model->getError(), U("tags"));
+			} else {
+				$this->success("添加成功!", U("tags"));
+			}
+		}
+	}
+
+	//修改分类视图
 	public function updateCategory()
 	{
-		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
-		$this->category = D("Terms")->relation(true)->where(['id' => I("get.id")])->find();
-		if (!$this->category) $this->error("访问出错!", U("Admin/Index/index"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
+		$this->category = M("Terms")->where(['id' => I("get.id")])->find();
+		if (!$this->category) $this->error("访问出错!", U("index"));
+		$this->display();
+	}
+
+	//修改标签视图
+	public function updateTag()
+	{
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
+		$this->tag = M("Terms")->where(['id' => I("get.id")])->find();
+		if (!$this->tag) $this->error("访问出错!", U("index"));
 		$this->display();
 	}
 
@@ -76,117 +116,66 @@ class CategoryController extends CommonController
 	public function updateCategoryForm()
 	{
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$data = [
-			'name' => I("post.name"),
-			'slug' => I("post.slug"),
-			'TermTaxonomy' => [
-				'taxonomy' => 0,
-				'description' => I("description", "", "htmlspecialchars"),
-				'parent' => I("parent", 0, "intval"),
-				'count' => I("count", 0, "intval")
-			],
-		];
-		$result = D("TermsUpdate")->relation(true)->where(['id' => I("post.id")])->save($data);
-		if (!$result) {
-			$this->error("修改失败!", U("index"));
+		$model = D("Terms");
+		if (!$model->create()) {
+			$this->error($model->getError(), U("index"));
 		} else {
-			$this->success("修改成功!", U("index"));
+			$result = $model->save();
+			if ($result === false) {
+				$this->error($model->getError(), U("index"));
+			} else {
+				$this->success("修改成功!", U("index"));
+			}
+		}
+	}
+
+	//修改标签表单
+	public function updateTagForm()
+	{
+		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
+		$model = D("Terms");
+		$model = D("Terms");
+		if (!$model->create()) {
+			$this->error($model->getError(), U("tags"));
+		} else {
+			$result = $model->save();
+			if ($result === false) {
+				$this->error($model->getError(), U("tags"));
+			} else {
+				$this->success("修改成功!", U("tags"));
+			}
 		}
 	}
 
 	//删除分类
 	public function deleteCategory()
 	{
-		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
-		$category = D("Terms")->relation(true)->where(['id' => I("get.id")])->find();
-		if (!$category) $this->error("访问出错!", U("Admin/Index/index"));
-		$categorys = M("TermTaxonomy")->where(['parent' => I("get.id")])->getField("tid");
-		if (!empty($categorys)) $this->error("该分类下还有子分类,请先删除子分类再试!", U("index"));
-		$result = D("TermsUpdate")->relation(true)->delete(I("get.id"));
-		if (!$result) {
-			$this->error("删除失败!", U("index"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
+		$model = M("Terms");
+		$category = $model->where(['id' => I("get.id")])->find();
+		if (!$category) $this->error("访问出错!", U("index"));
+		$parent = $model->where(['parent' => I("get.id")])->find();
+		if ($parent) {
+			$this->error("该分类下还有子分类,请先删除子分类再试!", U("index"));
 		} else {
-			$this->success("删除成功!", U("index"));
-		}
-	}
-
-	//标签列表
-	public function tags()
-	{
-		//实例化详情模型
-		$tags = D("Tags");
-		//对用户列表分页显示
-		$page = getpage($tags, "", I("get.onepagenum", C("PAGE_SIZE")));
-		//获取分页标签
-		$this->show = $page->show();
-		//获取分页后的数据
-		$this->tags = $tags->relation(true)->where(['taxonomy' => 1])->order('tid')->limit($page->firstRow.','.$page->listRows)->select();
-		$this->display();
-	}
-
-	//添加标签
-	public function addTags()
-	{
-		$this->display();
-	}
-
-	//添加标签表单
-	public function addTagsForm()
-	{
-		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$data = [
-			'name' => I("post.name"),
-			'slug' => I("post.slug"),
-			'TermTaxonomy' => [
-				'taxonomy' => 1,
-				'description' => I("description", "", 'htmlspecialchars'),
-				'parent' => 0,
-				'count' => 0,
-			]
-		];
-		$result = D("Terms")->relation(true)->add($data);
-		if (!$result) {
-			$this->error("添加失败!", U("tags"));
-		} else {
-			$this->success("添加成功!", U("tags"));
-		}
-	}
-
-	//修改标签
-	public function updateTags()
-	{
-		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
-		$this->category = D("Terms")->relation(true)->where(['id' => I("get.id")])->find();
-		if (!$this->category) $this->error("访问出错!", U("Admin/Index/index"));
-		$this->display();
-	}
-
-	//修改标签表单
-	public function updateTagsForm()
-	{
-		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$data = [
-			'id' => I("post.id"),
-			'name' => I("post.name"),
-			'slug' => I("post.slug"),
-		];
-		$result = M("Terms")->save($data);
-		if (!$result) {
-			$this->error("修改失败!", U("tags"));
-		} else {
-			$this->success("修改成功!", U("tags"));
+			$result = $model->where(['id' => I("get.id")])->delete();
+			if (!$result) {
+				$this->error("删除失败!请稍后再试!", U("index"));
+			} else {
+				$this->success("删除成功!", U("index"));
+			}
 		}
 	}
 
 	//删除标签
-	public function deleteTags()
+	public function deleteTag()
 	{
-		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
-		$category = D("TermsUpdate")->relation(true)->where(['id' => I("get.id")])->find();
-		if (!$category) $this->error("访问出错!", U("Admin/Index/index"));
-		$result = D("TermsUpdate")->relation(true)->delete(I("get.id"));
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
+		$tag = M("Terms")->where(['id' => I("get.id")])->find();
+		if (!$tag) $this->error("访问出错!", U("index"));
+		$result = M("Terms")->where(['id' => I("get.id")])->delete();
 		if (!$result) {
-			$this->error("删除失败!", U("tags"));
+			$this->error("删除失败!请稍后再试!", U("tags"));
 		} else {
 			$this->success("删除成功!", U("tags"));
 		}

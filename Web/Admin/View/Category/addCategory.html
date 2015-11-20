@@ -32,7 +32,7 @@
                      <input type="text" class="form-control" name="description">
                   </div>
                </div>
-               <div class="form-group">
+               <div class="form-group has-feedback">
                   <label class="col-sm-3 control-label">排序</label>
                   <div class="col-sm-6">
                      <input type="text" class="form-control" name="sort" value="100">
@@ -41,6 +41,7 @@
                <div class="form-group">
                   <div class="col-sm-2 col-sm-offset-4">
                      <input type="hidden" name="parent" value="{$parent}">
+                     <input type="hidden" name="taxonomy" value="0">
                      <input type="submit" class="btn btn-primary btn-block" id="addRule" value="提交">
                   </div>
                </div>
@@ -72,6 +73,7 @@
          rules : {
             name : {required : true, rangelength : [2, 8]},
             slug : {required : true, rangelength : [2, 12], az : ["a", "z"]},
+            sort : {digits: true},
          },
          highlight : function(element) {
             $(element).closest('.form-group').removeClass('success').addClass('has-error');
@@ -85,6 +87,7 @@
          messages : {
             name : {required : "分类名称不能为空!", rangelength : "名称长度只能在2-8个字符之间!"},
             slug : {required : "分类别名不能为空!", rangelength : "别名长度只能在2-12个字符之间!",},
+            sort : {digits : "排序只能是数字!",},
          },
          submitHandler : function(form){
             $(form).submit();

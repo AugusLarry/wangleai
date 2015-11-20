@@ -9,7 +9,7 @@ class Category
 				$v['level'] = $level + 1;
 				$v['html'] = str_repeat($html, $level);
 				$arr[] = $v;
-				$arr = array_merge($arr, self::unlimitedForLevel($cate, $html, $v['tid'], $level + 1));
+				$arr = array_merge($arr, self::unlimitedForLevel($cate, $html, $v['id'], $level + 1));
 			}
 		}
 		return $arr;

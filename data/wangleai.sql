@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-19 16:54:44
+Date: 2015-11-20 16:58:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -160,7 +160,7 @@ CREATE TABLE `wla_comments` (
 DROP TABLE IF EXISTS `wla_posts`;
 CREATE TABLE `wla_posts` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '文章ID',
-  `post_author` int(20) NOT NULL COMMENT '文章作者',
+  `post_author` varchar(255) NOT NULL COMMENT '文章作者',
   `created_at` int(11) NOT NULL COMMENT '发布时间',
   `post_title` text NOT NULL COMMENT '文章标题',
   `post_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '文章类型(0:普通;1:心情;2:音乐;3:图片;4:视频;)',
@@ -171,13 +171,16 @@ CREATE TABLE `wla_posts` (
   `comment_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '评论总数',
   `click_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '点击数',
   PRIMARY KEY (`id`),
-  KEY `post_author` (`post_author`) USING BTREE,
-  KEY `type_status_date` (`id`,`created_at`,`post_type`,`post_status`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章表';
+  UNIQUE KEY `id` (`id`) USING BTREE,
+  KEY `post_author` (`post_author`) USING BTREE
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='文章表';
 
 -- ----------------------------
 -- Records of wla_posts
 -- ----------------------------
+INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448008589', '测试文章一', '0', '测试文章一', '&lt;p&gt;测试文章一测试文章一测试文章一&lt;/p&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('2', '测试账号001', '1448008973', '测试文章二', '0', '测试文章二', '&lt;p&gt;测试文章二测试文章二测试文章二测试文章二测试文章二&lt;/p&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('3', '测试账号001', '1448009496', '测试文章三', '0', '测试文章三', '&lt;p&gt;测试文章三测试文章三测试文章三测试文章三测试文章三&lt;/p&gt;', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_post_property`
@@ -186,13 +189,49 @@ DROP TABLE IF EXISTS `wla_post_property`;
 CREATE TABLE `wla_post_property` (
   `post_id` int(11) NOT NULL COMMENT '文章ID',
   `property_id` int(11) NOT NULL COMMENT '属性ID',
-  UNIQUE KEY `post_id` (`post_id`) USING BTREE,
-  UNIQUE KEY `property_id` (`property_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文章和属性中间表';
+  KEY `post_id` (`post_id`) USING BTREE,
+  KEY `property_id` (`property_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='文章和属性中间表';
 
 -- ----------------------------
 -- Records of wla_post_property
 -- ----------------------------
+INSERT INTO `wla_post_property` VALUES ('1', '1');
+INSERT INTO `wla_post_property` VALUES ('1', '2');
+INSERT INTO `wla_post_property` VALUES ('1', '3');
+INSERT INTO `wla_post_property` VALUES ('2', '1');
+INSERT INTO `wla_post_property` VALUES ('2', '2');
+INSERT INTO `wla_post_property` VALUES ('2', '3');
+INSERT INTO `wla_post_property` VALUES ('3', '1');
+INSERT INTO `wla_post_property` VALUES ('3', '2');
+INSERT INTO `wla_post_property` VALUES ('3', '3');
+
+-- ----------------------------
+-- Table structure for `wla_post_term`
+-- ----------------------------
+DROP TABLE IF EXISTS `wla_post_term`;
+CREATE TABLE `wla_post_term` (
+  `post_id` bigint(20) NOT NULL COMMENT '博客ID',
+  `term_id` bigint(20) NOT NULL COMMENT '对应term_taxonomy表中的term_taxonomy_id',
+  KEY `term_id` (`term_id`) USING BTREE,
+  KEY `post_id` (`post_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='关系表，多对多的，object_id是与不同的对象关联。\r\n从这个表可以获得一篇文章与标签、分类之间的关系，object_id为博文的ID，term_taxonomy_id为wp_term_taxonomy表中相应的标签、分类的ID。';
+
+-- ----------------------------
+-- Records of wla_post_term
+-- ----------------------------
+INSERT INTO `wla_post_term` VALUES ('1', '1');
+INSERT INTO `wla_post_term` VALUES ('1', '12');
+INSERT INTO `wla_post_term` VALUES ('1', '16');
+INSERT INTO `wla_post_term` VALUES ('2', '7');
+INSERT INTO `wla_post_term` VALUES ('2', '12');
+INSERT INTO `wla_post_term` VALUES ('2', '14');
+INSERT INTO `wla_post_term` VALUES ('2', '15');
+INSERT INTO `wla_post_term` VALUES ('3', '9');
+INSERT INTO `wla_post_term` VALUES ('3', '12');
+INSERT INTO `wla_post_term` VALUES ('3', '14');
+INSERT INTO `wla_post_term` VALUES ('3', '15');
+INSERT INTO `wla_post_term` VALUES ('3', '17');
 
 -- ----------------------------
 -- Table structure for `wla_property`
@@ -221,89 +260,34 @@ CREATE TABLE `wla_terms` (
   `name` varchar(200) NOT NULL COMMENT '链接名',
   `slug` varchar(200) NOT NULL COMMENT '分类、标签缩写',
   `sort` smallint(6) NOT NULL DEFAULT '100' COMMENT '排序',
+  `taxonomy` smallint(6) NOT NULL COMMENT '类型(0:category;1:tag;)',
+  `description` longtext COMMENT '分类图片描述、标签描述',
+  `parent` bigint(20) NOT NULL DEFAULT '0' COMMENT '父类ID',
+  `count` bigint(20) NOT NULL DEFAULT '0' COMMENT '分类下文章数量、当前标签所拥有文章数量',
   PRIMARY KEY (`id`),
   UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
 -- ----------------------------
-INSERT INTO `wla_terms` VALUES ('1', '测试顶级栏目1', 'testtop1', '100');
-INSERT INTO `wla_terms` VALUES ('2', '测试顶级栏目2', 'testtop2', '100');
-INSERT INTO `wla_terms` VALUES ('3', '测试顶级栏目3', 'testtop3', '100');
-INSERT INTO `wla_terms` VALUES ('4', '测试顶级栏目4', 'testtop4', '100');
-INSERT INTO `wla_terms` VALUES ('5', '测试二级栏目1', 'testsecend1', '100');
-INSERT INTO `wla_terms` VALUES ('6', '测试二级栏目2', 'testsecend2', '100');
-INSERT INTO `wla_terms` VALUES ('7', '测试二级栏目3', 'testsecend3', '100');
-INSERT INTO `wla_terms` VALUES ('8', '测试二级栏目4', 'testsecend4', '100');
-INSERT INTO `wla_terms` VALUES ('13', 'php函数定义', 'php函数定义', '100');
-INSERT INTO `wla_terms` VALUES ('14', '测试顶级栏目5', 'testtop5', '100');
-INSERT INTO `wla_terms` VALUES ('15', '测试二级栏目5', 'testsecond5', '100');
-INSERT INTO `wla_terms` VALUES ('16', '测试三级栏目1', 'testthr1', '100');
-INSERT INTO `wla_terms` VALUES ('19', 'Thinkphp教程', 'Thinkphp教程', '100');
-INSERT INTO `wla_terms` VALUES ('18', 'phpmyadmin教程', 'phpmyadmin教程', '100');
-INSERT INTO `wla_terms` VALUES ('20', 'php构造函数', 'php构造函数', '100');
-INSERT INTO `wla_terms` VALUES ('21', 'wordpress教程', 'wordpress教程', '100');
-INSERT INTO `wla_terms` VALUES ('22', 'nodejs', 'nodejs', '100');
-INSERT INTO `wla_terms` VALUES ('23', 'yii2', 'yii2', '100');
-INSERT INTO `wla_terms` VALUES ('24', '温州网站建设', '温州网站建设', '100');
-
--- ----------------------------
--- Table structure for `wla_term_relationships`
--- ----------------------------
-DROP TABLE IF EXISTS `wla_term_relationships`;
-CREATE TABLE `wla_term_relationships` (
-  `object_id` bigint(20) NOT NULL COMMENT '博客ID',
-  `term_taxonomy_id` bigint(20) NOT NULL COMMENT '对应term_taxonomy表中的term_taxonomy_id',
-  PRIMARY KEY (`object_id`,`term_taxonomy_id`),
-  KEY `term_taxonomy_id` (`term_taxonomy_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='关系表，多对多的，object_id是与不同的对象关联。\r\n从这个表可以获得一篇文章与标签、分类之间的关系，object_id为博文的ID，term_taxonomy_id为wp_term_taxonomy表中相应的标签、分类的ID。';
-
--- ----------------------------
--- Records of wla_term_relationships
--- ----------------------------
-
--- ----------------------------
--- Table structure for `wla_term_taxonomy`
--- ----------------------------
-DROP TABLE IF EXISTS `wla_term_taxonomy`;
-CREATE TABLE `wla_term_taxonomy` (
-  `term_taxonomy_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '表自增ID,对应term_relationships表中的term_taxonomy_id',
-  `tid` bigint(20) NOT NULL COMMENT 'terms表中对应的term_id',
-  `taxonomy` varchar(32) NOT NULL COMMENT '类型(0:category;1:tag;)',
-  `description` longtext COMMENT '分类图片描述、标签描述',
-  `parent` bigint(20) NOT NULL DEFAULT '0' COMMENT '父类ID',
-  `count` bigint(20) NOT NULL DEFAULT '0' COMMENT '分类下文章数量、当前标签所拥有文章数量',
-  PRIMARY KEY (`term_taxonomy_id`),
-  UNIQUE KEY `term_id_taxonomy` (`tid`,`taxonomy`) USING BTREE,
-  KEY `taxonomy` (`taxonomy`) USING BTREE,
-  KEY `tid` (`tid`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='对wp_terms中的信息的关系信息补充，有所属类型（category,tag），详细描述，父类，所拥有文章（标签）数量。';
-
--- ----------------------------
--- Records of wla_term_taxonomy
--- ----------------------------
-INSERT INTO `wla_term_taxonomy` VALUES ('1', '1', '0', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('2', '2', '0', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('3', '3', '0', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('4', '4', '0', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('5', '5', '0', '', '1', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('6', '6', '0', '', '1', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('7', '7', '0', '', '3', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('8', '8', '0', '', '4', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('13', '13', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('14', '14', '0', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('15', '15', '0', '', '14', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('16', '16', '0', '', '15', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('19', '19', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('18', '18', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('20', '20', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('21', '21', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('22', '22', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('23', '23', '1', '', '0', '0');
-INSERT INTO `wla_term_taxonomy` VALUES ('24', '24', '1', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('1', '顶级栏目一', 'top1', '1', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('2', '顶级栏目二', 'top2', '2', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('3', '顶级栏目三', 'top3', '3', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('4', '顶级栏目四', 'top4', '4', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('5', '顶级栏目五', 'top5', '5', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('12', '标签一', 'tag1', '100', '1', '', '0', '6');
+INSERT INTO `wla_terms` VALUES ('7', '二级栏目二', 'secend2', '2', '0', '', '1', '0');
+INSERT INTO `wla_terms` VALUES ('8', '二级栏目三', 'secend3', '1', '0', '', '4', '0');
+INSERT INTO `wla_terms` VALUES ('9', '三级栏目一', 'thr1', '1', '0', '', '8', '0');
+INSERT INTO `wla_terms` VALUES ('10', '三级栏目二', 'thr2', '2', '0', '', '8', '0');
+INSERT INTO `wla_terms` VALUES ('11', '三级栏目三', 'thr3', '100', '0', '', '8', '0');
+INSERT INTO `wla_terms` VALUES ('16', '测试一', '测试一', '100', '1', null, '0', '3');
+INSERT INTO `wla_terms` VALUES ('14', '标签三', 'tag3', '100', '1', '', '0', '3');
+INSERT INTO `wla_terms` VALUES ('15', '标签四', 'tag4', '100', '1', '', '0', '3');
+INSERT INTO `wla_terms` VALUES ('17', '新标签测试', '新标签测试', '0', '1', '', '0', '2');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -332,5 +316,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447891880', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1447979162', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

@@ -9,14 +9,23 @@ class ArticlesController extends CommonController
 	//文章列表
 	public function index()
 	{
+		//实例化详情模型
+		$posts = D("Posts");
+		//对用户列表分页显示
+		$page = getpage($posts, "", I("get.onepagenum", C("PAGE_SIZE")));
+		//获取分页标签
+		$this->show = $page->show();
+		//获取分页后的数据
+		$this->posts = $posts->relation(true)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
+		p($this->posts);
 		$this->display();
 	}
 
 	//添加文章
 	public function addArticle()
 	{
-		$model = D("Tags");
-		$category = $model->relation(true)->where(['taxonomy' => 0])->select();
+		$model = D("Terms");
+		$category = $model->where(['taxonomy' => 0])->select();
 		vendor('myClass.Category', "", ".php");
 		$this->category = \Category::unlimitedForLevel($category, "--");
 		$this->property = M("Property")->where(['status' => 1])->select();
@@ -28,11 +37,9 @@ class ArticlesController extends CommonController
 	{
 		$wd = I("post.keyword");
 		//实例化详情模型
-		$tags = D("Terms")->relation(true)->where("name like '%".$wd."%' or slug like '%".$wd."%' ")->select();
+		$tags = D("Terms")->where(['taxonomy' => 1])->where("name like '%".$wd."%' or slug like '%".$wd."%' ")->select();
 		foreach($tags as $v){
-			if ($v['taxonomy'] == "") {
-            	$suggestions[]= array('title' => $v['name'], 'id' => $v['id']);
-            }
+        	$suggestions[]= array('title' => $v['name']);
         }
 		echo json_encode(array('data' => $suggestions));
 	}
@@ -43,16 +50,70 @@ class ArticlesController extends CommonController
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
 		$data = [
 			'post_author' => I("post.post_author", "", "htmlspecialchars"),
-			'create_at' => NOW_TIME,
+			'created_at' => NOW_TIME,
 			'post_title' => I("post.post_title", "", "htmlspecialchars"),
 			'post_type' => I("post.post_type", 0, "intval"),
 			'post_description' => I("post.post_description", "", "htmlspecialchars"),
-			'post_content' => I("post.content", "", "htmlspecialchars"),
+			'post_content' => I("post.post_content", "", "htmlspecialchars"),
 			'post_status' => I("post.status", 0, "intval"),
 			'comment_status' => I("post.comment_status", 0, "intval"),
 			'comment_count' => 0,
 			'click_count' => 0,
 		];
+		if (isset($_POST['tags'])) {
+			//将表单里标签最后一个","去掉并分割成数组
+			$tags = explode(",", rtrim(I("post.tags"), ","));
+			$model = D("Terms")->where(['taxonomy' => 1])->select();
+			//$TagsData(设置要插入标签的数据);$Tids(设置所有添加标签的ID)
+			$TagsData = $Tids = [];
+			//如果还没有标签
+			if (!$model) {
+				foreach ($tags as $k => $v) {
+					$TagsData['name'] = $v;
+					$TagsData['slug'] = $v;
+					$TagsData['sort'] = 0;
+					$TagsData['taxonomy'] = 1;
+					$TagsData['description'] = "";
+					$TagsData['parent'] = 0;
+					$TagsData['count'] = 1;
+					$Tids[] = M("Terms")->data($TagsData)->add();
+				}
+			} else {
+				// 取出所有的标签名
+				$TagsName = array_column($model, 'name');
+				foreach ($tags as $v) {
+					if (in_array($v, $TagsName)){
+						$id = M("Terms")->where(['name' => $v])->getField("id");
+						M("Terms")->where(['id' => $id])->setInc('count');
+						$Tids[] = $id;
+					} else {
+						$TagsData['name'] = $v;
+						$TagsData['slug'] = $v;
+						$TagsData['sort'] = 0;
+						$TagsData['taxonomy'] = 1;
+						$TagsData['description'] = "";
+						$TagsData['parent'] = 0;
+						$TagsData['count'] = 1;
+						$Tids[] = M("Terms")->data($TagsData)->add();
+					}
+				}
+			}
+			foreach ($Tids as $k => $v) {
+				$data['terms'][$k]['id'] = $v;
+			}
+		}
+		if (isset($_POST['property'])){
+			foreach ($_POST['property'] as $v) {
+				$data['property'][]['id'] = $v;
+			}
+		}
+		$data['terms'][]['id'] = I("post.post_category", "", "intval");
+		$result = D("Posts")->relation(true)->add($data);
+		if (!$result) {
+			$this->error("添加失败!", U("index"));
+		} else {
+			$this->success("添加成功!", U("index"));
+		}
 	}
 
 	//属性列表

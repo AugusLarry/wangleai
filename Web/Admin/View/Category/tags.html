@@ -1,6 +1,6 @@
 <extend name="Public:layout"/>
 <block name="seo">
-   <title>分类列表</title>
+   <title>标签列表</title>
    <meta name="keywords" content="">
    <meta name="description" content="">
 </block>
@@ -12,9 +12,9 @@
    <div class="col-md-12">
       <div class="panel panel-default">
          <div class="panel-heading">
-            <h3 class="panel-title">分类列表</h3>
+            <h3 class="panel-title">标签列表</h3>
             <div class="actions pull-right">
-               <a href="{:U('Admin/Category/addTags')}"><i class="fa fa-plus"></i></a>
+               <a href="{:U('Admin/Category/addTag')}"><i class="fa fa-plus"></i></a>
             </div>
          </div>
          <div class="panel-body">
@@ -54,13 +54,13 @@
                		<foreach name="tags" item="v">
                			<tr>
                				<td>{$v.id}</td>
-               				<td>{$v.html}{$v.name}</td>
+               				<td>{$v.name}</td>
                				<td>{$v.slug}</td>
                				<td>{$v.description}</td>
                				<td><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></td>
                				<td>
-               					<a href="{:U('Admin/Category/updateTags', ['id' => $v['id']])}" id="edit" data-toggle="tooltip" data-placement="top" title="" data-original-title="修改"><i class="fa fa-edit"></i></a>
-               					<a href="{:U('Admin/Category/deleteTags', ['id' => $v['id']])}" id="delete" class="delete" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i></a>
+               					<a href="{:U('Admin/Category/updateTag', ['id' => $v['id']])}" id="edit" data-toggle="tooltip" data-placement="top" title="" data-original-title="修改"><i class="fa fa-edit"></i></a>
+               					<a href="{:U('Admin/Category/deleteTag', ['id' => $v['id']])}" id="delete" class="delete" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i></a>
                				</td>
                			</tr>
                		</foreach>

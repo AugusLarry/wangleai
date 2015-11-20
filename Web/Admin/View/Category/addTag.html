@@ -1,6 +1,6 @@
 <extend name="Public:layout"/>
 <block name="seo">
-   <title>修改分类</title>
+   <title>添加标签</title>
    <meta name="keywords" content="">
    <meta name="description" content="">
 </block>
@@ -11,30 +11,31 @@
 <div class="row">
    <div class="col-md-12">
       <div class="panel panel-default">
-         <div class="panel-heading"><h3 class="panel-title">修改分类</h3></div>
+         <div class="panel-heading"><h3 class="panel-title">添加标签</h3></div>
          <div class="panel-body">
-            <form class="form-horizontal form-border" id="addCategofy" action="{:U('Admin/Category/updateTagsForm')}" method="post">
+            <form class="form-horizontal form-border" id="addCategofy" action="{:U('Admin/Category/addTagForm')}" method="post">
                <div class="form-group has-feedback">
-                  <label class="col-sm-3 control-label">分类名称</label>
+                  <label class="col-sm-3 control-label">标签名称</label>
                   <div class="col-sm-6">
-                     <input type="text" class="form-control" name="name" value="{$category.name}">
+                     <input type="text" class="form-control" name="name">
                   </div>
                </div>
                <div class="form-group has-feedback">
-                  <label class="col-sm-3 control-label">分类别名</label>
+                  <label class="col-sm-3 control-label">标签别名</label>
                   <div class="col-sm-6">
-                     <input type="text" class="form-control" name="slug" value="{$category.slug}">
+                     <input type="text" class="form-control" name="slug">
                   </div>
                </div>
                <div class="form-group">
                   <label class="col-sm-3 control-label">图片描述</label>
                   <div class="col-sm-6">
-                     <input type="text" class="form-control" name="description" value="{$category.description}">
+                     <input type="text" class="form-control" name="description">
                   </div>
                </div>
                <div class="form-group">
                   <div class="col-sm-2 col-sm-offset-4">
-                     <input type="hidden" name="id" value="{$category.id}">
+                     <input type="hidden" name="taxonomy" value="1">
+                     <input type="hidden" name="parent" value="0">
                      <input type="submit" class="btn btn-primary btn-block" id="addRule" value="提交">
                   </div>
                </div>
@@ -53,19 +54,12 @@
          checkboxClass: 'icheckbox_flat-grey',
          radioClass: 'iradio_flat-grey'
       });
-      $.validator.addMethod("az", function(value, element, param){
-         if(value>=param[0] && value<=param[1]) {
-            return true;
-         } else {
-            return false;
-         }
-      }, "必须是英文字母!")
       $("#addCategofy").validate({
          errorClass : "help-block",
          errorElement : "p",
          rules : {
             name : {required : true, rangelength : [2, 12]},
-            slug : {required : true, rangelength : [2, 12], az : ["a", "z"]},
+            slug : {required : true, rangelength : [2, 12]},
          },
          highlight : function(element) {
             $(element).closest('.form-group').removeClass('success').addClass('has-error');
