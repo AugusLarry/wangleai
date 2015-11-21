@@ -59,7 +59,7 @@
                				<td>{$v.description}</td>
                				<td>
                            <if condition="$v['count'] neq 0">
-                           <a href="{:U('Admin/Articles/getArticleByTag', ['id' => $v['id']])}"><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></a>
+                           <a href="{:U('Admin/Articles/getArticlesByTag', ['tag_id' => $v['id']])}"><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></a>
                            <else/>
                            <span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span>
                            </if>

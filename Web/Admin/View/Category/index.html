@@ -59,7 +59,13 @@
 	               				<td>{$v.html}{$v.name}</td>
 	               				<td>{$v.slug}</td>
 	               				<td>{$v.description}</td>
-	               				<td><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></td>
+	               				<td>
+                                 <if condition="$v.count eq 0">
+                                 <span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span>
+                                 <else/>
+                                 <a href="{:U('Admin/Comments/getArticlesByCategory', ['category_id' => $v['id']])}"><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></a>
+                                 </if>
+                              </td>
 	               				<td><input type="text" name="{$v.id}" value="{$v.sort}"></td>
 	               				<td>
 	               					<a href="{:U('Admin/Category/addCategory', ['parent' => $v['id']])}" id="add" data-toggle="tooltip" data-placement="top" title="" data-original-title="添加子分类"><i class="fa fa-plus"></i></a>
