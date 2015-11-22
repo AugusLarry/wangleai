@@ -198,13 +198,13 @@ class UserController extends CommonController
 		$this->display();
 	}
 
-	//添加规则
+	//添加权限
 	public function addRule()
 	{
 		$this->display();
 	}
 
-	//添加规则表单
+	//添加权限表单
 	public function addRuleForm()
 	{
 		$rule = D("AuthRule");

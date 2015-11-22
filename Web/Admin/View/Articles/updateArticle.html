@@ -11,6 +11,13 @@
 <block name="content">
 <div class="row">
    <div class="col-md-12">
+      <ul class="breadcrumb">
+         <li><a href="{:U('Admin/Index/index')}">首页</a></li>
+         <li><a href="{:U('Admin/Articles/index')}">文章管理</a></li>
+         <li class="active">编辑文章</li>
+      </ul>
+   </div>
+   <div class="col-md-12">
       <div class="panel panel-default">
          <div class="panel-heading"><h3 class="panel-title">编辑文章</h3></div>
          <div class="panel-body">
@@ -176,7 +183,7 @@
          if (str == "") {
             return false;
          }
-         if ($("#help-block").find("span").text().indexOf(str) < 0) {
+         if ($("#help-block").find("span").text().indexOf(str) <= 0) {
             str = str.replace(/,/gm, "-");
             str += ",";
             $("#help-block").append("<span class='tag'>" + str + "<button type='button' class='close'>×</button>");

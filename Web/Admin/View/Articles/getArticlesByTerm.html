@@ -12,29 +12,13 @@
    <div class="col-md-12">
       <ul class="breadcrumb">
          <li><a href="{:U('Admin/Index/index')}">首页</a></li>
-         <li class="active">
-         <?php
-            if (strtolower(ACTION_NAME) == 'index') {
-               echo "文章管理";
-            } else {
-               echo "回收站";
-            }
-         ?>
-         </li>
+         <li class="active">分类管理</li>
       </ul>
    </div>
    <div class="col-md-12">
       <div class="panel panel-default">
          <div class="panel-heading">
-            <h3 class="panel-title">
-            <?php
-            if (strtolower(ACTION_NAME) == 'index') {
-               echo "文章列表　/　<a href='" . U('trash') . "'>回收站</a>";
-            } else {
-               echo "回收站　/　<a href='" . U('index') . "'>文章列表　</a>";
-            }
-            ?>
-            </h3>
+            <h3 class="panel-title">文章列表</h3>
             <div class="actions pull-right">
                <a href="{:U('Admin/Articles/addArticle')}"><i class="fa fa-plus"></i></a>
             </div>
@@ -87,7 +71,6 @@
                                     <a href="{:U('Admin/Articles/release', ['id' => $v['id']])}" id="release" class="release">发布</a>
                                  <else/>
                                     <a href="{:U('Admin/Articles/repeal', ['id' => $v['id']])}" id="repeal" class="repeal">撤销</a>
-                                    <a href="{:U('Admin/Articles/deleteArticle', ['id' => $v['id']])}" id="deleteArticle" class="deleteArticle">删除</a>
                                  </if>
                                  <a href="{:U('Admin/Articles/closeComment', ['id' => $v['id']])}">关闭评论</a>
                               </div>
@@ -163,7 +146,7 @@
             $(this).find("div.show").removeClass("show").addClass("hidden");
          })
       })
-      $(".repeal, .addtrash, .deleteArticle").click(function(){
+      $(".repeal, .addtrash").click(function(){
          if (!confirm("确定要" + $(this).html() + "吗?")) {
             return false;
          } else {

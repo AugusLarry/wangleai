@@ -1,14 +1,17 @@
 <!--菜单开始-->
 <aside class="sidebar">
    <div id="leftside-navigation" class="nano">
-      <ul class="nano-content">
-         <li class="active"><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i><span>首页</span></a></li>
+      <ul class="nano-content" id="home_nav">
+         <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i><span>首页</span></a></li>
          <li class="sub-menu">
             <a href="javascript:void(0);"><i class="fa fa-book"></i><span>文章管理</span><i class="arrow fa fa-angle-right pull-right"></i></a>
             <ul>
                <li><a href="{:U('Admin/Articles/index')}">文章列表</a></li>
                <li><a href="{:U('Admin/Articles/addArticle')}">写文章</a></li>
+               <li><a href="{:U('Admin/Articles/trash')}">垃圾箱</a></li>
+               <li><a href="{:U('Admin/Articles/comments')}">评论列表</a></li>
                <li><a href="{:U('Admin/Articles/property')}">属性列表</a></li>
+               <li><a href="{:U('Admin/Articles/addProperty')}">添加属性</a></li>
             </ul>
          </li>
          <li class="sub-menu">
@@ -17,6 +20,7 @@
                <li><a href="{:U('Admin/Category/index')}">分类列表</a></li>
                <li><a href="{:U('Admin/Category/addCategory')}">添加分类</a></li>
                <li><a href="{:U('Admin/Category/tags')}">标签列表</a></li>
+               <li><a href="{:U('Admin/Category/addTag')}">添加标签</a></li>
             </ul>
          </li>
          <li class="sub-menu">
@@ -25,7 +29,9 @@
                <li><a href="{:U('Admin/User/index')}">用户列表</a></li>
                <li><a href="{:U('Admin/User/addUser')}">添加用户</a></li>
                <li><a href="{:U('Admin/User/group')}">角色列表</a></li>
+               <li><a href="{:U('Admin/User/addGroup')}">添加角色</a></li>
                <li><a href="{:U('Admin/User/rule')}">规则列表</a></li>
+               <li><a href="{:U('Admin/User/addRule')}">添加规则</a></li>
             </ul>
          </li>
          <li class="sub-menu">

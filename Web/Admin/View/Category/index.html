@@ -10,6 +10,12 @@
 <block name="content">
 <div class="row">
    <div class="col-md-12">
+      <ul class="breadcrumb">
+         <li><a href="{:U('Admin/Index/index')}">首页</a></li>
+         <li class="active">分类管理</li>
+      </ul>
+   </div>
+   <div class="col-md-12">
       <div class="panel panel-default">
          <div class="panel-heading">
             <h3 class="panel-title">分类列表</h3>
@@ -60,10 +66,10 @@
 	               				<td>{$v.slug}</td>
 	               				<td>{$v.description}</td>
 	               				<td>
-                                 <if condition="$v.count eq 0">
-                                 <span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span>
+                                 <if condition="$v.term_count eq 0">
+                                 <span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.term_count}文章">{$v.term_count}</span>
                                  <else/>
-                                 <a href="{:U('Admin/Comments/getArticlesByCategory', ['category_id' => $v['id']])}"><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.count}文章">{$v.count}</span></a>
+                                 <a href="{:U('Admin/Articles/getArticlesByTerm', ['term_id' => $v['id']])}"><span class="label label-info inbox-notification" id="count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.term_count}文章">{$v.term_count}</span></a>
                                  </if>
                               </td>
 	               				<td><input type="text" name="{$v.id}" value="{$v.sort}"></td>

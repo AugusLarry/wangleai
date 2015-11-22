@@ -51,6 +51,24 @@
 <script src="__PUBLIC__/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="__PUBLIC__/plugins/waypoints/waypoints.min.js"></script>
 <script src="__PUBLIC__/js/application.js"></script>
+<script type="text/javascript">
+   function setHover()
+   {
+      var url = document.URL;
+      var href = "";
+      $("#home_nav li").each(function(){
+         href = $(this).find("a").attr("href");
+         if (url.search(href) != -1) {
+            $(this).addClass("active");
+            $(this).parents("li").addClass("active");
+            return false;
+         }
+      });
+   }
+   $(function(){
+      setHover();
+   })
+</script>
 <block name="js">js</block>
 </body>
 </html>

@@ -11,13 +11,15 @@ class ArticlesController extends CommonController
 	{
 		//实例化详情模型
 		$posts = D("Posts");
-		//对用户列表分页显示
-		$page = getpage($posts, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$where = [
+			'post_status' => ['neq', 2]
+		];
+		//对文章列表分页显示
+		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
 		$this->show = $page->show();
 		//获取分页后的数据
-		$posts = $posts->relation(true)->where('post_status<>2')->order('id')->limit($page->firstRow.','.$page->listRows)->select();
-		// p($posts);
+		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
 			foreach ($val['terms'] as $k => $v) {
 				if ($v['taxonomy'] == 0) {
@@ -25,13 +27,17 @@ class ArticlesController extends CommonController
 					$posts[$key]['category'][0]['name'] = $v['name'];
 				}
 				if ($v['taxonomy'] == 1) {
-					$posts[$key]['tags'][] = $v['name'];
+					$posts[$key]['tags'][] = [
+						'id' => $v['id'],
+						'name' => $v['name']
+					];
 				}
 			}
 			unset($posts[$key]['terms']);
 			unset($posts[$key]['property']);
 		}
 		$this->posts = $posts;
+		// p($this->posts);die;
 		$this->display();
 	}
 
@@ -70,12 +76,11 @@ class ArticlesController extends CommonController
 			'post_type' => I("post.post_type", 0, "intval"),
 			'post_description' => I("post.post_description", "", "htmlspecialchars"),
 			'post_content' => I("post.post_content", "", "htmlspecialchars"),
-			'post_status' => I("post.status", 0, "intval"),
+			'post_status' => I("post.post_status", 0, "intval"),
 			'comment_status' => I("post.comment_status", 0, "intval"),
 			'comment_count' => 0,
 			'click_count' => 0,
 		];
-		p($_POST);die;
 		//如果存在标签
 		if (isset($_POST['tags'])) {
 			//将表单里标签最后一个","去掉并分割成数组
@@ -198,7 +203,7 @@ class ArticlesController extends CommonController
 			'post_type' => I("post.post_type", 0, "intval"),
 			'post_description' => I("post.post_description", "", "htmlspecialchars"),
 			'post_content' => I("post.post_content", "", "htmlspecialchars"),
-			'post_status' => I("post.status", 0, "intval"),
+			'post_status' => I("post.post_status", 0, "intval"),
 			'comment_status' => I("post.comment_status", 0, "intval"),
 			'comment_count' => $comment_count,
 			'click_count' => $click_count,
@@ -242,10 +247,10 @@ class ArticlesController extends CommonController
 				}
 				//循环之前的标签
 				foreach ($old_terms as $v) {
-					if (!in_array($v['name'], $tags)) {//如果之前的标签名不在新提交的标签名里,则将之前的标签count减一
-						if (M("Terms")->where(['id' => $v['id']])->getField("term_count") > 0) {
-							M("Terms")->where(['id' => $v['id']])->setDec("term_count");
-						}
+					//将之前的标签count减一
+					$old_terms_count = M("Terms")->where(['id' => $v['id']])->getField("term_count");
+					if ($old_terms_count > 0) {
+						M("Terms")->where(['id' => $v['id']])->setDec("term_count");
 					}
 				}
 				foreach ($tags as $v) {//循环表单提交过来的标签名
@@ -253,7 +258,7 @@ class ArticlesController extends CommonController
 						$id = M("Terms")->where(['name' => $v])->getField("id");
 						M("Terms")->where(['id' => $id])->setInc('term_count');
 						$Tids[] = $id;
-					} else {//如果该标签不存在,组合该标签数据并插入Terms表
+					} else {//如果该标签不存在标签表里,组合该标签数据并插入Terms表
 						$TagsData['name'] = $v;
 						$TagsData['slug'] = $v;
 						$TagsData['sort'] = 0;
@@ -274,12 +279,33 @@ class ArticlesController extends CommonController
 			foreach ($Tids as $k => $v) {
 				$data['terms'][$k]['id'] = $v;
 			}
+		} else {//如果不存在标签
+			//取出之前的标签
+			$old_post = D("Posts")->relation("terms")->where(['id' => I("post.id")])->find();
+			$old_terms = $old_post['terms'];
+			//删除数组中的分类
+			foreach ($old_terms as $k => $v) {
+				if ($v['taxonomy'] == 0) {
+					unset($old_terms[$k]);
+				}
+			}
+			if (!empty($old_terms)) {
+				foreach ($old_terms as $value) {
+					M("Terms")->where(['id' => $value['id']])->setDec("term_count");
+				}
+			}
 		}
 		//如果存在属性
 		if (isset($_POST['property'])){
 			foreach ($_POST['property'] as $v) {
 				//这里组合方式跟上面terms一样
 				$data['property'][]['id'] = $v;
+			}
+		} else {
+			$old_property = D("Posts")->relation("property")->where(['id' => I("post.id")])->find();
+			$old_property = $old_property['property'];
+			if (!empty($old_property)) {
+				M("PostProperty")->where(['post_id' => I("post.id")])->delete();
 			}
 		}
 		//表单提交过来的分类ID
@@ -349,6 +375,139 @@ class ArticlesController extends CommonController
 		} else {
 			$property->save(I("post."));
 			$this->success("修改成功!", U("property"));
+		}
+	}
+
+	//根据分类/标签获取文章列表
+	public function getArticlesByTerm()
+	{
+		if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("Admin/Category/index"));
+		$articles_id = implode(",", array_column(M("PostTerm")->where(['term_id' => I("get.term_id")])->select(), "post_id"));
+		if (!$articles_id) $this->error("访问出错!", U("Admin/Category/index"));
+		$posts = D("Posts");
+		$where = [
+			'id' => ['in', $articles_id],
+		];
+		//对文章列表分页显示
+		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
+		//获取分页标签
+		$this->show = $page->show();
+		//获取分页后的数据
+		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
+		foreach ($posts as $key => $val) {
+			foreach ($val['terms'] as $k => $v) {
+				if ($v['taxonomy'] == 0) {
+					$posts[$key]['category'][0]['id'] = $v['id'];
+					$posts[$key]['category'][0]['name'] = $v['name'];
+				}
+				if ($v['taxonomy'] == 1) {
+					$posts[$key]['tags'][] = [
+						'id' => $v['id'],
+						'name' => $v['name']
+					];
+				}
+			}
+			unset($posts[$key]['terms']);
+			unset($posts[$key]['property']);
+		}
+		$this->posts = $posts;
+		$this->display("getArticlesByTerm");
+	}
+
+	//垃圾箱
+	public function trash()
+	{
+		//实例化详情模型
+		$posts = D("Posts");
+		$where = [
+			'post_status' => ['eq', 2]
+		];
+		//对文章列表分页显示
+		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
+		//获取分页标签
+		$this->show = $page->show();
+		//获取分页后的数据
+		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
+		foreach ($posts as $key => $val) {
+			foreach ($val['terms'] as $k => $v) {
+				if ($v['taxonomy'] == 0) {
+					$posts[$key]['category'][0]['id'] = $v['id'];
+					$posts[$key]['category'][0]['name'] = $v['name'];
+				}
+				if ($v['taxonomy'] == 1) {
+					$posts[$key]['tags'][] = [
+						'id' => $v['id'],
+						'name' => $v['name']
+					];
+				}
+			}
+			unset($posts[$key]['terms']);
+			unset($posts[$key]['property']);
+		}
+		$this->posts = $posts;
+		$this->display("index");
+	}
+
+	//扔到垃圾箱
+	public function addtrash()
+	{
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Category/index"));
+		$model = M("Posts");
+		$post = $model->where(['id' => I("get.id")])->find();
+		if (!$post) $this->error("访问出错!", U("index"));
+		$result = $model->where(['id' => I("get.id")])->setField(["post_status" => 2]);
+		if (!result) {
+			$this->error("没有扔到垃圾箱,请稍后再试!", U("index"));
+		} else {
+			$this->success("成功扔到垃圾箱!", U("trash"));
+		}
+	}
+
+	//撤销
+	public function repeal()
+	{
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Category/index"));
+		$model = M("Posts");
+		$post = $model->where(['id' => I("get.id")])->find();
+		if (!$post) $this->error("访问出错!", U("index"));
+		$result = $model->where(['id' => I("get.id")])->setField(["post_status" => 0]);
+		if (!result) {
+			$this->error("撤销失败,请稍后再试!", U("index"));
+		} else {
+			$this->success("撤销成功!", U("trash"));
+		}
+	}
+
+	//发布
+	public function release()
+	{
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Category/index"));
+		$model = M("Posts");
+		$post = $model->where(['id' => I("get.id")])->find();
+		if (!$post) $this->error("访问出错!", U("index"));
+		$result = $model->where(['id' => I("get.id")])->setField(["post_status" => 0]);
+		if (!result) {
+			$this->error("发布失败,请稍后再试!", U("index"));
+		} else {
+			$this->success("发布成功!", U("index"));
+		}
+	}
+
+	//删除
+	public function deleteArticle()
+	{
+		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Category/index"));
+		$post = M("Posts")->where(['id' => I("get.id")])->find();
+		if (!$post) $this->error("访问出错!", U("index"));
+		$terms_id = array_column(M("PostTerm")->where(['post_id' => I("get.id")])->select(), "term_id");
+		$result = D("Posts")->relation(true)->delete(I("get.id"));
+		if (!$result) {
+			$this->error("删除失败,请稍后再试!", U("trash"));
+		} else {
+			foreach ($terms_id as $value) {
+				M("Terms")->where(['id' => $value])->setDec("term_count");
+			}
+			$this->success("删除成功!", U("index"));
 		}
 	}
 }

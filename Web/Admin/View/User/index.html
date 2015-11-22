@@ -10,6 +10,12 @@
 <block name="content">
 <div class="row">
    <div class="col-md-12">
+      <ul class="breadcrumb">
+         <li><a href="{:U('Admin/Index/index')}">首页</a></li>
+         <li class="active">用户管理</li>
+      </ul>
+   </div>
+   <div class="col-md-12">
       <div class="panel panel-default">
          <div class="panel-heading">
             <h3 class="panel-title">用户列表</h3>
@@ -59,7 +65,13 @@
                            <td>{$v.email}</td>
                            <td>{$v.updated_at|date="Y-m-d H:i:s", ###}</td>
                            <td>{$v.login_ip}</td>
-                           <td>{$v.status}</td>
+                           <td>
+                              <if condition="$v.status eq 10">
+                              开启
+                              <else/>
+                              锁定
+                              </if>
+                           </td>
                            <td><a href="{:U('Admin/User/details', ['id' => $v['id']])}">详细</a></td>
                         </tr>
                      </foreach>

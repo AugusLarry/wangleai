@@ -155,8 +155,11 @@ class CategoryController extends CommonController
 		$category = $model->where(['id' => I("get.id")])->find();
 		if (!$category) $this->error("访问出错!", U("index"));
 		$parent = $model->where(['parent' => I("get.id")])->find();
+		$articles = M("PostTerm")->where(['term_id' => I("get.id")])->select();
 		if ($parent) {
 			$this->error("该分类下还有子分类,请先删除子分类再试!", U("index"));
+		} elseif ($articles) {
+			$this->error("该分类下还有文章,请先删除文章或移动到另一个分类再试!", U("index"));
 		} else {
 			$result = $model->where(['id' => I("get.id")])->delete();
 			if (!$result) {
@@ -173,6 +176,10 @@ class CategoryController extends CommonController
 		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
 		$tag = M("Terms")->where(['id' => I("get.id")])->find();
 		if (!$tag) $this->error("访问出错!", U("index"));
+		$articles = M("PostTerm")->where(['term_id' => I("get.id")])->select();
+		if ($articles) {
+			$this->error("已有文章使用该标签,请先删除该文章里的本标签再试!", U("index"));
+		}
 		$result = M("Terms")->where(['id' => I("get.id")])->delete();
 		if (!$result) {
 			$this->error("删除失败!请稍后再试!", U("tags"));
