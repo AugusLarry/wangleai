@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-22 16:29:01
+Date: 2015-11-24 17:06:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -140,7 +140,7 @@ CREATE TABLE `wla_comments` (
   `comment_author_ip` varchar(15) NOT NULL COMMENT '评论者IP',
   `created_at` int(11) NOT NULL COMMENT '评论时间',
   `comment_content` text NOT NULL COMMENT '评论内容',
-  `comment_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '评论状态(0:审核;1:正常;2:垃圾;)',
+  `comment_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '评论状态(0:审核;1:正常;2:垃圾;3:回收站)',
   `comment_agent` varchar(255) NOT NULL COMMENT '评论者浏览器信息',
   `comment_parent` bigint(20) NOT NULL DEFAULT '0' COMMENT '父评论ID',
   `user_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '评论用户ID',
@@ -261,10 +261,10 @@ INSERT INTO `wla_terms` VALUES ('3', '顶级栏目三', 'top3', '3', '0', '', '0
 INSERT INTO `wla_terms` VALUES ('4', '顶级栏目四', 'top4', '4', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('5', '顶级栏目五', 'top5', '5', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('7', '二级栏目二', 'secend2', '2', '0', '', '1', '0');
-INSERT INTO `wla_terms` VALUES ('8', '二级栏目三', 'secend3', '1', '0', '', '4', '0');
-INSERT INTO `wla_terms` VALUES ('9', '三级栏目一', 'thr1', '1', '0', '', '8', '0');
-INSERT INTO `wla_terms` VALUES ('10', '三级栏目二', 'thr2', '2', '0', '', '8', '0');
-INSERT INTO `wla_terms` VALUES ('11', '三级栏目三', 'thr3', '100', '0', '', '8', '0');
+INSERT INTO `wla_terms` VALUES ('8', '二级栏目三', 'secend3', '1', '0', '', '2', '0');
+INSERT INTO `wla_terms` VALUES ('9', '二级栏目四', 'secend4', '1', '0', '', '2', '0');
+INSERT INTO `wla_terms` VALUES ('10', '二级栏目五', 'secend5', '2', '0', '', '3', '0');
+INSERT INTO `wla_terms` VALUES ('11', '二级栏目六', 'secend6', '100', '0', '', '4', '0');
 INSERT INTO `wla_terms` VALUES ('12', 'PHP', 'PHP', '0', '1', '', '0', '1');
 
 -- ----------------------------
@@ -294,5 +294,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448151168', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448324995', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

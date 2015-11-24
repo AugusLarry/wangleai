@@ -1,4 +1,4 @@
 <?php
 return array(
-	//'配置项'=>'配置值'
+	'TAGLIB_BUILD_IN' => 'Cx,Index\TagLib\Wla'
 );

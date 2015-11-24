@@ -14,4 +14,16 @@ class Category
 		}
 		return $arr;
 	}
+
+	public static function unlimitedForLayer($cate, $parent = 0)
+	{
+		$arr = [];
+		foreach ($cate as $v) {
+			if ($v['parent'] == $parent) {
+				$v['child'] = self::unlimitedForLayer($cate, $v['id']);
+				$arr[] = $v;
+			}
+		}
+		return $arr;
+	}
 }
