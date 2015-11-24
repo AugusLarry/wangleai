@@ -44,3 +44,18 @@ function getpage(&$m, $where, $pagesize = 10) {
     $m->limit($p->firstRow,$p->listRows);
     return $page;
 }
+
+function getPageForIndex(&$m, $where, $pagesize = 10) {
+    $m1=clone $m;//浅复制一个模型
+    $count = $m->where($where)->count();//连惯操作后会对join等操作进行重置
+    $m = $m1;//为保持在为定的连惯操作，浅复制一个模型
+    $page=new Think\Page($count,$pagesize);
+    $page->setConfig('prev', "<i class='fa fa-angle-left' title='上一页'></i>");
+    $page->setConfig('next', "<i class='fa fa-angle-right' title='下一页'></i>");
+    $page->setConfig('last', "<i class='fa fa-angle-double-right' title='最后一页'></i>");
+    $page->setConfig('first', "<i class='fa fa-angle-double-left' title='首页'></i>");
+    $page->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%');
+    $page->parameter=I('get.');
+    $m->limit($p->firstRow,$p->listRows);
+    return $page;
+}

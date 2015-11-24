@@ -98,10 +98,9 @@ pre, code {
     display: block;
 }
 pre {
-    margin: 2em 0;
     overflow:auto;
     background: none;
-    border: 1px solid #ddd;
+    margin: 0;
 }
 blockquote,.stressed {
     -moz-box-sizing: border-box;
@@ -338,6 +337,7 @@ textarea {
 }
 .post-title a {
     color:#666;
+    text-shadow :0px 4px 4px rgba(0, 0, 0, 0.176);
 }
 .post-title a:hover{
     color: #444;
@@ -873,6 +873,37 @@ background-size: auto 100%;
 }
 .link-back2top a:hover {
     background-color: #C62627;
+}
+.pagination {
+    display: block;
+    padding-left: 0px;
+    margin: 20px auto;
+    text-align: center;
+}
+.pagination > li {
+    display: inline-block;
+}
+.pagination > li > a {
+    position: relative;
+    float: left;
+    padding: 6px;
+    line-height: 1.42857;
+    text-decoration: none;
+    margin-left: -1px;
+}
+.pagination > li > a > i {
+    padding: 0 5px;
+    font-size: 18px;
+}
+.pagination > .disabled > a {
+    color: #999;
+    cursor: not-allowed;
+}
+.pagination > .active > a {
+    z-index: 2;
+    color: #fff;
+    cursor: default;
+    background: #999;
 }
  @media print, screen and (max-width:1290px) {
     .container {

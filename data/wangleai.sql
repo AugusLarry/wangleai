@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-11-24 17:06:29
+Date: 2015-11-24 23:11:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -178,7 +178,7 @@ CREATE TABLE `wla_posts` (
 -- ----------------------------
 -- Records of wla_posts
 -- ----------------------------
-INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448175784', 'PHP函数定义', '0', 'PHP函数定义', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;this&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448175784', 'PHP函数定义', '0', 'PHP函数定义', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;this&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '0', '0', '0', '1');
 
 -- ----------------------------
 -- Table structure for `wla_post_property`
@@ -294,5 +294,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448324995', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448374396', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

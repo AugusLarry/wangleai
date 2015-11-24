@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Common\Controller\CommonController;
+use Admin\Controller\CommonController;
 /**
  * 系统设置控制器
  */

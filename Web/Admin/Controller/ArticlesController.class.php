@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Common\Controller\CommonController;
+use Admin\Controller\CommonController;
 /**
  * 文章控制器
  */

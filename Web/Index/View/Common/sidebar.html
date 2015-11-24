@@ -1,10 +1,31 @@
 <!-- sidebar开始 -->
 <div id="secondary">
 	<div class="sidebar">
+		<!-- 最新文章 -->
 		<section class="widget">
 			<div class="widget-title">最新文章</div>
 			<ul class="widget-list widget-list2">
-				<li><h3><a href="">测试文章</a></h3></li>
+				<news field="id,created_at as time,post_title as title" order="created_at" limit="5">
+					<li><h3><a href="{:U('/Index/c_' . $id)}" title="{$title}" target="_blank">{$title}<span class="pull-right">&nbsp;{$time|date="Y-m-d", ###}</i></span></a></h3></li>
+				</news>
+			</ul>
+		</section>
+		<!-- 最热文章 -->
+		<section class="widget">
+			<div class="widget-title">最热文章</div>
+			<ul class="widget-list widget-list2">
+				<news field="id,click_count as count,post_title as title" order="click_count" limit="5">
+					<li><h3><a href="{:U('/Index/c_' . $id)}" title="{$title}" target="_blank">{$title}<span class="pull-right"><i class="fa fa-eye">&nbsp;{$count}</i></span></a></h3></li>
+				</news>
+			</ul>
+		</section>
+		<!-- 最多评论文章 -->
+		<section class="widget">
+			<div class="widget-title">最多评论文章</div>
+			<ul class="widget-list widget-list2">
+				<news field="id,comment_count as count,post_title as title" order="click_count" limit="5">
+					<li><h3><a href="{:U('/Index/c_' . $id)}" title="{$title}" target="_blank">{$title}<span class="pull-right"><i class="fa fa-comment-o">&nbsp;{$count}</i></span></a></h3></li>
+				</news>
 			</ul>
 		</section>
 		<section class="widget">
@@ -14,25 +35,10 @@
 			</form>
 		</section>
 		<section class="widget">
-			<h3 class="widget-title">分类</h3>
-			<ul class="widget-list widget-list2">
-				<li><h3><a href=""></a></h3></li>
-			</ul>
-		</section>
-		<section class="widget">
-			<div class="widget-title">归档</div>
-			<ul class="widget-list widget-list2">
-				<li><h3><a href=""></a></h3></li>
-			</ul>
-		</section>
-		<section class="widget">
 			<div class="widget-title">其它</div>
 			<ul class="widget-list widget-list2">
 				<li class="last"><h3><a href="">进入后台</a></h3></li>
 				<li><h3><a href="">退出</a></h3></li>
-				<li><h3><a href="">文章 RSS</a></h3></li>
-				<li><h3><a href="">评论 RSS</a></h3></li>
-				<li><h3><a href="http://www.typecho.org">Typecho</a></h3></li>
 			</ul>
 		</section>
 	</div>

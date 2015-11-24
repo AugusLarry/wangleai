@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Common\Controller\CommonController;
+use Admin\Controller\CommonController;
 
 /**
  * 后台首页控制器

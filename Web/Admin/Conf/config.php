@@ -20,6 +20,5 @@ return [
 		'AUTH_USER'         => 'wla_user', // 用户信息表
 		'NOT_AUTH'			=> ['admin/index/index', 'admin/index/logout'],
     ],
-    'SHOW_PAGE_TRACE' =>true,
-    'URL_MODEL'       =>  2,
+    'SHOW_PAGE_TRACE' => true,
 ];

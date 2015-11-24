@@ -8,18 +8,31 @@
 <block name="content">
 <div class="col-8" id="main">
 	<div class="res-cons">
-		<article class="post">				
-			<date class="post-meta">2015-12-11</date>
-			<header>
-				<h2 class="post-title">
-					<a href="">测试文章</a>
-				</h2>
-			</header>
-			<div class="post-content">
-				测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章测试文章
-				<p class="more"><a href="">- 阅读剩余部分 -</a></p>
-			</div>
-		</article>
+		<foreach name="posts" item="v">
+			<article class="post">
+				<date class="post-meta">
+					<?php foreach ($v['category'] as $value) {
+						echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
+					}?>
+					<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>
+					<a href="{:U('/Index/' . $value['id'] . '#comment')}" title="评论数"><i class="fa fa-comment-o">&nbsp;{$v.comment_count}&nbsp;&nbsp;</i></a>
+					<i class="fa fa-eye" title="点击数">&nbsp;{$v.click_count}&nbsp;&nbsp;</i>
+					<?php foreach ($v['tags'] as $value) {
+						echo '<a href="' . U("/Index/t_" . $value['id']) . '"><i class="fa fa-tags">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>/';
+					}?>
+				</date>
+				<header>
+					<h2 class="post-title">
+						<a href="{:U('/Index/' . $v['id'])}" title="{$v.post_title}">{$v.post_title}</a>
+					</h2>
+				</header>
+				<div class="post-content">
+					{$v.post_content|htmlspecialchars_decode}
+					<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读剩余部分 -</a></p>
+				</div>
+			</article>
+		</foreach>
+		{$show}
 	</div>
 </div>
 </block>
