@@ -5,6 +5,7 @@ return array(
 	'URL_ROUTE_RULES' => [
 		'/^c_(\d+)$/' => ['List/index?id=:1'],
 		'/^t_(\d+)$/' => ['Tags/index?id=:1'],
+		's' => ['Search/index'],
 		':id\d' => ['Show/index'],
 	],
 );

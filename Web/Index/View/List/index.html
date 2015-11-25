@@ -7,6 +7,7 @@
 <block name="css"></block>
 <block name="content">
 <div class="col-8" id="main">
+	<crumbs level="list" />
 	<div class="res-cons">
 		<foreach name="posts" item="v">
 			<article class="post">
@@ -27,7 +28,7 @@
 					</h2>
 				</header>
 				<div class="post-content">
-					{$v.post_content|htmlspecialchars_decode}
+					{$v.post_description|htmlspecialchars_decode}
 					<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读剩余部分 -</a></p>
 				</div>
 			</article>
@@ -36,4 +37,20 @@
 	</div>
 </div>
 </block>
-<block name="js"></block>
+<block name="js">
+<script type="text/javascript">
+	var id = "{$_GET['id']}";
+	$(".nav li").each(function(){
+		href = $(this).children("a").attr("href");
+		if (href.search(id) != -1) {
+			if ($(this).attr("role") == "navigation") {
+				$(this).addClass("current");
+				return false;
+			} else {
+				$(this).parents("li").addClass("current");
+				return false;
+			}
+		}
+	})
+</script>
+</block>

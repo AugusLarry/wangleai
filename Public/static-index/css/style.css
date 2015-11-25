@@ -326,7 +326,9 @@ textarea {
     margin: 0 auto;
 }
 .post {
-    padding:36px 0 0;
+    padding:20px 20px;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
 }
 .post-title {
     margin:0;
@@ -341,6 +343,9 @@ textarea {
 }
 .post-title a:hover{
     color: #444;
+}
+.post-title a span {
+    color: red;
 }
 .post-meta {
     padding:0;
@@ -371,7 +376,7 @@ textarea {
     border: 1px solid #ddd;
 }
 .post-content p {
-    margin:0 0 1.234em;
+    margin:0;
 }
 .post-content img {
     padding:1em 0;
@@ -386,6 +391,9 @@ textarea {
 }
 .post-content ul li{
     text-indent: .5em;
+}
+.post-content span.des {
+    color: red;
 }
 .post-footer {
     position: relative;
@@ -904,6 +912,7 @@ background-size: auto 100%;
     color: #fff;
     cursor: default;
     background: #999;
+    padding: 6px 10px;
 }
  @media print, screen and (max-width:1290px) {
     .container {

@@ -10,7 +10,7 @@
 			<div>
 				<nav id="nav-menu" class="clearfix">
 					<ul class="nav nav-pills">
-						<li role="navigation" class="current"><a href="__MODULE__">首页</a></li>
+						<li role="navigation" <if condition="CONTROLLER_NAME eq 'Index'">class="current"</if>><a href="__MODULE__">首页</a></li>
 						<navigation limit="10" order="sort">
 							<li role="navigation">
 								<a href="{$url}">{$name}</a>

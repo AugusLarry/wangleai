@@ -1,0 +1,25 @@
+<extend name="Common:layout"/>
+<block name="seo">
+   <title>搜索页</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+</block>
+<block name="css"></block>
+<block name="content">
+<div class="col-8" id="main">
+	<div class="res-nav"><p>{$keyword}搜索结果:</p></div>
+	<div class="res-cons">
+		<foreach name="posts" item="v">
+			<article class="post">
+				<header>
+					<h2 class="post-title">
+						<a href="{:U('/Index/' . $v['id'])}" title="{$v.post_title}">{$v.post_title|str_ireplace="$keyword","<span>$keyword</span>",###}</a>
+					</h2>
+				</header>
+			</article>
+		</foreach>
+		{$show}
+	</div>
+</div>
+</block>
+<block name="js"></block>

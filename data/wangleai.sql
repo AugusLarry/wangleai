@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50540
+Source Server Version : 50617
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50540
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-24 23:11:42
+Date: 2015-11-25 16:59:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -173,12 +173,14 @@ CREATE TABLE `wla_posts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`) USING BTREE,
   KEY `post_author` (`post_author`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='文章表';
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='文章表';
 
 -- ----------------------------
 -- Records of wla_posts
 -- ----------------------------
-INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448175784', 'PHP函数定义', '0', 'PHP函数定义', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;this&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '0', '0', '0', '1');
+INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448175784', 'PHP函数定义', '0', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction test(){\r\n    echo &amp;quot;this is a test function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;this&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '0', '0', '0', '1');
+INSERT INTO `wla_posts` VALUES ('2', '测试账号001', '1448429812', 'javascript函数定义', '0', '&lt;pre class=&quot;brush:js;toolbar:false&quot;&gt;&amp;lt;script&amp;gt;\r\nfunction test() {\r\n    alert(&amp;quot;1&amp;quot;);\r\n}\r\n&amp;lt;/script&amp;gt;\r\ntest();&lt;/pre&gt;', '&lt;pre class=&quot;brush:js;toolbar:false&quot;&gt;&amp;lt;script&amp;gt;\r\nfunction&amp;nbsp;test()&amp;nbsp;{\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;alert(&amp;quot;1&amp;quot;);\r\n}\r\n&amp;lt;/script&amp;gt;\r\ntest();&lt;/pre&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('3', '测试账号001', '1448431217', 'c++函数定义', '0', '&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;int fun( char *s )\r\n{\r\n    return atoi(s);\r\n}&lt;/pre&gt;', '&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;int&amp;nbsp;fun(&amp;nbsp;char&amp;nbsp;*s&amp;nbsp;)\r\n{\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;return&amp;nbsp;atoi(s);\r\n}&lt;/pre&gt;', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_post_property`
@@ -197,6 +199,12 @@ CREATE TABLE `wla_post_property` (
 INSERT INTO `wla_post_property` VALUES ('1', '3');
 INSERT INTO `wla_post_property` VALUES ('1', '2');
 INSERT INTO `wla_post_property` VALUES ('1', '1');
+INSERT INTO `wla_post_property` VALUES ('2', '3');
+INSERT INTO `wla_post_property` VALUES ('2', '2');
+INSERT INTO `wla_post_property` VALUES ('2', '1');
+INSERT INTO `wla_post_property` VALUES ('3', '1');
+INSERT INTO `wla_post_property` VALUES ('3', '2');
+INSERT INTO `wla_post_property` VALUES ('3', '3');
 
 -- ----------------------------
 -- Table structure for `wla_post_term`
@@ -214,6 +222,10 @@ CREATE TABLE `wla_post_term` (
 -- ----------------------------
 INSERT INTO `wla_post_term` VALUES ('1', '12');
 INSERT INTO `wla_post_term` VALUES ('1', '1');
+INSERT INTO `wla_post_term` VALUES ('2', '13');
+INSERT INTO `wla_post_term` VALUES ('2', '1');
+INSERT INTO `wla_post_term` VALUES ('3', '8');
+INSERT INTO `wla_post_term` VALUES ('3', '14');
 
 -- ----------------------------
 -- Table structure for `wla_property`
@@ -250,22 +262,24 @@ CREATE TABLE `wla_terms` (
   UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
 -- ----------------------------
-INSERT INTO `wla_terms` VALUES ('1', '顶级栏目一', 'top1', '1', '0', '', '0', '1');
+INSERT INTO `wla_terms` VALUES ('1', '顶级栏目一', 'top1', '1', '0', '', '0', '2');
 INSERT INTO `wla_terms` VALUES ('2', '顶级栏目二', 'top2', '2', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('3', '顶级栏目三', 'top3', '3', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('4', '顶级栏目四', 'top4', '4', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('5', '顶级栏目五', 'top5', '5', '0', '', '0', '0');
 INSERT INTO `wla_terms` VALUES ('7', '二级栏目二', 'secend2', '2', '0', '', '1', '0');
-INSERT INTO `wla_terms` VALUES ('8', '二级栏目三', 'secend3', '1', '0', '', '2', '0');
+INSERT INTO `wla_terms` VALUES ('8', '二级栏目三', 'secend3', '1', '0', '', '2', '1');
 INSERT INTO `wla_terms` VALUES ('9', '二级栏目四', 'secend4', '1', '0', '', '2', '0');
 INSERT INTO `wla_terms` VALUES ('10', '二级栏目五', 'secend5', '2', '0', '', '3', '0');
 INSERT INTO `wla_terms` VALUES ('11', '二级栏目六', 'secend6', '100', '0', '', '4', '0');
 INSERT INTO `wla_terms` VALUES ('12', 'PHP', 'PHP', '0', '1', '', '0', '1');
+INSERT INTO `wla_terms` VALUES ('13', 'javascript', 'javascript', '0', '1', '', '0', '1');
+INSERT INTO `wla_terms` VALUES ('14', 'c++', 'c++', '0', '1', '', '0', '1');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -294,5 +308,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448374396', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448429691', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

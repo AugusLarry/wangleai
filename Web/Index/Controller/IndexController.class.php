@@ -18,7 +18,7 @@ class IndexController extends Controller
 		//获取分页标签
 		$this->show = $page->show();
 		//获取分页后的数据
-		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
+		$posts = $posts->relation(true)->where($where)->order('created_at desc')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
 			foreach ($val['terms'] as $k => $v) {
 				if ($v['taxonomy'] == 0) {
