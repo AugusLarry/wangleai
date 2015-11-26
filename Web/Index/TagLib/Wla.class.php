@@ -7,7 +7,8 @@ class Wla extends TagLib
 	protected $tags = [
 		'navigation' => ['attr' => 'limit,order'],
 		'news' => ['attr'=> 'limit,order,field'],
-		'crumbs' => ['attr' => 'id,level', 'close' => 0],
+		'crumbs' => ['attr' => 'level', 'close' => 0],
+		'comments' => ['attr' => '', 'close' => 0]
 	];
 
 	public function _navigation($tag, $content)
@@ -94,5 +95,11 @@ str;
 				break;
 			default;
 		}
+	}
+
+	public function _comments()
+	{
+		$id = I("get.id");
+		$comments = M("Comments")->where(['comment_post_id' => $id])->select();
 	}
 }

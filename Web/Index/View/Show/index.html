@@ -8,6 +8,183 @@
 <block name="content">
 <div class="col-8" id="main">
 	<crumbs level="show" />
+	<div class="res-cons">
+		<article class="post">
+			<date class="post-meta">
+				<i class="fa fa-clock-o">&nbsp;{$post.created_at|date="Y-m-d H:i:s",###}&nbsp;&nbsp;</i>
+				<a href=""><i class="fa fa-user">&nbsp;{$post.post_author}&nbsp;&nbsp;</i></a>
+				<i class="fa fa-eye" title="点击数">&nbsp;{$post.click_count}&nbsp;&nbsp;</i>
+			</date>
+			<header><h1 class="post-title">{$post.post_title}</h1></header>
+			<div class="post-content">
+			{$post.post_content|htmlspecialchars_decode}
+			</div>
+		</article>
+		<div id="comments">
+			<span class="widget-title">
+				<if condition="$post.comment_count eq 0">
+				暂无评论
+				<elseif condition="$post.comment_count lt 3"/>
+				仅有{$post.comment_count}条评论
+				<else/>
+				已有{$post.comment_count}条评论
+				</if>
+			</span>
+			<ol class="comment-list">
+				<li class="comment-body comment-parent comment-odd">
+					<div class="respond" id="respond-post-1">
+						<div class="cancel-comment-reply">
+							<a id="cancel-comment-reply-link" href="{:U('/Index/' . $id . '#respond-post-1')}" rel="nofollow" onclick="return TypechoComment.cancelReply();" style="display: none;">取消回复</a>
+						</div>
+						<span class="widget-title" id="response">添加新评论</span>
+						<form method="post" id="comment-form">
+							<div class="col1">
+								<p><textarea rows="8" cols="50" name="text" id="text" class="textarea"></textarea></p>
+							</div>
+							<div class="col2">
+								<p>
+									<label class="required" for="author">称呼</label>
+									<input type="text" name="author" id="author" class="text" value="{$Think.session.uname}">
+								</p>
+								<p>
+									<label class="required" for="email">邮箱</label>
+									<input type="email" name="email" id="email" class="text" value="{$Think.session.uemail}">
+								</p>
+								<p>
+									<label for="url">网站</label>
+									<input type="url" name="url" id="url" class="text" placeholder="http://example.com">
+								</p>
+								<p>
+									<input type="hidden" name="uid" value="{$Think.session.uid}">
+									<input type="hidden" name="post_id" value="{$post.id}">
+									<button type="submit" class="submit">提交评论</button>
+								</p>
+							</div>
+							<div class="clear"></div>
+						</form>
+					</div>
+				</li>
+			</ol>
+			<div id="comment-form-place-holder"></div>
+		</div>
+	</div>
 </div>
 </block>
-<block name="js"></block>
+<block name="js">
+<script type="text/javascript">
+(function () {
+    window.TypechoComment = {
+        dom : function (id) {
+            return document.getElementById(id);
+        },
+    
+        create : function (tag, attr) {
+            var el = document.createElement(tag);
+        
+            for (var key in attr) {
+                el.setAttribute(key, attr[key]);
+            }
+        
+            return el;
+        },
+
+        reply : function (cid, coid) {
+            var comment = this.dom(cid), parent = comment.parentNode,
+                response = this.dom('respond-post-1'), input = this.dom('comment-parent'),
+                form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+                textarea = response.getElementsByTagName('textarea')[0];
+
+            if (null == input) {
+                input = this.create('input', {
+                    'type' : 'hidden',
+                    'name' : 'parent',
+                    'id'   : 'comment-parent'
+                });
+
+                form.appendChild(input);
+            }
+
+            input.setAttribute('value', coid);
+
+            if (null == this.dom('comment-form-place-holder')) {
+                var holder = this.create('div', {
+                    'id' : 'comment-form-place-holder'
+                });
+
+                response.parentNode.insertBefore(holder, response);
+            }
+
+            comment.appendChild(response);
+            this.dom('cancel-comment-reply-link').style.display = '';
+
+            if (null != textarea && 'text' == textarea.name) {
+                textarea.focus();
+            }
+
+            return false;
+        },
+
+        cancelReply : function () {
+            var response = this.dom('respond-post-1'),
+            holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+            if (null != input) {
+                input.parentNode.removeChild(input);
+            }
+
+            if (null == holder) {
+                return true;
+            }
+
+            this.dom('cancel-comment-reply-link').style.display = 'none';
+            holder.parentNode.insertBefore(response, holder);
+            return false;
+        }
+    };
+})();
+</script>
+<script src="__PUBLIC__/static-index/js/jquery-2.1.4.min.js"></script>
+<script src="__PUBLIC__/static-index/js/jquery.validate.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$("#comment-form").validate({
+			errorElement : "span",
+			rules : {
+				author : {required : true, rangelength : [2, 12]},
+				email : {required : true, email : true},
+				text : {required : true}
+			},
+			messages : {
+				author : {required : "称呼不能为空!", rangelength : "称呼只能在2-12个字符之间!"},
+				email : {required : "邮箱不能为空!", email : "请输入合法的邮箱名!",},
+				text : {required : "评论内容不能为空!"}
+			},
+			invalidHandler : function(form){
+				return false;
+			},
+			submitHandler : function(form){
+				$.ajax({
+					url : "{:U('Index/Show/addComment')}",
+					dataType : 'json',
+					type : 'POST',
+		            cache   : false,
+					data : $('#comment-form').serialize(),
+					error : function(data) {
+						if (data.status) {
+							alert(data.info);
+							window.location.reload();
+						} else {
+							alert(data.info);
+							window.location.reload();
+							return false;
+						}
+					},
+		            error : function (XMLHttpRequest, textStatus) {
+		               alert(textStatus);
+		            }
+				})
+			}
+		});
+	})
+</script>
+</block>

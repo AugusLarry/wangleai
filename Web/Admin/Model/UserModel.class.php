@@ -55,6 +55,7 @@ class UserModel extends Model
 			$login_ip = $user['login_ip'];
 			$avatar = $user['avatar'] ? $user['avatar'] : "";
 			$uname = $user['display_name'] ? $user['display_name'] : $user['username'];
+			$uemail = $user['email'];
 			$data = [
 				'id' => $user['id'],
 				'updated_at' => NOW_TIME,
@@ -63,6 +64,7 @@ class UserModel extends Model
 			$this->save($data);
 			session("uid", $user['id']);
 			session("uname", $uname);
+			session("uemail", $uemail);
 			session("login_time", $login_time);
 			session("login_ip",$login_ip);
 			session("avatar", $avatar);

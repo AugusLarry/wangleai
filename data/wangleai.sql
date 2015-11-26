@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-25 16:59:18
+Date: 2015-11-26 16:59:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -134,7 +134,7 @@ DROP TABLE IF EXISTS `wla_comments`;
 CREATE TABLE `wla_comments` (
   `comment_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评论ID',
   `comment_post_id` bigint(20) NOT NULL COMMENT '所属文章ID',
-  `comment_author` tinytext NOT NULL COMMENT '评论者',
+  `comment_author` tinyint(4) NOT NULL COMMENT '评论者',
   `comment_author_email` varchar(100) NOT NULL COMMENT '评论者email',
   `comment_author_url` varchar(200) NOT NULL COMMENT '评论者URL',
   `comment_author_ip` varchar(15) NOT NULL COMMENT '评论者IP',
@@ -308,5 +308,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448429691', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448524964', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');

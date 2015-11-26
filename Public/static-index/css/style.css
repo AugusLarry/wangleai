@@ -618,6 +618,9 @@ textarea.textarea {
     overflow:hidden;
     background-position:right top;
 }
+#comment-form p span.error {
+    color: red;
+}
 .widget-title{
     font-size: 15px;
     margin: 15px 26px 0;
