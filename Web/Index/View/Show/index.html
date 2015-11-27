@@ -169,13 +169,15 @@
 					type : 'POST',
 		            cache   : false,
 					data : $('#comment-form').serialize(),
-					error : function(data) {
+					success : function(data) {
 						if (data.status) {
 							alert(data.info);
 							window.location.reload();
+							document.getElementById("comment-form").reset();
 						} else {
 							alert(data.info);
 							window.location.reload();
+							document.getElementById("comment-form").reset();
 							return false;
 						}
 					},
