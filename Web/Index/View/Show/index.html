@@ -189,4 +189,18 @@
 		});
 	})
 </script>
+<script type="text/javascript">
+	var cate_url = $(".res-nav > p").find("a").last().attr("href");
+	$(".nav li").each(function(){
+		if ($(this).children("a").attr("href") == cate_url) {
+			if ($(this).attr("role") == "navigation") {
+				$(this).addClass("current");
+				return false;
+			} else {
+				$(this).parents("li").addClass("current");
+				return false;
+			}
+		}
+	})
+</script>
 </block>

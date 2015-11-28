@@ -9,28 +9,54 @@
 <div class="col-8" id="main">
 	<div class="res-cons">
 		<foreach name="posts" item="v">
-			<article class="post">
-				<date class="post-meta">
-					<?php foreach ($v['category'] as $value) {
-						echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
-					}?>
-					<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>
-					<a href="{:U('/Index/' . $v['id'] . '#comment')}" title="评论数"><i class="fa fa-comment-o">&nbsp;{$v.comment_count}&nbsp;&nbsp;</i></a>
-					<i class="fa fa-eye" title="点击数">&nbsp;{$v.click_count}&nbsp;&nbsp;</i>
-					<?php foreach ($v['tags'] as $value) {
-						echo '<a href="' . U("/Index/t_" . $value['id']) . '" title="' . $value['name'] . '"><i class="fa fa-tags" title="标签">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>/';
-					}?>
-				</date>
-				<header>
-					<h2 class="post-title">
-						<a href="{:U('/Index/' . $v['id'])}" title="{$v.post_title}">{$v.post_title}</a>
-					</h2>
-				</header>
-				<div class="post-content">
-					{$v.post_content|htmlspecialchars_decode}
-					<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读剩余部分 -</a></p>
-				</div>
-			</article>
+			<if condition="$v['post_type'] eq 0">
+				<article class="post">
+					<date class="post-meta">
+						<?php foreach ($v['category'] as $value) {
+							echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
+						}?>
+						<a href="{:U('/Index/a_' . $v['post_author'])}"><i class="fa fa-user" title="作者">&nbsp;{$v.post_author}&nbsp;&nbsp;</i></a>
+						<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>
+						<a href="{:U('/Index/' . $v['id'] . '#comment')}" title="评论数"><i class="fa fa-comment-o">&nbsp;{$v.comment_count}&nbsp;&nbsp;</i></a>
+						<i class="fa fa-eye" title="点击数">&nbsp;{$v.click_count}&nbsp;&nbsp;</i>
+						<?php foreach ($v['tags'] as $value) {
+							echo '<a href="' . U("/Index/t_" . $value['id']) . '" title="' . $value['name'] . '"><i class="fa fa-tags" title="标签">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>/';
+						}?>
+					</date>
+					<header>
+						<h2 class="post-title">
+							<a href="{:U('/Index/' . $v['id'])}" title="{$v.post_title}">{$v.post_title}</a>
+						</h2>
+					</header>
+					<div class="post-content">
+						{$v.post_content|htmlspecialchars_decode}
+						<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读剩余部分 -</a></p>
+					</div>
+				</article>
+			<elseif condition="$v['post_type'] eq 1"/>
+				<article class="post">
+					<date class="post-meta">
+						<?php foreach ($v['category'] as $value) {
+							echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
+						}?>
+						<a href="{:U('/Index/a_' . $v['post_author'])}"><i class="fa fa-user" title="作者">&nbsp;{$v.post_author}&nbsp;&nbsp;</i></a>
+						<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>
+						<a href="{:U('/Index/' . $v['id'] . '#comment')}" title="评论数"><i class="fa fa-comment-o">&nbsp;{$v.comment_count}&nbsp;&nbsp;</i></a>
+						<i class="fa fa-eye" title="点击数">&nbsp;{$v.click_count}&nbsp;&nbsp;</i>
+						<?php foreach ($v['tags'] as $value) {
+							echo '<a href="' . U("/Index/t_" . $value['id']) . '" title="' . $value['name'] . '"><i class="fa fa-tags" title="标签">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>/';
+						}?>
+					</date>
+					<header>
+						<h2 class="post-title">
+							<a href="{:U('/Index/' . $v['id'])}" title="{$v.post_title}">{$v.post_title}</a>
+						</h2>
+					</header>
+					<div class="post-content">
+						{$v.post_content|htmlspecialchars_decode}
+					</div>
+				</article>
+			</if>
 		</foreach>
 		{$show}
 	</div>

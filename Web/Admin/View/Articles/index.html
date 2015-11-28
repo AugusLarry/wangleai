@@ -96,9 +96,11 @@
                            <td><a href="{:U('Admin/Articles/getArticlesByTerm', ['term_id' => $v['category'][0]['id']])}">{$v['category'][0]['name']}</a></td>
                            <td>
                               <?php
-                              $url = U("Admin/Articles/getArticlesByTerm");
-                              foreach($v['tags'] as $val) {
-                                 echo "<a href='" . $url . "/term_id/" . $val['id'] . "'>" . $val['name'] . "</a>、";
+                              if (!empty($v['tags'])) {
+                                 $url = U("Admin/Articles/getArticlesByTerm");
+                                 foreach($v['tags'] as $val) {
+                                    echo "<a href='" . $url . "/term_id/" . $val['id'] . "'>" . $val['name'] . "</a>、";
+                                 }
                               }
                               ?>
                            </td>

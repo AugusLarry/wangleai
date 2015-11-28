@@ -1,0 +1,65 @@
+<extend name="Common:layout"/>
+<block name="seo">
+   <title>首页</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+</block>
+<block name="css"></block>
+<block name="content">
+<div class="col-8" id="main">
+	<div class="res-nav">
+		<p>
+			<a href="/" title="首页"><span>首页</span></a>&nbsp;&nbsp;/&nbsp;&nbsp;
+			<span>作者:{$_GET['id']}</span>
+		</p>
+	</div>
+	<div class="res-cons">
+		<if condition="empty($posts)">
+		<article class="post"><header><h2 class="post-title">该作者暂无文章!</h2></header></article>
+		<else/>
+		<foreach name="posts" item="v">
+			<article class="post">
+				<date class="post-meta">
+					<?php foreach ($v['category'] as $value) {
+						echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
+					}?>
+					<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>
+					<a href="{:U('/Index/' . $v['id'] . '#comment')}" title="评论数"><i class="fa fa-comment-o">&nbsp;{$v.comment_count}&nbsp;&nbsp;</i></a>
+					<i class="fa fa-eye" title="点击数">&nbsp;{$v.click_count}&nbsp;&nbsp;</i>
+					<?php foreach ($v['tags'] as $value) {
+						echo '<a href="' . U("/Index/t_" . $value['id']) . '" title="' . $value['name'] . '"><i class="fa fa-tags" title="标签">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>/';
+					}?>
+				</date>
+				<header>
+					<h2 class="post-title">
+						<a href="{:U('/Index/' . $v['id'])}" title="{$v.post_title}">{$v.post_title}</a>
+					</h2>
+				</header>
+				<div class="post-content">
+					{$v.post_description|htmlspecialchars_decode}
+					<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读剩余部分 -</a></p>
+				</div>
+			</article>
+		</foreach>
+		</if>
+		{$show}
+	</div>
+</div>
+</block>
+<block name="js">
+<script type="text/javascript">
+	var id = "{$_GET['id']}";
+	$(".nav li").each(function(){
+		href = $(this).children("a").attr("href");
+		if (href.search(id) != -1) {
+			if ($(this).attr("role") == "navigation") {
+				$(this).addClass("current");
+				return false;
+			} else {
+				$(this).parents("li").addClass("current");
+				return false;
+			}
+		}
+	})
+</script>
+</block>

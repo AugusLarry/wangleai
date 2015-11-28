@@ -2,14 +2,17 @@
 namespace Index\Controller;
 use Think\Controller;
 /**
- * 首页控制器
+ * 内容页控制器
  */
 class ShowController extends Controller
 {
     public function index()
     {
-    	if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("Admin/Category/index"));
-    	$this->post = M("Posts")->where(['id' => I("get.id")])->find();
+    	if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("/Index"));
+        $model = M("Posts");
+        $where = ['id' => I("get.id")];
+        $model->where($where)->setInc("click_count");
+    	$this->post = $model->where($where)->find();
     	$this->display();
     }
 
@@ -27,7 +30,8 @@ class ShowController extends Controller
     		"comment_type" => 0,
     		"comment_agent" => get_client_browser("|-|"),
     		"comment_parent" => I("parent", 0, "intval"),
-    		"user_id" => I("post.post_uid", "", "intval")
+    		"user_id" => I("post.post_uid", "", "intval"),
+            "_c" => I("post._c", "", "strip_tags")
     	];
     	$model = D("Comments");
     	if (!$model->create($data)) {

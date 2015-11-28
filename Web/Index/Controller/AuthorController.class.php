@@ -1,15 +1,17 @@
 <?php
 namespace Index\Controller;
 use Think\Controller;
-class TagsController extends Controller
+/**
+ * 作者控制器
+ */
+class AuthorController extends Controller
 {
-	public function index ()
+	public function index()
 	{
-		if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("Admin/Category/index"));
-		$articles_id = implode(",", array_column(M("PostTerm")->where(['term_id' => I("get.id")])->select(), "post_id"));
+		if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("/Index"));
 		$posts = D("Posts");
 		$where = [
-			'id' => ['in', $articles_id],
+			'post_author' => I("get.id"),
 		];
 		//对文章列表分页显示
 		$page = getPageForIndex($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
@@ -34,6 +36,6 @@ class TagsController extends Controller
 			unset($posts[$key]['property']);
 		}
 		$this->posts = $posts;
-    	$this->display("List:index");
+    	$this->display();
 	}
 }

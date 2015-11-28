@@ -8,16 +8,15 @@ class ListController extends Controller
 {
     public function index()
     {
-    	if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("Admin/Category/index"));
+    	if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("/Index/"));
     	$parentid = implode(",", array_column(M("Terms")->where(['parent' => I("get.id")])->select(), "id"));
 		$articles_id = implode(",", array_column(M("PostTerm")->where(['term_id' => ['in', $parentid . "," . I("get.id")]])->select(), "post_id"));
-		// if (!$articles_id) $this->error("访问出错!", U("/Index"));
 		$posts = D("Posts");
 		$where = [
 			'id' => ['in', $articles_id],
 		];
 		//对文章列表分页显示
-		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getPageForIndex($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
 		$this->show = $page->show();
 		//获取分页后的数据

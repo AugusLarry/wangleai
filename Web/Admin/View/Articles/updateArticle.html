@@ -116,7 +116,9 @@
                <div class="form-group">
                   <div class="col-sm-2 col-sm-offset-4">
                      <textarea class="form-control hidden" rows="3" name="tags" id="tags">
+                        <if condition="!empty($tags)">
                         <foreach name="tags" item="v">{$v},</foreach>
+                        </if>
                      </textarea>
                      <input type="hidden" class="form-control" name="post_author" value="{$Think.session.uname}">
                      <input type="hidden" class="form-control" name="id" value="{$post.id}">
