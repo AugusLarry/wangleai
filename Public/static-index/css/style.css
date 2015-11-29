@@ -517,8 +517,37 @@ textarea {
     margin-top:-1px;
 }
 .comment-list li {
-    padding:22px 0 0;
-    border-top:1px solid #ddd;
+    padding:15px 0 13px;
+}
+.comment-list li.child {
+    padding: 12px 0 10px 10px;
+    border-left: 1px solid #ddd;
+    border-top: 0;
+    list-style: none;
+}
+.comment-list li .cl-avatar {
+    border:1px solid #ccc;
+    background-color:#FFF;
+    float:left;
+    display:inline;
+    position:relative;
+    padding:2px;
+}
+.comment-list li .cl-avatar .avatar {
+    display: block;
+}
+.comment-list li .cl-main {
+    margin-left: 55px;
+}
+.comment-list li .cl-main .cl-meta {
+    display: block;
+    color: #bbb;
+}
+.comment-list li .cl-main .cl-meta .cl-author {
+    margin-right: 10px;
+}
+.comment-list li .cl-main .cl-content {
+    color: #666;
 }
 .comment-list li.comment-level-even {
     background:#FFF;

@@ -30,42 +30,40 @@
 				已有{$post.comment_count}条评论
 				</if>
 			</span>
-			<ol class="comment-list">
-				<li class="comment-body comment-parent comment-odd">
-					<div class="respond" id="respond-post-1">
-						<div class="cancel-comment-reply">
-							<a id="cancel-comment-reply-link" href="{:U('/Index/' . $id . '#respond-post-1')}" rel="nofollow" onclick="return TypechoComment.cancelReply();" style="display: none;">取消回复</a>
-						</div>
-						<span class="widget-title" id="response">添加新评论</span>
-						<form method="post" id="comment-form">
-							<div class="col1">
-								<p><textarea rows="8" cols="50" name="text" id="text" class="textarea"></textarea></p>
-							</div>
-							<div class="col2">
-								<p>
-									<label class="required" for="author">称呼</label>
-									<input type="text" name="author" id="author" class="text" value="{$Think.session.uname}">
-								</p>
-								<p>
-									<label class="required" for="email">邮箱</label>
-									<input type="email" name="email" id="email" class="text" value="{$Think.session.uemail}">
-								</p>
-								<p>
-									<label for="url">网站</label>
-									<input type="url" name="url" id="url" class="text" placeholder="http://example.com">
-								</p>
-								<p>
-									<input type="hidden" name="uid" value="{$Think.session.uid}">
-									<input type="hidden" name="post_id" value="{$post.id}">
-									<button type="submit" class="submit">提交评论</button>
-								</p>
-							</div>
-							<div class="clear"></div>
-						</form>
+			<comments />
+			<if condition="C(COMMENT_ON)">
+				<div class="respond" id="respond-post-1">
+					<div class="cancel-comment-reply">
+						<a id="cancel-comment-reply-link" href="{:U('/Index/' . $id . '#respond-post-1')}" rel="nofollow" onclick="return TypechoComment.cancelReply();" style="display: none;">取消回复</a>
 					</div>
-				</li>
-			</ol>
-			<div id="comment-form-place-holder"></div>
+					<span class="widget-title" id="response">添加新评论</span>
+					<form method="post" id="comment-form">
+						<div class="col1">
+							<p><textarea rows="8" cols="50" name="text" id="text" class="textarea"></textarea></p>
+						</div>
+						<div class="col2">
+							<p>
+								<label class="required" for="author">称呼</label>
+								<input type="text" name="author" id="author" class="text" value="{$cookie.author|urldecode}">
+							</p>
+							<p>
+								<label class="required" for="email">邮箱</label>
+								<input type="email" name="email" id="email" class="text" value="{$cookie.email|urldecode}">
+							</p>
+							<p>
+								<label for="url">网站</label>
+								<input type="url" name="url" id="url" class="text" placeholder="http://example.com" value="{$cookie.url|urldecode}">
+							</p>
+							<p>
+								<input type="hidden" name="uid" value="{$Think.session.uid}">
+								<input type="hidden" name="post_id" value="{$post.id}">
+								<button type="submit" class="submit">提交评论</button>
+							</p>
+						</div>
+						<div class="clear"></div>
+					</form>
+				</div>
+			</if>
 		</div>
 	</div>
 </div>
@@ -201,6 +199,14 @@
 				return false;
 			}
 		}
-	})
+	});
+	var comment_level = "{:C('COMMENT_LEVEL')}";
+	for (var i=1; i<comment_level; i++) {
+		if (i>1) {
+			$(".level" + i ).css("margin-left", 19*i+12*(i-1))
+		} else {
+			$ ( ".level" + i ).css( "margin-left", 19 * i );
+		}
+	}
 </script>
 </block>

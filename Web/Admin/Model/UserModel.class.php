@@ -68,6 +68,9 @@ class UserModel extends Model
 			session("login_time", $login_time);
 			session("login_ip",$login_ip);
 			session("avatar", $avatar);
+			cookie("comment_author", urlencode($uname), ['prefix' => C("COMMENT_COOKIE_PREFIX") . "_", 'expire' => 60*60*24*365]);
+			cookie("comment_author_email", urlencode($uemail), ['prefix' => C("COMMENT_COOKIE_PREFIX") . "_", 'expire' => 60*60*24*365]);
+			cookie("comment_author_url", urlencode(C("SITE_URL")), ['prefix' => C("COMMENT_COOKIE_PREFIX") . "_", 'expire' => 60*60*24*365]);
 			return true;
 		}
 		return false;

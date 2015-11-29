@@ -100,6 +100,32 @@ str;
 	public function _comments()
 	{
 		$id = I("get.id");
-		$comments = M("Comments")->where(['comment_post_id' => $id])->select();
+		$comments = M("Comments")->where(['comment_post_id' => $id, ['comment_type' => 1]])->select();
+		vendor('myClass.Category', "", ".php");
+		$comments = \Category::unlimitedForComment($comments);
+		$str .= "<ol class='comment-list'>";
+		if (!empty($comments)) {
+			foreach ($comments as $v) {
+				$str .= "<li";
+                if ($v['level'] > 0) {
+                    $str .= " class='child level" . $v['level'] . "'";
+                }
+                $str .= " id='comment-" . $v["comment_id"] . "'><div class='cl-avatar'>";
+				$avatar = M("User")->where(['display_name' => $v['comment_author']])->getField("avatar");
+				if ($v['user_id'] == 0 || $avatar == "") {
+					$str .= "<img class='avatar' src='__PUBLIC__/static-index/img/avatar.jpg'>";
+				} else {
+					$str .= "<img class='avatar' src='" . $avatar . "' width='32'>";
+				}
+				$str .= "</div><div class='cl-main'><div class='cl-meta'><span class='cl-author'>";
+				$str .= "<a href='" . $v['comment_author_url'] . "'>" . $v['comment_author'] . "</a></span>" . date("Y-m-d H:i:s", $v['created_at']);
+                if ($v['level']+1 < C("COMMENT_LEVEL")) {
+                    $str .= "<a rel='nofollow' href='" . U("/Index/" . $id) . "/?replyTo=" . $v['comment_id'] . "#respond-post-1" . "' onclick=\"return TypechoComment.reply('comment-" . $v["comment_id"] . "', " . $v["comment_id"] . ");\">回复</a>";
+                }
+                $str .= "</div><div class='cl-content'>" . $v['comment_content'] . "</div></div></li>";
+			}
+			$str .= "</ol>";
+		}
+		return $str;
 	}
 }

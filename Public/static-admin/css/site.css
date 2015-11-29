@@ -1,0 +1,14 @@
+.cl-avatar {
+	border:1px solid #ccc;
+	background-color:#FFF;
+	float:left;
+	display:inline;
+	position:relative;
+	padding:2px;
+}
+.cl-author {
+	margin-left: 55px;
+}
+.cl-author span {
+	display: block;
+}

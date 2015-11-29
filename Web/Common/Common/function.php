@@ -45,6 +45,7 @@ function getpage(&$m, $where, $pagesize = 10) {
     return $page;
 }
 
+
 function getPageForIndex(&$m, $where, $pagesize = 10) {
     $m1=clone $m;//浅复制一个模型
     $count = $m->where($where)->count();//连惯操作后会对join等操作进行重置

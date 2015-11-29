@@ -15,7 +15,7 @@
          <li class="active">
          <?php
             if (strtolower(ACTION_NAME) == 'index') {
-               echo "文章管理";
+               echo "评论管理";
             } else {
                echo "回收站";
             }
@@ -29,9 +29,9 @@
             <h3 class="panel-title">
             <?php
             if (strtolower(ACTION_NAME) == 'index') {
-               echo "文章列表　/　<a href='" . U('trash') . "'>回收站</a>";
+               echo "评论列表　/　<a href='" . U('trash') . "'>回收站</a>";
             } else {
-               echo "回收站　/　<a href='" . U('index') . "'>文章列表　</a>";
+               echo "回收站　/　<a href='" . U('index') . "'>评论列表　</a>";
             }
             ?>
             </h3>

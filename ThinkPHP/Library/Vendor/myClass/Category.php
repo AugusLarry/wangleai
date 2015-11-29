@@ -26,4 +26,17 @@ class Category
 		}
 		return $arr;
 	}
+
+	public static function unlimitedForComment($comment, $parent = 0, $level = 0)
+	{
+		$arr = [];
+		foreach ($comment as $v) {
+			if ($v['comment_parent'] == $parent) {
+				$v['level'] = $level;
+				$arr[] = $v;
+				$arr = array_merge($arr, self::unlimitedForComment($comment, $v['comment_id'], $level + 1));
+			}
+		}
+		return $arr;
+	}
 }
