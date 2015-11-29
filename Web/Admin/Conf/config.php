@@ -21,4 +21,5 @@ return [
 		'NOT_AUTH'			=> ['admin/index/index', 'admin/index/logout'],
     ],
     'SHOW_PAGE_TRACE' => true,
+    'TAGLIB_BUILD_IN' => 'Cx,Admin\TagLib\Wla',
 ];

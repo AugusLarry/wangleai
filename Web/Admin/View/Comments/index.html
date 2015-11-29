@@ -17,8 +17,12 @@
 					<?php
             			if (strtolower(ACTION_NAME) == 'index') {
                				echo "评论管理";
-            			} else {
+            			} elseif (strtolower(ACTION_NAME) == 'trash') {
               				echo "回收站";
+            			} elseif (strtolower(ACTION_NAME) == 'junk') {
+            				echo "垃圾评论";
+            			} elseif (strtolower(ACTION_NAME) == 'copending') {
+            				echo "待审评论";
             			}
          			?>
 				</li>
@@ -28,13 +32,7 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">
-						<?php
-            				if (strtolower(ACTION_NAME) == 'index') {
-               					echo "评论列表　/　<a href='" . U('trash') . "'>回收站</a>";
-							} else {
-								echo "回收站　/　<a href='" . U('index') . "'>评论列表　</a>";
-							}
-						?>
+						<commentstitle/>
 					</h3>
 				</div>
 				<div class="panel-body">
@@ -63,14 +61,14 @@
 							<thead>
 								<tr>
 									<th width="5%">#</th>
-									<th width="20%">作者</th>
-									<th width="55%">评论</th>
+									<th width="25%">作者</th>
+									<th width="50%">评论</th>
 									<th width="20%">回复至</th>
 								</tr>
 							</thead>
 							<tbody>
 								<foreach name="comments" item="v">
-									<tr>
+									<tr class='titleHover <if condition="$v.comment_type eq 0">danger</if>'>
 										<td>{$v.comment_id}</td>
 										<td>
 											<div class="cl-avatar">
@@ -88,12 +86,43 @@
 											</div>
 										</td>
 										<td>
-											<div class="cl-info">提交于{$v.created_at|date="Y-m-d H:i:s", ###}</div>
+											<div class="cl-info">
+											提交于<a href="{:U('/Index/' . $v['pid'])}/#comment-{$v.comment_id}" target="_blank">{$v.created_at|date="Y-m-d H:i:s", ###}</a>
+											<?php
+											if ($v['comment_parent'] != 0) {
+												$parent_author = M("Comments")->where(['comment_id' => $v['comment_parent']])->getField("comment_author");
+												echo " | 回复给<a href='" . U("/Index/" . $v['pid']) . "/#comment-" . $v['comment_parent'] . "' target='_blank'>" . $parent_author . "</a>";
+											}
+											?>
+											</div>
+											<div class="cl-content">{$v.comment_content}</div>
+											<div class="cl-handle hidden">
+												<if condition="$v.comment_type eq 0">
+												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '1'])}">批准</a>
+												<else/>
+												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '0'])}">驳回</a>
+												</if>
+												<a href="">回复</a>
+												<a href="">编辑</a>
+												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '2'])}">垃圾评论</a>
+												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '3'])}">移至回收站</a>
+											</div>
 										</td>
 										<td>
 											<div class="cl-response">
 												<a href="{:U('Admin/Articles/updateArticle', ['id' => $v['pid']])}" target="_blank">{$v.post_title}</a>
 												<a href="{:U('/Index/' . $v['pid'])}" target="_blank">查看文章</a>
+												<if condition="$v.comment_count gt 0">
+												<a href="" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
+												<else/>
+												<span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$v.comment_count}条评论">{$v.comment_count}</span>
+												</if>
+												<?php
+												$no_audit_comments = M("Comments")->where(['comment_post_id' => $v['pid'], 'comment_type' => 0])->count();
+												if ($no_audit_comments > 0) {
+													echo "<a href='' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
+												}
+												?>
 											</div>
 										</td>
 									</tr>
