@@ -7,6 +7,8 @@
 <block name="css">
 	<link rel="stylesheet" href="__PUBLIC__/plugins/dataTables/css/dataTables.css">
 	<link rel="stylesheet" href="__PUBLIC__/css/site.css">
+	<!-- Editor-->
+	<link rel="stylesheet" href="__PUBLIC__/plugins/bootstrap-wysihtml5/css/bootstrap-wysihtml5.css">
 </block>
 <block name="content">
 	<div class="row">
@@ -36,7 +38,7 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					<div class="dataTables_wrapper form-inline no-footer">
+					<div class="dataTables_wrapper no-footer">
 						<div class="row">
 							<div class="col-xs-6">
 								<div class="dataTables_length">
@@ -61,15 +63,36 @@
 							<thead>
 								<tr>
 									<th width="5%">#</th>
+									<th width="8%">层级</th>
 									<th width="25%">作者</th>
-									<th width="50%">评论</th>
-									<th width="20%">回复至</th>
+									<th width="45%">评论</th>
+									<th width="17%">回复至</th>
 								</tr>
 							</thead>
 							<tbody>
 								<foreach name="comments" item="v">
 									<tr class='titleHover <if condition="$v.comment_type eq 0">danger</if>'>
 										<td>{$v.comment_id}</td>
+										<td>
+											<php>
+												switch ($v['level']) {
+													case "0":
+														echo "顶级评论";
+														break;
+													case "1":
+														echo "二级评论";
+														break;
+													case "2":
+														echo "三级评论";
+														break;
+													case "3":
+														echo "四级评论";
+														break;
+													default:
+														echo "多级评论";
+												}
+											</php>
+										</td>
 										<td>
 											<div class="cl-avatar">
 												<if condition="$v.avatar eq ''">
@@ -102,8 +125,8 @@
 												<else/>
 												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '0'])}">驳回</a>
 												</if>
-												<a href="">回复</a>
-												<a href="">编辑</a>
+												<a href="javascript:void(0);" onclick="reply(this, {$v.comment_id}, {$v.pid});">回复</a>
+												<a href="javascript:void(0);" onclick="update(this, {$v.comment_id}, '{$v.comment_author}', '{$v.comment_author_email}', '{$v.comment_author_url}', '{$v.comment_content}')">编辑</a>
 												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '2'])}">垃圾评论</a>
 												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '3'])}">移至回收站</a>
 											</div>
@@ -113,14 +136,14 @@
 												<a href="{:U('Admin/Articles/updateArticle', ['id' => $v['pid']])}" target="_blank">{$v.post_title}</a>
 												<a href="{:U('/Index/' . $v['pid'])}" target="_blank">查看文章</a>
 												<if condition="$v.comment_count gt 0">
-												<a href="" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
+												<a href="{:U('Admin/Comments/getCommentsByArticle', ['comment_post_id' => $v['pid'], 'comment_type' => 1])}" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
 												<else/>
 												<span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$v.comment_count}条评论">{$v.comment_count}</span>
 												</if>
 												<?php
 												$no_audit_comments = M("Comments")->where(['comment_post_id' => $v['pid'], 'comment_type' => 0])->count();
 												if ($no_audit_comments > 0) {
-													echo "<a href='' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
+													echo "<a href='" . U("Admin/Comments/getCommentsByArticle", ["comment_post_id" => $v["pid"], "comment_type" => 0]) . "' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
 												}
 												?>
 											</div>
@@ -146,6 +169,9 @@
 </block>
 <block name="js">
 	<script src="__PUBLIC__/plugins/icheck/js/icheck.min.js"></script>
+	<!--Page Level JS-->
+	<script src="__PUBLIC__/plugins/bootstrap-wysihtml5/js/wysihtml5-0.3.0.js"></script>
+	<script src="__PUBLIC__/plugins/bootstrap-wysihtml5/js/bootstrap3-wysihtml5.js"></script>
 	<script>
 		$(document).ready(function() {
 			$('input').iCheck({
@@ -175,5 +201,86 @@
 				}
 			})
 		});
+		//obj当前对象
+		//cid当前评论ID
+		//pid文章ID
+		function reply(obj, cid, pid){
+			var str = "<tr class='reply'>";
+				str += "<td colspan='5'>";
+				str += '<form action="{:U(\'reply\')}" method="post">';
+				str += "<div class='cl-reply-"+cid+"'>";
+				str += "<textarea class='textarea form-control' name='content' rows='10' cols='80' placeholder='请输入回复内容...' style='width: 100%;height: 100px;'></textarea>";
+				str += "</div>";
+				str += "<div class='cl-reply-btn'>";
+				str += "<a class='btn btn-info btn-sm btn-square' href='javascript:void(0);' onclick='unreply(this);'>取消</a>";
+				str += "<input type='hidden' name='parent' value='"+cid+"'/>";
+				str += "<input type='hidden' name='pid' value='"+pid+"'/>";
+				str += "<input type='submit' class='btn btn-default btn-sm btn-square pull-right' value='回复'/>"
+				str += "</div>";
+				str += '</form>';
+				str += "</td>";
+				str += "</tr>";
+			if ($(obj ).parents("tbody" ).find("tr.reply").length > 0 ) {
+				$("tr.reply" ).remove();
+			};
+			$("tr.update" ).remove();
+			$(obj).parents("tr" ).after(str);
+			$('.textarea').wysihtml5();
+		}
+		function unreply(obj){
+			$(obj ).parents("tr" ).remove();
+		}
+		//obj当前对象
+		//id当前评论id
+		//author当前评论作者
+		//email当前评论作者email
+		//url当前评论作者url
+		//content当前评论内容
+		function update(obj, id, author, email, url, content){
+			var str = "<tr class='update'>";
+				str += "<td colspan='5'>";
+				str += '<form class="form-horizontal" action="{:U(\'update\')}" method="post">';
+				str += "<div class='cl-update-"+id+"'>";
+				str += "<div class='form-group'>";
+				str += "<label for='author' class='col-md-1 control-label'>评论者:</label>";
+				str += "<div class='col-md-3'>";
+				str += "<input type='text' name='author' class='form-control' value='" + author +"'/>";
+				str += "</div>";
+				str += "<label for='email' class='col-md-1 control-label'>邮箱:</label>";
+				str += "<div class='col-md-3'>";
+				str += "<input type='text' name='email' class='form-control' value='" + email + "'/>";
+				str += "</div>";
+				str += "<label for='url' class='col-md-1 control-label'>网站:</label>";
+				str += "<div class='col-md-3'>";
+				str += "<input type='text' name='url' class='form-control' value='" + url + "'/>";
+				str += "</div>";
+				str += "</div>";
+				str += "<div class='form-group'>";
+				str += "<div class='col-md-12'>";
+				str += "<textarea name='content' class='form-control'>" + content + "</textarea>";
+				str += "</div>";
+				str += "</div>";
+				str += "<div class='form-group' style='margin-bottom: 0;'>";
+				str += "<div class='col-md-2'>";
+				str += "<a class='btn btn-info btn-sm btn-square' href='javascript:void(0);' onclick='unupdate(this);'>取消</a>";
+				str += "</div>";
+				str += "<div class='col-md-2 col-md-offset-8'>";
+				str += "<input type='hidden' name='id' value='" + id + "'/>"
+				str += "<input type='submit' class='btn btn-default btn-sm btn-square pull-right' value='更新'/>";
+				str += "</div>";
+				str += "</div>";
+				str += "</div>";
+				str += '</form>';
+				str += "</td>";
+				str += "</tr>";
+			if ($(obj ).parents("tbody" ).find("tr.update").length > 0 ) {
+				$("tr.update" ).remove();
+			};
+			$("tr.reply" ).remove();
+			$(obj).parents("tr" ).after(str);
+		}
+		function unupdate(obj){
+			$(obj ).parents("tr" ).remove();
+		}
 	</script>
 </block>

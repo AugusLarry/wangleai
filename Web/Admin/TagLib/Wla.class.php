@@ -31,15 +31,15 @@ class Wla extends TagLib
 				break;
 			case 'junk':
 				$str .= "<a href='" . U("index") . "'>评论列表($all_count)</a>";
-				$str .= "　/　<a href='" . U("copending") . "'>待审评论($junk_count)</a>";
-				$str .= "　/　垃圾评论($copending_count)";
+				$str .= "　/　<a href='" . U("copending") . "'>待审评论($copending_count)</a>";
+				$str .= "　/　垃圾评论($junk_count)";
 				$str .= "　/　<a href='" . U("trash") . "'>回收站($trash_count)</a>";
 				break;
 			case 'trash':
 				$str .= "<a href='" . U("index") . "'>评论列表($all_count)</a>";
-				$str .= "　/　<a href='" . U("copending") . "'>待审评论($junk_count)</a>";
+				$str .= "　/　<a href='" . U("copending") . "'>待审评论($copending_count)</a>";
 				$str .= "　/　<a href='" . U("junk") . "'>垃圾评论($junk_count)</a>";
-				$str .= "　/　回收站($copending_count)";
+				$str .= "　/　回收站($trash_count)";
 			default;
 		}
 		return $str;

@@ -1,6 +1,7 @@
 <?php
 class Category
 {
+	//组合分类列表(二维数组,视图用)
 	public static function unlimitedForLevel($cate, $html = '--', $parent = 0, $level = 0)
 	{
 		$arr = [];
@@ -15,6 +16,7 @@ class Category
 		return $arr;
 	}
 
+	//组合分类列表(多维数组)
 	public static function unlimitedForLayer($cate, $parent = 0)
 	{
 		$arr = [];
@@ -27,6 +29,7 @@ class Category
 		return $arr;
 	}
 
+	//组合评论列表(二维数组)
 	public static function unlimitedForComment($comment, $parent = 0, $level = 0)
 	{
 		$arr = [];

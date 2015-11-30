@@ -90,7 +90,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">{$Think.session.uname} <i class="fa fa-angle-down"></i></a>
             <ul class="dropdown-menu animated fadeInDown">
                <li><a href="{:U('Admin/User/details')}/id/{$Think.session.uid}"><i class="fa fa-user"></i> 个人资料</a></li>
-               <li><a href="#"><i class="fa fa-edit"></i> 写文章</a></li>
+               <li><a href="{:U('Admin/Articles/addArticle')}"><i class="fa fa-edit"></i> 写文章</a></li>
                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge badge-danager" id="user-inbox">5</span></a></li>
                <li><a href="{:U('Admin/Index/logout')}"><i class="fa fa-power-off"></i>退出登录</a></li>
             </ul>

@@ -7,5 +7,5 @@ return [
 	'LAST' => '末页',
 	'THEME' => '%HEADER% %FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%',
 	'VAR_PAGE' => 'p',//分页参数名
-	"PAGE_SIZE" => '25',
+	"PAGE_SIZE" => '15',
 ];

@@ -61,6 +61,7 @@
 							<thead>
 								<tr>
 									<th width="5%">#</th>
+									<th width="8%">层级</th>
 									<th width="25%">作者</th>
 									<th width="50%">评论</th>
 									<th width="20%">回复至</th>
@@ -70,6 +71,26 @@
 								<foreach name="comments" item="v">
 									<tr class='titleHover <if condition="$v.comment_type eq 0">danger</if>'>
 										<td>{$v.comment_id}</td>
+										<td>
+											<php>
+												switch ($v['level']) {
+												case "0":
+												echo "顶级评论";
+												break;
+												case "1":
+												echo "二级评论";
+												break;
+												case "2":
+												echo "三级评论";
+												break;
+												case "3":
+												echo "四级评论";
+												break;
+												default:
+												echo "多级评论";
+												}
+											</php>
+										</td>
 										<td>
 											<div class="cl-avatar">
 												<if condition="$v.avatar eq ''">
@@ -99,7 +120,7 @@
 											<div class="cl-handle hidden">
 												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '2'])}">垃圾评论</a>
 												<a href="{:U('Admin/Comments/audit', ['id' => $v['comment_id'], 'type' => '0'])}">还原</a>
-												<a href="{:U('Admin/Comments/delete', ['id' => $v['comment_id']])}">永久删除</a>
+												<a href="{:U('Admin/Comments/delete', ['id' => $v['comment_id']])}" class="delete">永久删除</a>
 											</div>
 										</td>
 										<td>
@@ -107,14 +128,14 @@
 												<a href="{:U('Admin/Articles/updateArticle', ['id' => $v['pid']])}" target="_blank">{$v.post_title}</a>
 												<a href="{:U('/Index/' . $v['pid'])}" target="_blank">查看文章</a>
 												<if condition="$v.comment_count gt 0">
-												<a href="" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
-												<else/>
-												<span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$v.comment_count}条评论">{$v.comment_count}</span>
+													<a href="{:U('Admin/Comments/getCommentsByArticle', ['comment_post_id' => $v['pid'], 'comment_type' => 1])}" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
+													<else/>
+													<span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$v.comment_count}条评论">{$v.comment_count}</span>
 												</if>
 												<?php
 												$no_audit_comments = M("Comments")->where(['comment_post_id' => $v['pid'], 'comment_type' => 0])->count();
 												if ($no_audit_comments > 0) {
-													echo "<a href='' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
+												echo "<a href='" . U("Admin/Comments/getCommentsByArticle", ["comment_post_id" => $v["pid"], "comment_type" => 0]) . "' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
 												}
 												?>
 											</div>
@@ -161,7 +182,7 @@
 					$(this).find("div.show").removeClass("show").addClass("hidden");
 				})
 			})
-			$(".repeal, .addtrash, .deleteArticle").click(function(){
+			$(".delete").click(function(){
 				if (!confirm("确定要" + $(this).html() + "吗?")) {
 					return false;
 				} else {

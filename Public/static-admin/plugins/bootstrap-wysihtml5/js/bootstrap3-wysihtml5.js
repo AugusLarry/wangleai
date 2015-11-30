@@ -460,7 +460,7 @@
                 "pre": 1
             }
         },
-        stylesheets: ["./assets/plugins/bootstrap-wysihtml5/css/bootstrap3-wysiwyg5-color.css"], // (path_to_project/lib/css/bootstrap3-wysiwyg5-color.css)
+        stylesheets: ["/Public/static-admin/plugins/bootstrap-wysihtml5/css/bootstrap3-wysiwyg5-color.css"], // (path_to_project/lib/css/bootstrap3-wysiwyg5-color.css)
         locale: "en"
     };
 
