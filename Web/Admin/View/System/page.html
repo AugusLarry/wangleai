@@ -1,0 +1,93 @@
+<extend name="Public:layout"/>
+<block name="seo">
+   <title>分页设置</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+</block>
+<block name="css">
+   <link rel="stylesheet" href="__PUBLIC__/plugins/icheck/css/_all.css">
+</block>
+<block name="content">
+<div class="row">
+   <div class="col-md-12">
+      <ul class="breadcrumb">
+         <li><a href="{:U('Admin/Index/index')}">首页</a></li>
+         <li><a href="{:U('Admin/System/index')}">系统设置</a></li>
+         <li class="active">分页设置</li>
+      </ul>
+   </div>
+   <div class="col-md-12">
+      <div class="panel panel-default">
+         <div class="panel-heading"><h3 class="panel-title">分页设置</h3></div>
+         <div class="panel-body">
+            <form class="form-horizontal form-border" action="{:U('Admin/System/updatePage')}" method="post">
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">分页开始按钮样式</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="HEADER" value="{$Think.config.HEADER|htmlspecialchars}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">上一页名称</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="PREV" value="{$Think.config.PREV}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">下一页名称</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="NEXT" value="{$Think.config.NEXT}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">首页名称</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="FIRST" value="{$Think.config.FIRST}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">末页名称</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="LAST" value="{$Think.config.LAST}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">按钮排序样式</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="THEME" value="{$Think.config.THEME}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">分页参数名</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="VAR_PAGE" value="{$Think.config.VAR_PAGE}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">每页条数</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="PAGE_SIZE" value="{$Think.config.PAGE_SIZE}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <div class="col-sm-2 col-sm-offset-4">
+                     <input type="submit" class="btn btn-primary btn-block" id="update" value="提交">
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+</block>
+<block name="js">
+<script src="__PUBLIC__/plugins/icheck/js/icheck.min.js"></script>
+<script>
+   $(document).ready(function() {
+      $('input').iCheck({
+         checkboxClass: 'icheckbox_flat-grey',
+         radioClass: 'iradio_flat-grey'
+      });
+   });
+</script>
+</block>

@@ -218,8 +218,6 @@ class ArticlesController extends CommonController
 			$model = D("Terms")->where(['taxonomy' => 1])->select();
 			//$TagsData(设置要插入标签的数据);$Tids(设置所有添加标签的ID)
 			$TagsData = $Tids = [];
-			echo "1";
-			p($tags);die;
 			//如果还没有标签
 			if (!$model) {
 				foreach ($tags as $k => $v) {//直接循环插入Terms表

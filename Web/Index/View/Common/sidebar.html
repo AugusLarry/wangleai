@@ -5,7 +5,7 @@
 		<section class="widget">
 			<div class="widget-title">最新文章</div>
 			<ul class="widget-list widget-list2">
-				<news field="id,created_at as time,post_title as title" order="created_at desc" limit="5">
+				<news field="id,created_at as time,post_title as title" order="created_at desc" limit="3">
 					<li><h3><a href="{:U('/Index/c_' . $id)}" title="{$title}" target="_blank">{$title}<span class="pull-right">&nbsp;{$time|date="Y-m-d", ###}</i></span></a></h3></li>
 				</news>
 			</ul>
@@ -14,7 +14,7 @@
 		<section class="widget">
 			<div class="widget-title">最热文章</div>
 			<ul class="widget-list widget-list2">
-				<news field="id,click_count as count,post_title as title" order="click_count desc" limit="5">
+				<news field="id,click_count as count,post_title as title" order="click_count desc" limit="3">
 					<li><h3><a href="{:U('/Index/c_' . $id)}" title="{$title}" target="_blank">{$title}<span class="pull-right"><i class="fa fa-eye">&nbsp;{$count}</i></span></a></h3></li>
 				</news>
 			</ul>
@@ -23,7 +23,7 @@
 		<section class="widget">
 			<div class="widget-title">最多评论文章</div>
 			<ul class="widget-list widget-list2">
-				<news field="id,comment_count as count,post_title as title" order="click_count desc" limit="5">
+				<news field="id,comment_count as count,post_title as title" order="click_count desc" limit="3">
 					<li><h3><a href="{:U('/Index/c_' . $id)}" title="{$title}" target="_blank">{$title}<span class="pull-right"><i class="fa fa-comment-o">&nbsp;{$count}</i></span></a></h3></li>
 				</news>
 			</ul>
@@ -37,13 +37,9 @@
 		<section class="widget">
 			<div class="widget-title">其它</div>
 			<ul class="widget-list widget-list2">
-				<if condition="$_SESSION['uid'] OR $_SESSION['uname']">
+				<if condition="$_SESSION['uid'] AND $_SESSION['uname']">
 					<li><h3><a href="{:U('Admin/User/details', ['id' => $_SESSION['uid']])}">{$Think.session.uname},你好!</a></h3></li>
 					<li class="last"><h3><a href="{:U('Admin/Index/index')}">进入后台控制台</a></h3></li>
-					<li><h3><a href="">退出</a></h3></li>
-				<else/>
-					<li class="last"><h3><a href="">注册</a></h3></li>
-					<li class="last"><h3><a href="">登录</a></h3></li>
 				</if>
 			</ul>
 		</section>

@@ -1,0 +1,75 @@
+<extend name="Public:layout"/>
+<block name="seo">
+   <title>基本设置</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+</block>
+<block name="css">
+   <link rel="stylesheet" href="__PUBLIC__/plugins/icheck/css/_all.css">
+</block>
+<block name="content">
+<div class="row">
+   <div class="col-md-12">
+      <ul class="breadcrumb">
+         <li><a href="{:U('Admin/Index/index')}">首页</a></li>
+         <li><a href="{:U('Admin/System/index')}">系统设置</a></li>
+         <li class="active">基本设置</li>
+      </ul>
+   </div>
+   <div class="col-md-12">
+      <div class="panel panel-default">
+         <div class="panel-heading"><h3 class="panel-title">基本设置</h3></div>
+         <div class="panel-body">
+            <form class="form-horizontal form-border" action="{:U('Admin/System/updateComment')}" method="post">
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">全站开启评论</label>
+                  <div class="col-sm-6">
+                     <if condition="$Think.config.COMMENT_ON eq true">
+                        <label class="radio-inline"><input class="icheck" type="radio" name="COMMENT_ON" checked value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="COMMENT_ON" value="0">否</label>
+                     <else/>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="COMMENT_ON" value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="COMMENT_ON" checked value="0">否</label>
+                     </if>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">评论层级</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="COMMENT_LEVEL" value="{$Think.config.COMMENT_LEVEL}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">评论相隔时间(s)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="COMMENT_TIME" value="{$Think.config.COMMENT_TIME}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-3 control-label">评论COOKIE前缀(md5)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="COMMENT_COOKIE_PREFIX" value="{$Think.config.COMMENT_COOKIE_PREFIX}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <div class="col-sm-2 col-sm-offset-4">
+                     <input type="submit" class="btn btn-primary btn-block" id="update" value="提交">
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+</block>
+<block name="js">
+<script src="__PUBLIC__/plugins/icheck/js/icheck.min.js"></script>
+<script>
+   $(document).ready(function() {
+      $('input').iCheck({
+         checkboxClass: 'icheckbox_flat-grey',
+         radioClass: 'iradio_flat-grey'
+      });
+   });
+</script>
+</block>

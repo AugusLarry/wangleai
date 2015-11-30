@@ -1,0 +1,141 @@
+<extend name="Public:layout"/>
+<block name="seo">
+   <title>上传设置</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+</block>
+<block name="css">
+   <link rel="stylesheet" href="__PUBLIC__/plugins/icheck/css/_all.css">
+</block>
+<block name="content">
+<div class="row">
+   <div class="col-md-12">
+      <ul class="breadcrumb">
+         <li><a href="{:U('Admin/Index/index')}">首页</a></li>
+         <li><a href="{:U('Admin/System/index')}">系统设置</a></li>
+         <li class="active">上传设置</li>
+      </ul>
+   </div>
+   <div class="col-md-12">
+      <div class="panel panel-default">
+         <div class="panel-heading"><h3 class="panel-title">上传设置</h3></div>
+         <div class="panel-body">
+            <form class="form-horizontal form-border" action="{:U('Admin/System/updateUpload')}" method="post">
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">上传的文件大小限制(以字节为单位,0不做限制)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="maxSize" value="{$Think.config.maxSize}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">文件上传保存的根路径</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="rootPath" value="{$Think.config.rootPath}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">文件上传的保存路径（相对于根路径）</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="savePath" value="{$Think.config.savePath}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">上传文件命名规则(函数名,参数)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="saveName" value="{$Think.config.saveName}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">文件保存后缀,空则使用原后缀</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="saveExt" value="{$Think.config.saveExt}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">存在同名是否覆盖</label>
+                  <div class="col-sm-6">
+                     <if condition="$Think.config.replace eq true">
+                        <label class="radio-inline"><input class="icheck" type="radio" name="replace" checked value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="replace" value="0">否</label>
+                     <else/>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="replace" value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="replace" checked value="0">否</label>
+                     </if>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">允许上传的文件后缀(留空为不限制)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="exts" value="{$Think.config.exts}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">允许上传的文件MiMe类型(留空为不限制)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="mimes" value="{$Think.config.mimes}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">自动子目录保存文件</label>
+                  <div class="col-sm-6">
+                     <if condition="$Think.config.autoSub eq true">
+                        <label class="radio-inline"><input class="icheck" type="radio" name="autoSub" checked value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="autoSub" value="0">否</label>
+                     <else/>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="autoSub" value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="autoSub" checked value="0">否</label>
+                     </if>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">子目录创建方式(函数名,参数)</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control" name="subName" value="{$Think.config.subName}">
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">是否生成hash编码</label>
+                  <div class="col-sm-6">
+                     <if condition="$Think.config.hash eq true">
+                        <label class="radio-inline"><input class="icheck" type="radio" name="hash" checked value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="hash" value="0">否</label>
+                     <else/>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="hash" value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="hash" checked value="0">否</label>
+                     </if>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-4 control-label">检测文件是否存在回调,如果存在返回文件信息数组</label>
+                  <div class="col-sm-6">
+                     <if condition="$Think.config.callback eq true">
+                        <label class="radio-inline"><input class="icheck" type="radio" name="callback" checked value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="callback" value="0">否</label>
+                     <else/>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="callback" value="1">是</label>
+                        <label class="radio-inline"><input class="icheck" type="radio" name="callback" checked value="0">否</label>
+                     </if>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <div class="col-sm-2 col-sm-offset-4">
+                     <input type="submit" class="btn btn-primary btn-block" id="update" value="提交">
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+</block>
+<block name="js">
+<script src="__PUBLIC__/plugins/icheck/js/icheck.min.js"></script>
+<script>
+   $(document).ready(function() {
+      $('input').iCheck({
+         checkboxClass: 'icheckbox_flat-grey',
+         radioClass: 'iradio_flat-grey'
+      });
+   });
+</script>
+</block>

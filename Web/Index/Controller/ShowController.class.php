@@ -22,6 +22,7 @@ class ShowController extends Controller
 			'email' => cookie(C('COMMENT_COOKIE_PREFIX') . "_comment_author_email"),
 			'url' => cookie(C('COMMENT_COOKIE_PREFIX') . '_comment_author_url')
 		];
+        $this->article_name = $model->where($where)->getField("post_title");
     	$this->display();
     }
 
@@ -31,6 +32,9 @@ class ShowController extends Controller
     public function addComment()
     {
     	if (!IS_AJAX || empty(I("post."))) $this->error("访问出错", U('/Index/'));
+        $post_id = I("post.post_id", "", "intval");
+        $comment_status = M("Posts")->where(['id' => $post_id])->getField("comment_status");
+        if (!C("COMMENT_ON") || $comment_status) $this->error("该文章已经关闭评论,请稍后再试!", U("/Index/" . I("post.post_id")), true);
 		//如果检测到session,说明已经提交过一次评论
 		if (session('?uname')) {
 			//获取最后一次评论

@@ -3,14 +3,14 @@
 	<div class="container">
 		<div class="col-group">
 			<div class="site-name">
-				<a id="logo" href="__MODULE__">忘了爱</a>
-				<h1>忘了爱</h1>
-				<p class="description">这是什么鬼</p>
+				<a id="logo" href="{$Think.config.SITE_INDEX_URL}">{$Think.config.SITE_WEB_NAME}</a>
+				<h1>{$Think.config.SITE_WEB_NAME}</h1>
+				<p class="description">{$Think.config.SITE_INDEX_DESCRIPTION}</p>
 			</div>
 			<div>
 				<nav id="nav-menu" class="clearfix">
 					<ul class="nav nav-pills">
-						<li role="navigation" <if condition="CONTROLLER_NAME eq 'Index'">class="current"</if>><a href="__MODULE__">首页</a></li>
+						<li role="navigation" <if condition="CONTROLLER_NAME eq 'Index'">class="current"</if>><a href="{$Think.config.SITE_INDEX_URL}">首页</a></li>
 						<navigation limit="10" order="sort">
 							<li role="navigation">
 								<a href="{$url}">{$name}</a>

@@ -2,7 +2,7 @@
 <header id="header">
    <!--logo start-->
    <div class="brand">
-      <a href="index.html" class="logo">
+      <a href="{:U('Admin/Index/index')}" class="logo">
       <span>WangLeAI</span></a>
    </div>
    <!--logo end-->
@@ -11,7 +11,7 @@
    </div>
    <div class="user-nav">
       <ul>
-         <li class="dropdown messages">
+         <!-- <li class="dropdown messages">
             <span class="badge badge-danager animated bounceIn" id="new-messages">5</span>
             <button type="button" class="btn btn-default dropdown-toggle options" id="toggle-mail" data-toggle="dropdown"><i class="fa fa-envelope"></i></button>
             <ul class="dropdown-menu alert animated fadeInDown">
@@ -78,7 +78,7 @@
                </li>
                <li><a href="#">Check all messages <i class="fa fa-angle-right"></i></a></li>
             </ul>
-         </li>
+         </li> -->
          <li class="profile-photo">
             <if condition="$Think.session.avatar eq true">
                <img src="{$Think.session.avatar}" alt="" width="60" class="img-circle">
@@ -91,15 +91,18 @@
             <ul class="dropdown-menu animated fadeInDown">
                <li><a href="{:U('Admin/User/details')}/id/{$Think.session.uid}"><i class="fa fa-user"></i> 个人资料</a></li>
                <li><a href="{:U('Admin/Articles/addArticle')}"><i class="fa fa-edit"></i> 写文章</a></li>
-               <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge badge-danager" id="user-inbox">5</span></a></li>
+               <!-- <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge badge-danager" id="user-inbox">5</span></a></li> -->
                <li><a href="{:U('Admin/Index/logout')}"><i class="fa fa-power-off"></i>退出登录</a></li>
             </ul>
          </li>
          <li>
+            <a href="{$Think.config.SITE_INDEX_URL}" target="_blank" title="前台首页"><i class="fa fa-home"></i></a>
+         </li>
+         <!-- <li>
             <div class="toggle-navigation toggle-right">
                <button type="button" class="btn btn-default" id="toggle-right"><i class="fa fa-comment"></i></button>
             </div>
-         </li>
+         </li> -->
       </ul>
    </div>
 </header>

@@ -1,4 +1,1 @@
-<?php
-return [
-    "SITE_URL" => "http://www.wla.com"
-];
+<?php	return array ( 'SITE_URL' => 'http://www.wla.com', 'SITE_INDEX_URL' => '/', 'SITE_INDEX_NAME' => '首页', 'SITE_WEB_NAME' => '忘了爱', 'SITE_POWERBY' => 'Copyright © 2015-2020 WANGLEAI. 芊茉科技 版权所有', 'SITE_KEYWORDS' => '忘了爱', 'SITE_DESCRIPTION' => '忘了爱', 'SITE_BEIAN' => '', 'SITE_INDEX_DESCRIPTION' => '这是什么鬼', );?>

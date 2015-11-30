@@ -1,7 +1,1 @@
-<?php
-return [
-    'COMMENT_ON' => true,//全站开启评论
-    'COMMENT_LEVEL' => 3,//评论层级
-    'COMMENT_TIME' => 60,//评论相隔时间(s)
-    'COMMENT_COOKIE_PREFIX' => md5("http://www.wla.com"),
-];
+<?php	return array ( 'COMMENT_ON' => true, 'COMMENT_LEVEL' => 3, 'COMMENT_TIME' => 60, 'COMMENT_COOKIE_PREFIX' => '70f478ae55fbfaad3d2f02bd960d1b40', );?>

@@ -7,7 +7,7 @@ class SearchController extends Controller
 	{
 		if (!I("post.") || empty(I("post."))) $this->display();
 		$keyword = I("post.s", "", "htmlspecialchars");
-		$this->posts = M("Posts")->where(['name' => $keyword])->select();
+		$this->posts = M("Posts")->where(['post_title' => ['like', "%" . $keyword . "%"]])->select();
 		$this->keyword = $keyword;
 		$this->display();
 	}

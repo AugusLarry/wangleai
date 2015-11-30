@@ -38,6 +38,7 @@ class ListController extends Controller
 			unset($posts[$key]['property']);
 		}
 		$this->posts = $posts;
+		$this->category_name = M("Terms")->where(['id' => I("get.id")])->getField("name");
     	$this->display();
     }
 }

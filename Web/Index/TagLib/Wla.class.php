@@ -100,6 +100,7 @@ str;
 	public function _comments()
 	{
 		$id = I("get.id");
+		$post_comment_status = M("Posts")->where(['id' => $id])->getField("comment_status");
 		$comments = M("Comments")->where(['comment_post_id' => $id, ['comment_type' => 1]])->select();
 		vendor('myClass.Category', "", ".php");
 		$comments = \Category::unlimitedForComment($comments);
@@ -119,7 +120,7 @@ str;
 				}
 				$str .= "</div><div class='cl-main'><div class='cl-meta'><span class='cl-author'>";
 				$str .= "<a href='" . $v['comment_author_url'] . "'>" . $v['comment_author'] . "</a></span>" . date("Y-m-d H:i:s", $v['created_at']);
-                if ($v['level']+1 < C("COMMENT_LEVEL")) {
+                if (C("COMMENT_ON") && !$post_comment_status && $v['level']+1 < C("COMMENT_LEVEL")) {
                     $str .= "<a rel='nofollow' href='" . U("/Index/" . $id) . "/?replyTo=" . $v['comment_id'] . "#respond-post-1" . "' onclick=\"return TypechoComment.reply('comment-" . $v["comment_id"] . "', " . $v["comment_id"] . ");\">回复</a>";
                 }
                 $str .= "</div><div class='cl-content'>" . $v['comment_content'] . "</div></div></li>";
