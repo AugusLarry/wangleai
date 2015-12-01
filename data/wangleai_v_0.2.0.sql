@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-12-01 17:34:42
+Date: 2015-12-01 18:00:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -267,5 +267,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('10', 'adminlqm', 'resinchem@qq.com', '0ae9ca2f9ea60818f498fd6f04f603b9', '刘芊茉', '/Public/Uploads/avatar/565d667a49a16.jpg', '这是一个非常可爱的宝宝', '10', null, '1448953976', '1448962376', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('10', 'adminlqm', 'resinchem@qq.com', '0ae9ca2f9ea60818f498fd6f04f603b9', '刘芊茉', '/Public/Uploads/avatar/2015-12-01-17-56-53/565d6ee5c946f.jpg', '这是一个非常可爱的宝宝', '10', null, '1448953976', '1448963861', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('11', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号', '', '这是一个测试账号', '10', null, '1448962108', '1448962234', '127.0.0.1');
