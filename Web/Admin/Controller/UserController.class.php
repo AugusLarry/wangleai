@@ -93,7 +93,6 @@ class UserController extends CommonController
 	{
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错!", U("Admin/Index/index"));
 		//实例化用户模型
-		p(I("post."));
 		$user = D("User");
 		if (!$user->create(I("post."), 2)) {
 			$this->error($user->getError(), U("Admin/User/details", ['id' => I("post.id")]));
@@ -265,7 +264,7 @@ class UserController extends CommonController
 		    'maxSize'      => C("maxSize"),
 		    'exts'         => C("exts"),
 		    'autoSub'      => C("autoSub"),
-		    'subName'      => C("subName"),
+		    'subName'      => ['date', 'Y-m-d-H-i-s'],
 		    'rootPath'     => C("rootPath"),
 		    'savePath'     => C("savePath"),
 		    'saveName'     => C("saveName"),
