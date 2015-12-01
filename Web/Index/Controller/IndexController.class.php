@@ -11,7 +11,7 @@ class IndexController extends Controller
     	//实例化详情模型
 		$posts = D("Posts");
 		$where = [
-			'post_status' => ['neq', 2]
+			'post_status' => 0
 		];
 		//对文章列表分页显示
 		$page = getPageForIndex($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-11-26 16:59:50
+Date: 2015-12-01 09:43:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -134,7 +134,7 @@ DROP TABLE IF EXISTS `wla_comments`;
 CREATE TABLE `wla_comments` (
   `comment_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评论ID',
   `comment_post_id` bigint(20) NOT NULL COMMENT '所属文章ID',
-  `comment_author` tinyint(4) NOT NULL COMMENT '评论者',
+  `comment_author` varchar(255) NOT NULL COMMENT '评论者',
   `comment_author_email` varchar(100) NOT NULL COMMENT '评论者email',
   `comment_author_url` varchar(200) NOT NULL COMMENT '评论者URL',
   `comment_author_ip` varchar(15) NOT NULL COMMENT '评论者IP',
@@ -148,11 +148,20 @@ CREATE TABLE `wla_comments` (
   KEY `comment_author_email` (`comment_author_email`) USING BTREE,
   KEY `comment_parent` (`comment_parent`) USING BTREE,
   KEY `comment_post_id` (`comment_post_id`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='评论表';
+) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='评论表';
 
 -- ----------------------------
 -- Records of wla_comments
 -- ----------------------------
+INSERT INTO `wla_comments` VALUES ('3', '3', 'comment', 'comment@qq.com', 'http://comment.com', '127.0.0.1', '1448774278', '测试子下级分类', '1', 'Firefox|-|42.0', '0', '0');
+INSERT INTO `wla_comments` VALUES ('9', '3', 'comment', 'comment@qq.com', 'http://comment.com', '127.0.0.1', '1448778527', '测试cookie', '1', 'Firefox|-|42.0', '0', '0');
+INSERT INTO `wla_comments` VALUES ('13', '3', 'comment', 'comment@qq.com', 'http://comment.com', '127.0.0.1', '1448779547', '测试', '1', 'Firefox|-|42.0', '0', '0');
+INSERT INTO `wla_comments` VALUES ('14', '2', 'comment', 'comment@qq.com', 'http://comment.com', '127.0.0.1', '1448779679', '你好', '1', 'Firefox|-|42.0', '0', '0');
+INSERT INTO `wla_comments` VALUES ('15', '1', '测试账号001', 'test001@qq.com', 'http://www.wla.com', '127.0.0.1', '1448780119', '测试评论', '1', 'Chrome|-|46.0', '0', '1');
+INSERT INTO `wla_comments` VALUES ('16', '1', '测试账号001', 'test001@qq.com', 'http://www.wla.com', '127.0.0.1', '1448780405', '怎么办你妹', '1', 'Chrome|-|46.0', '15', '1');
+INSERT INTO `wla_comments` VALUES ('18', '2', '测试账号001', 'test001@qq.com', 'http://www.wla.com', '127.0.0.1', '1448861620', '什么鬼', '1', 'Firefox|-|42.0', '14', '1');
+INSERT INTO `wla_comments` VALUES ('19', '3', '测试账号001', 'test001@qq.com', 'http://www.wla.com', '127.0.0.1', '1448861658', '这又是什么鬼', '1', 'Firefox|-|42.0', '13', '1');
+INSERT INTO `wla_comments` VALUES ('21', '1', '测试账号001', 'test001@qq.com', 'http://www.wla.com', '127.0.0.1', '1448863384', '哈哈个JB毛', '1', 'Firefox|-|42.0', '15', '1');
 
 -- ----------------------------
 -- Table structure for `wla_posts`
@@ -178,9 +187,9 @@ CREATE TABLE `wla_posts` (
 -- ----------------------------
 -- Records of wla_posts
 -- ----------------------------
-INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448175784', 'PHP函数定义', '0', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction test(){\r\n    echo &amp;quot;this is a test function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;this&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '0', '0', '0', '1');
-INSERT INTO `wla_posts` VALUES ('2', '测试账号001', '1448429812', 'javascript函数定义', '0', '&lt;pre class=&quot;brush:js;toolbar:false&quot;&gt;&amp;lt;script&amp;gt;\r\nfunction test() {\r\n    alert(&amp;quot;1&amp;quot;);\r\n}\r\n&amp;lt;/script&amp;gt;\r\ntest();&lt;/pre&gt;', '&lt;pre class=&quot;brush:js;toolbar:false&quot;&gt;&amp;lt;script&amp;gt;\r\nfunction&amp;nbsp;test()&amp;nbsp;{\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;alert(&amp;quot;1&amp;quot;);\r\n}\r\n&amp;lt;/script&amp;gt;\r\ntest();&lt;/pre&gt;', '0', '0', '0', '0');
-INSERT INTO `wla_posts` VALUES ('3', '测试账号001', '1448431217', 'c++函数定义', '0', '&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;int fun( char *s )\r\n{\r\n    return atoi(s);\r\n}&lt;/pre&gt;', '&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;int&amp;nbsp;fun(&amp;nbsp;char&amp;nbsp;*s&amp;nbsp;)\r\n{\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;return&amp;nbsp;atoi(s);\r\n}&lt;/pre&gt;', '0', '0', '0', '0');
+INSERT INTO `wla_posts` VALUES ('1', '测试账号001', '1448175784', 'PHP函数定义', '0', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction test(){\r\n    echo &amp;quot;this is a test function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '&lt;pre class=&quot;brush:php;toolbar:false&quot;&gt;&amp;lt;?php\r\nfunction&amp;nbsp;test(){\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;echo&amp;nbsp;&amp;quot;this&amp;nbsp;is&amp;nbsp;a&amp;nbsp;test&amp;nbsp;function;&amp;quot;;\r\n}\r\n?&amp;gt;&lt;/pre&gt;', '0', '0', '3', '26');
+INSERT INTO `wla_posts` VALUES ('2', '测试账号001', '1448429812', 'javascript函数定义', '0', '&lt;pre class=&quot;brush:js;toolbar:false&quot;&gt;&amp;lt;script&amp;gt;\r\nfunction test() {\r\n    alert(&amp;quot;1&amp;quot;);\r\n}\r\n&amp;lt;/script&amp;gt;\r\ntest();&lt;/pre&gt;', '&lt;pre class=&quot;brush:js;toolbar:false&quot;&gt;&amp;lt;script&amp;gt;\r\nfunction&amp;nbsp;test()&amp;nbsp;{\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;alert(&amp;quot;1&amp;quot;);\r\n}\r\n&amp;lt;/script&amp;gt;\r\ntest();&lt;/pre&gt;', '0', '0', '2', '18');
+INSERT INTO `wla_posts` VALUES ('3', '测试账号001', '1448431217', 'c++函数定义', '0', '&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;int fun( char *s )\r\n{\r\n    return atoi(s);\r\n}&lt;/pre&gt;', '&lt;pre class=&quot;brush:cpp;toolbar:false&quot;&gt;int&amp;nbsp;fun(&amp;nbsp;char&amp;nbsp;*s&amp;nbsp;)\r\n{\r\n&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;return&amp;nbsp;atoi(s);\r\n}&lt;/pre&gt;', '0', '1', '4', '196');
 
 -- ----------------------------
 -- Table structure for `wla_post_property`
@@ -196,15 +205,6 @@ CREATE TABLE `wla_post_property` (
 -- ----------------------------
 -- Records of wla_post_property
 -- ----------------------------
-INSERT INTO `wla_post_property` VALUES ('1', '3');
-INSERT INTO `wla_post_property` VALUES ('1', '2');
-INSERT INTO `wla_post_property` VALUES ('1', '1');
-INSERT INTO `wla_post_property` VALUES ('2', '3');
-INSERT INTO `wla_post_property` VALUES ('2', '2');
-INSERT INTO `wla_post_property` VALUES ('2', '1');
-INSERT INTO `wla_post_property` VALUES ('3', '1');
-INSERT INTO `wla_post_property` VALUES ('3', '2');
-INSERT INTO `wla_post_property` VALUES ('3', '3');
 
 -- ----------------------------
 -- Table structure for `wla_post_term`
@@ -224,8 +224,8 @@ INSERT INTO `wla_post_term` VALUES ('1', '12');
 INSERT INTO `wla_post_term` VALUES ('1', '1');
 INSERT INTO `wla_post_term` VALUES ('2', '13');
 INSERT INTO `wla_post_term` VALUES ('2', '1');
-INSERT INTO `wla_post_term` VALUES ('3', '8');
 INSERT INTO `wla_post_term` VALUES ('3', '14');
+INSERT INTO `wla_post_term` VALUES ('3', '8');
 
 -- ----------------------------
 -- Table structure for `wla_property`
@@ -308,5 +308,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448524964', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('1', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号001', '/Public/Uploads/avatar/2015-11-15/5647f26f63b30.jpg', '这是一个测试账号', '10', null, '1447547536', '1448931409', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('3', 'test003', 'test003@qq.com', 'db270e0074bad27c1177f31627818618', '测试用户3', '/Public/Uploads/avatar/2015-11-15/5648789f50cc1.jpg', '这是一个测试用户', '10', null, '1447590053', '1447591487', '127.0.0.1');
