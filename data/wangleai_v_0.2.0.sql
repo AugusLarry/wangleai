@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : wangleai
-Source Server Version : 50617
+Source Server Version : 50540
 Source Host           : localhost:3306
 Source Database       : wangleai
 
 Target Server Type    : MYSQL
-Target Server Version : 50617
+Target Server Version : 50540
 File Encoding         : 65001
 
-Date: 2015-12-01 18:00:05
+Date: 2015-12-01 20:56:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -234,11 +234,17 @@ CREATE TABLE `wla_terms` (
   UNIQUE KEY `term_id` (`id`) USING BTREE,
   KEY `name` (`name`) USING BTREE,
   KEY `slug` (`slug`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='记录分类、标签的一些简要信息，包括名称，缩写。\r\n从这个表可以获得：分类、标签对应的ID，这个ID将在"wla_term_taxonomy"表中使用';
 
 -- ----------------------------
 -- Records of wla_terms
 -- ----------------------------
+INSERT INTO `wla_terms` VALUES ('1', 'PHP', 'php', '100', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('2', 'HTML', 'html', '100', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('3', 'JS', 'javascript', '100', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('4', 'MySQL', 'mysql', '100', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('5', 'Linux', 'linux', '100', '0', '', '0', '0');
+INSERT INTO `wla_terms` VALUES ('6', '其他', 'other', '100', '0', '', '0', '0');
 
 -- ----------------------------
 -- Table structure for `wla_user`
@@ -267,5 +273,5 @@ CREATE TABLE `wla_user` (
 -- ----------------------------
 -- Records of wla_user
 -- ----------------------------
-INSERT INTO `wla_user` VALUES ('10', 'adminlqm', 'resinchem@qq.com', '0ae9ca2f9ea60818f498fd6f04f603b9', '刘芊茉', '/Public/Uploads/avatar/2015-12-01-17-56-53/565d6ee5c946f.jpg', '这是一个非常可爱的宝宝', '10', null, '1448953976', '1448963861', '127.0.0.1');
+INSERT INTO `wla_user` VALUES ('10', 'adminlqm', 'resinchem@qq.com', '0ae9ca2f9ea60818f498fd6f04f603b9', '刘芊茉', '/Public/Uploads/avatar/2015-12-01-17-56-53/565d6ee5c946f.jpg', '这是一个非常可爱的宝宝', '10', null, '1448953976', '1448971841', '127.0.0.1');
 INSERT INTO `wla_user` VALUES ('11', 'test001', 'test001@qq.com', 'fa820cc1ad39a4e99283e9fa555035ec', '测试账号', '', '这是一个测试账号', '10', null, '1448962108', '1448962234', '127.0.0.1');
