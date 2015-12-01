@@ -58,22 +58,6 @@
                      <button type="button" class="btn btn-primary" id="add-tag">添加</button>
                   </label>
                </div>
-               <div class="form-group has-feedback">
-                  <label class="col-sm-3 control-label">属性</label>
-                  <div class="col-sm-6">
-                     <?php foreach ($property as $v): ?>
-                        <label class="checkbox-inline">
-                        <input class="icheck" type="checkbox" name="property[]" value="{$v.id}"
-                           <?php foreach ($attr as $val): ?>
-                              <?php if ($v['id'] == $val): ?>
-                                 checked="checked"
-                              <?php endif ?>
-                           <?php endforeach ?>
-                        >{$v.property}
-                        </label>
-                     <?php endforeach ?>
-                  </div>
-               </div>
                <div class="form-group">
                   <label class="col-sm-3 control-label">类型</label>
                   <div class="col-sm-6">

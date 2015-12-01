@@ -110,7 +110,7 @@
                               <if condition="$v.comment_count eq 0">
                               <span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.comment_count}评论">{$v.comment_count}</span>
                               <else/>
-                              <a href="{:U('Admin/Comments/getCommentsByPost', ['post_id' => $v['id']])}"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.comment_count}评论">{$v.comment_count}</span></a>
+                              <a href="{:U('Admin/Comments/getCommentsByArticle', ['comment_post_id' => $v['id'], 'comment_type' => 1])}"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="总共{$v.comment_count}评论">{$v.comment_count}</span></a>
                               </if>
                            </td>
                            <td>

@@ -1,6 +1,5 @@
 <?php
 namespace Admin\Controller;
-use Admin\Controller\CommonController;
 /**
  * 系统设置控制器
  */
@@ -100,7 +99,6 @@ class SystemController extends CommonController
 		    'exts'   => I("post.exts"),
 		    'mimes'    => I("post.mimes"),
 		    'autoSub' => (int) I("post.autoSub") ? true : false,
-		    'subName'   => I("post.subName"),
 		    'hash'   => (int) I("post.hash") ? true : false,
 		    'callback'   => (int) I("post.callback") ? true : false
 		];

@@ -7,21 +7,22 @@
      * For:评论控制器
      */
 namespace Admin\Controller;
-use Admin\Controller\CommonController;
 class CommentsController extends CommonController
 {
     //评论视图
     public function index()
     {
-        $comments = D("Comments");
+        $model = D("Comments");
         $where = [
             'comment_type' => ['lt', 2]
         ];
-        $page = getpage($comments, $where, I("get.onepagenum", C("PAGE_SIZE")));
-        $this->show = $page->show();
-        $comments = $comments->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $page = getpage($model, $where, I("get.onepagenum", C("PAGE_SIZE")));
+        $show = $page->show();
+        $comments = $model->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
         vendor('myClass.Category', "", ".php");
-        $this->comments = \Category::unlimitedForComment($comments);
+        $comments = \Category::unlimitedForComment($comments);
+        $this->assign("show", $show);
+        $this->assign("comments", $comments);
         $this->display();
     }
 
@@ -75,53 +76,61 @@ class CommentsController extends CommonController
     //待审评论
     public function copending()
     {
-        $comments = D("Comments");
+        $model = D("Comments");
         $where = [
             'comment_type' => "0"
         ];
-        $page = getpage($comments, $where, I("get.onepagenum", C("PAGE_SIZE")));
-        $this->show = $page->show();
-        $this->comments = $comments->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $page = getpage($model, $where, I("get.onepagenum", C("PAGE_SIZE")));
+        $show = $page->show();
+        $comments = $model->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $this->assign("show", $show);
+        $this->assign("comments", $comments);
         $this->display("index");
     }
 
     //垃圾评论
     public function junk()
     {
-        $comments = D("Comments");
+        $model = D("Comments");
         $where = [
             'comment_type' => "2"
         ];
-        $page = getpage($comments, $where, I("get.onepagenum", C("PAGE_SIZE")));
-        $this->show = $page->show();
-        $this->comments = $comments->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $page = getpage($model, $where, I("get.onepagenum", C("PAGE_SIZE")));
+        $show = $page->show();
+        $comments = $model->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $this->assign("show", $show);
+        $this->assign("comments", $comments);
         $this->display("junk");
     }
 
     //回收站
     public function trash()
     {
-        $comments = D("Comments");
+        $model = D("Comments");
         $where = [
             'comment_type' => "3"
         ];
-        $page = getpage($comments, $where, I("get.onepagenum", C("PAGE_SIZE")));
-        $this->show = $page->show();
-        $this->comments = $comments->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $page = getpage($model, $where, I("get.onepagenum", C("PAGE_SIZE")));
+        $show = $page->show();
+        $comments = $model->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $this->assign("show", $show);
+        $this->assign("comments", $comments);
         $this->display();
     }
 
     //通过文章查看所有已通过审核评论
     public function getCommentsByArticle()
     {
-        $comments = D("Comments");
+        $model = D("Comments");
         $where = [
             'comment_post_id' => I("get.comment_post_id"),
             'comment_type' => I("get.comment_type")
         ];
-        $page = getpage($comments, $where, I("get.onepagenum", C("PAGE_SIZE")));
-        $this->show = $page->show();
-        $this->comments = $comments->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $page = getpage($model, $where, I("get.onepagenum", C("PAGE_SIZE")));
+        $show = $page->show();
+        $comments = $model->relation(true)->where($where)->order("comment_id desc")->limit($page->firstRow.','.$page->listRows)->select();
+        $this->assign("show", $show);
+        $this->assign("comments", $comments);
         $this->display();
     }
 

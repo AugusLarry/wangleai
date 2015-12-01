@@ -1,5 +1,6 @@
 <?php
 namespace Admin\Controller;
+use Think;
 use Think\Controller;
 /**
  * 后台登录控制器
@@ -44,7 +45,7 @@ class LoginController extends Controller
 	        'bg'       => C('bg'),
 	        'reset'    => C('reset'),
 		];
-		$Verify = new \Think\Verify($config);
+		$Verify = new Think\Verify($config);
 		$Verify->entry();
 	}
 }

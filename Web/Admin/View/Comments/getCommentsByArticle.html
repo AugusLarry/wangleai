@@ -104,15 +104,15 @@
 											<a href="{:U('Admin/Articles/updateArticle', ['id' => $v['pid']])}" target="_blank">{$v.post_title}</a>
 											<a href="{:U('/Index/' . $v['pid'])}" target="_blank">查看文章</a>
 											<if condition="$v.comment_count gt 0">
-												<a href="{:U('Admin/Comments/getCommentsByArticle', ['comment_post_id' => $v['pid']])}" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
+												<a href="{:U('Admin/Comments/getCommentsByArticle', ['comment_post_id' => $v['pid'], 'comment_type' => 1])}" class="inline"><span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="共{$v.comment_count}条已审核评论">{$v.comment_count}</span></a>
 												<else/>
 												<span class="label label-info inbox-notification count" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$v.comment_count}条评论">{$v.comment_count}</span>
 											</if>
 											<?php
 												$no_audit_comments = M("Comments")->where(['comment_post_id' => $v['pid'], 'comment_type' => 0])->count();
-											if ($no_audit_comments > 0) {
-											echo "<a href='' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
-											}
+												if ($no_audit_comments > 0) {
+													echo "<a href='' class='label label-info inbox-notification count no_audit_comments' data-toggle='tooltip' data-placement='top' title='' data-original-title='共" . $no_audit_comments . "条待审评论'><span>" . $no_audit_comments . "</span></a>";
+												}
 											?>
 										</div>
 									</td>

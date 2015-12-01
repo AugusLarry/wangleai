@@ -1,37 +1,106 @@
-﻿## 简介
+﻿忘了爱博客系统
+==================
+目录介绍
+------------------
+* wangleai [根目录]<br>
+    * data [数据文件目录]<br>
+    * Public [资源]<br>
+        * static-admin [后台资源]<br>
+        * static-index [前台资源]<br>
+        * Uploads [上传目录]<br>
+    * ThinkPHP [TP核心框架]<br>
+    * Web [模块目录]<br>
+        * Admin [后台模块]<br>
+            * Conf [配置文件]<br>
+            * Controller [控制器]<br>
+            * Model [模型]<br>
+            * TagLib [自定义标签]<br>
+            * View [视图]<br>
+        * Common [公共模块]<br>
+            * Common [公共函数]<br>
+            * Conf [公共配置]<br>
+            * Model [公共模型]<br>
+        * Index [前台模块]<br>
+            * Conf [配置文件]<br>
+            * Controller [控制器]<br>
+            * TagLib [自定义标签]<br>
+            * View [视图]<br>
+        * Runtime [运行缓存文件目录]<br>
+    * .gitignore<br>
+    * .htaccess [apache rewrite文件]<br>
+    * index.php [入口文件]<br>
+    * README.md
 
-ThinkPHP 是一个免费开源的，快速、简单的面向对象的 轻量级PHP开发框架 ，创立于2006年初，遵循Apache2开源协议发布，是为了敏捷WEB应用开发和简化企业应用开发而诞生的。ThinkPHP从诞生以来一直秉承简洁实用的设计原则，在保持出色的性能和至简的代码的同时，也注重易用性。并且拥有众多的原创功能和特性，在社区团队的积极参与下，在易用性、扩展性和性能方面不断优化和改进，已经成长为国内最领先和最具影响力的WEB应用开发框架，众多的典型案例确保可以稳定用于商业以及门户级的开发。
-
-## 全面的WEB开发特性支持
-
-最新的ThinkPHP为WEB应用开发提供了强有力的支持，这些支持包括：
-
-*  MVC支持-基于多层模型（M）、视图（V）、控制器（C）的设计模式
-*  ORM支持-提供了全功能和高性能的ORM支持，支持大部分数据库
-*  模板引擎支持-内置了高性能的基于标签库和XML标签的编译型模板引擎
-*  RESTFul支持-通过REST控制器扩展提供了RESTFul支持，为你打造全新的URL设计和访问体验
-*  云平台支持-提供了对新浪SAE平台和百度BAE平台的强力支持，具备“横跨性”和“平滑性”，支持本地化开发和调试以及部署切换，让你轻松过渡，打造全新的开发体验。
-*  CLI支持-支持基于命令行的应用开发
-*  RPC支持-提供包括PHPRpc、HProse、jsonRPC和Yar在内远程调用解决方案
-*  MongoDb支持-提供NoSQL的支持
-*  缓存支持-提供了包括文件、数据库、Memcache、Xcache、Redis等多种类型的缓存支持
-
-## 大道至简的开发理念
-
-ThinkPHP从诞生以来一直秉承大道至简的开发理念，无论从底层实现还是应用开发，我们都倡导用最少的代码完成相同的功能，正是由于对简单的执着和代码的修炼，让我们长期保持出色的性能和极速的开发体验。在主流PHP开发框架的评测数据中表现卓越，简单和快速开发是我们不变的宗旨。
-
-## 安全性
-
-框架在系统层面提供了众多的安全特性，确保你的网站和产品安全无忧。这些特性包括：
-
-*  XSS安全防护
-*  表单自动验证
-*  强制数据类型转换
-*  输入数据过滤
-*  表单令牌验证
-*  防SQL注入
-*  图像上传检测
-
-## 商业友好的开源协议
-
-ThinkPHP遵循Apache2开源协议发布。Apache Licence是著名的非盈利开源组织Apache采用的协议。该协议和BSD类似，鼓励代码共享和尊重原作者的著作权，同样允许代码修改，再作为开源或商业软件发布。
+数据库介绍
+------------------
+* wla_active_record [用户活动记录表]
+    * id [主键ID]
+    * uid [用户ID]
+    * dateline [活动时间]
+    * ip [活动IP]
+    * module [操作模块]
+* wla_auth_group [角色表]
+    * id [主键ID]
+    * title [角色中文名称]
+    * status [状态：1正常，0禁用]
+    * rules [角色拥有的权限id,多个权限","隔开]
+* wla_auth_group_access [用户与角色中间表]
+    * uid [用户ID]
+    * group_id [角色ID]
+* wla_auth_rule [权限表]
+    * id [主键ID]
+    * name [权限唯一英文标识]
+    * title [权限中文标识]
+    * type [权限类型,如果type为1,condition字段就可以定义规则表达式.如定义{score}>5 and {score}<100  表示用户的分数在5-100之间时这条规则才会通过。
+    * status [状态：1正常，0禁用]
+    * condition [规则附件条件,满足附加条件的规则,才认为是有效的规则]
+* wla_comments [评论表]
+    * comment_id [主键ID]
+    * comment_post_id [评论所属文章ID]
+    * comment_author [评论作者]
+    * comment_author_email [评论者邮箱]
+    * comment_author_url [评论者站点]
+    * comment_author_ip [评论者IP]
+    * created_at [评论时间]
+    * comment_content [评论内容]
+    * comment_type [评论状态(0:审核;1:正常;2:垃圾;3:回收站),默认为0]
+    * comment_agent [评论者浏览器信息]
+    * comment_parent [父评论ID]
+    * user_id [评论者用户ID,默认为0,表示游客评论]
+* wla_post_term [文章与链接中间表]
+    * post_id [文章ID]
+    * term_id [链接ID]
+* wla_posts [文章表]
+    * id [主键ID]
+    * post_author [文章作者]
+    * created_at [文章创建时间]
+    * post_title [文章标题]
+    * post_type [文章类型(0:普通;1:心情;2:音乐;3:图片;4:视频;),默认为0]
+    * post_description [文章描述]
+    * post_content [文章内容]
+    * post_status [文章状态(0:发布;1:草稿;2:垃圾箱),默认为0]
+    * comment_status [评论状态(0:可以评论;1:不能评论),默认为0]
+    * comment_count [评论总数]
+    * click_count [点击数]
+* wla_terms [链接表]
+    * id [主键ID]
+    * name [链接名称]
+    * slug [链接缩写]
+    * sort [排序]
+    * taxonomy [类型(0:category;1:tag;)]
+    * description [链接图片描述]
+    * parent [父分类ID]
+    * term_count [分类下文章数量、当前标签所拥有文章数量]
+* wla_user [用户表]
+    * id [主键ID]
+    * username [用户账号]
+    * email [用户邮箱]
+    * password [用户密码]
+    * desplay_name [用户昵称]
+    * avatar [用户头像]
+    * description [用户描述]
+    * status [帐号状态(0-10),默认为10]
+    * password_reset_key [密码重置令牌]
+    * created_at [用户创建时间]
+    * updated_at [更新时间]
+    * login_ip [登录IP]

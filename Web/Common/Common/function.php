@@ -41,7 +41,7 @@ function getpage(&$m, $where, $pagesize = 10) {
     $page->setConfig('first', C("FIRST"));
     $page->setConfig('theme', C("THEME"));
     $page->parameter=I('get.');
-    $m->limit($p->firstRow,$p->listRows);
+    $m->limit($page->firstRow,$page->listRows);
     return $page;
 }
 
@@ -57,7 +57,7 @@ function getPageForIndex(&$m, $where, $pagesize = 10) {
     $page->setConfig('first', "<i class='fa fa-angle-double-left' title='首页'></i>");
     $page->setConfig('theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END%');
     $page->parameter=I('get.');
-    $m->limit($p->firstRow,$p->listRows);
+    $m->limit($page->firstRow,$page->listRows);
     return $page;
 }
 

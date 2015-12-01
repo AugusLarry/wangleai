@@ -33,7 +33,6 @@ class AuthorController extends Controller
 				}
 			}
 			unset($posts[$key]['terms']);
-			unset($posts[$key]['property']);
 		}
 		$this->posts = $posts;
     	$this->display();

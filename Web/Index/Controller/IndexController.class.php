@@ -33,7 +33,6 @@ class IndexController extends Controller
 				}
 			}
 			unset($posts[$key]['terms']);
-			unset($posts[$key]['property']);
 		}
 		$this->posts = $posts;
     	$this->category = M("Terms")->where(['taxonomy' => 0])->select();

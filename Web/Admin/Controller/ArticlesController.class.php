@@ -1,6 +1,5 @@
 <?php
 namespace Admin\Controller;
-use Admin\Controller\CommonController;
 /**
  * 文章控制器
  */
@@ -17,7 +16,7 @@ class ArticlesController extends CommonController
 		//对文章列表分页显示
 		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的数据
 		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
@@ -34,10 +33,9 @@ class ArticlesController extends CommonController
 				}
 			}
 			unset($posts[$key]['terms']);
-			unset($posts[$key]['property']);
 		}
-		$this->posts = $posts;
-		// p($this->posts);die;
+		$this->assign('show', $show);
+		$this->assign('posts', $posts);
 		$this->display();
 	}
 
@@ -47,8 +45,8 @@ class ArticlesController extends CommonController
 		$model = D("Terms");
 		$category = $model->where(['taxonomy' => 0])->select();
 		vendor('myClass.Category', "", ".php");
-		$this->category = \Category::unlimitedForLevel($category, "--");
-		$this->property = M("Property")->where(['status' => 1])->select();
+		$category = \Category::unlimitedForLevel($category, "--");
+		$this->assign('category', $category);
 		$this->display();
 	}
 
@@ -131,13 +129,6 @@ class ArticlesController extends CommonController
 				$data['terms'][$k]['id'] = $v;
 			}
 		}
-		//如果存在属性
-		if (isset($_POST['property'])){
-			foreach ($_POST['property'] as $v) {
-				//这里组合方式跟上面terms一样
-				$data['property'][]['id'] = $v;
-			}
-		}
 		//将分类ID组合进data数组
 		$data['terms'][]['id'] = I("post.post_category", "", "intval");
 		//将该分类count加一
@@ -157,7 +148,7 @@ class ArticlesController extends CommonController
 		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
 		$post = D("Posts")->relation(true)->where(['id' => I("get.id")])->find();
 		if (!$post) $this->error("访问出错!", U("index"));
-		$tags = $attr = [];
+		$tags = [];
 		foreach ($post as $key => $val) {
 			if ($key == "terms") {
 				foreach ($val as $k => $v) {
@@ -169,21 +160,14 @@ class ArticlesController extends CommonController
 					}
 				}
 			}
-			if ($key == "property") {
-				foreach ($val as $k => $v) {
-					$attr[] = $v['id'];
-				}
-			}
 			unset($post['terms']);
-			unset($post['property']);
 		}
-		$this->post = $post;
-		$this->tags = $tags;
-		$this->attr = $attr;
 		$category = M("Terms")->where(['taxonomy' => 0])->select();
 		vendor('myClass.Category', "", ".php");
-		$this->category = \Category::unlimitedForLevel($category, "--");
-		$this->property = M("Property")->select();
+		$category = \Category::unlimitedForLevel($category, "--");
+		$this->assign("post", $post);
+		$this->assign("tags", $tags);
+		$this->assign("category", $category);
 		$this->display();
 	}
 
@@ -296,19 +280,6 @@ class ArticlesController extends CommonController
 				}
 			}
 		}
-		//如果存在属性
-		if (isset($_POST['property'])){
-			foreach ($_POST['property'] as $v) {
-				//这里组合方式跟上面terms一样
-				$data['property'][]['id'] = $v;
-			}
-		} else {
-			$old_property = D("Posts")->relation("property")->where(['id' => I("post.id")])->find();
-			$old_property = $old_property['property'];
-			if (!empty($old_property)) {
-				M("PostProperty")->where(['post_id' => I("post.id")])->delete();
-			}
-		}
 		//表单提交过来的分类ID
 		$post_category = I("post.post_category", "", "intval");
 		//取出旧的分类ID
@@ -331,54 +302,6 @@ class ArticlesController extends CommonController
 		}
 	}
 
-	//属性列表
-	public function property()
-	{
-		$this->property = M("Property")->select();
-		$this->display();
-	}
-
-	//添加属性
-	public function addProperty()
-	{
-		$this->display();
-	}
-
-	//添加属性表单
-	public function addPropertyForm()
-	{
-		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$property = D("Property");
-		if (!$property->create()) {
-			$this->error($property->getError(), U("property"));
-		} else {
-			$property->add();
-			$this->success("添加成功!", U("property"));
-		}
-	}
-
-	//修改属性
-	public function updateProperty()
-	{
-		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("index"));
-		$this->property = M("Property")->where(['id' => I("get.id")])->find();
-		if (!$this->property) $this->error("访问出错!", U("property"));
-		$this->display();
-	}
-
-	//修改属性表单
-	public function updatePropertyForm()
-	{
-		if (!IS_POST || empty(I("post."))) $this->error("访问出错", U('index'));
-		$property = D("Property");
-		if (!$property->create()) {
-			$this->error($property->getError(), U("property"));
-		} else {
-			$property->save(I("post."));
-			$this->success("修改成功!", U("property"));
-		}
-	}
-
 	//根据分类/标签获取文章列表
 	public function getArticlesByTerm()
 	{
@@ -392,7 +315,7 @@ class ArticlesController extends CommonController
 		//对文章列表分页显示
 		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的数据
 		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
@@ -409,13 +332,13 @@ class ArticlesController extends CommonController
 				}
 			}
 			unset($posts[$key]['terms']);
-			unset($posts[$key]['property']);
 		}
-		$this->posts = $posts;
+		$this->assign('show', $show);
+		$this->assign('posts', $posts);
 		$this->display("getArticlesByTerm");
 	}
 
-	//垃圾箱
+	//文章回收站
 	public function trash()
 	{
 		//实例化详情模型
@@ -426,7 +349,7 @@ class ArticlesController extends CommonController
 		//对文章列表分页显示
 		$page = getpage($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的数据
 		$posts = $posts->relation(true)->where($where)->order('id')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
@@ -443,9 +366,9 @@ class ArticlesController extends CommonController
 				}
 			}
 			unset($posts[$key]['terms']);
-			unset($posts[$key]['property']);
 		}
-		$this->posts = $posts;
+		$this->assign('show', $show);
+		$this->assign('posts', $posts);
 		$this->display("index");
 	}
 
@@ -457,7 +380,7 @@ class ArticlesController extends CommonController
 		$post = $model->where(['id' => I("get.id")])->find();
 		if (!$post) $this->error("访问出错!", U("index"));
 		$result = $model->where(['id' => I("get.id")])->setField(["post_status" => 2]);
-		if (!result) {
+		if (!$result) {
 			$this->error("没有扔到垃圾箱,请稍后再试!", U("index"));
 		} else {
 			$this->success("成功扔到垃圾箱!", U("trash"));
@@ -472,7 +395,7 @@ class ArticlesController extends CommonController
 		$post = $model->where(['id' => I("get.id")])->find();
 		if (!$post) $this->error("访问出错!", U("index"));
 		$result = $model->where(['id' => I("get.id")])->setField(["post_status" => 0]);
-		if (!result) {
+		if (!$result) {
 			$this->error("撤销失败,请稍后再试!", U("index"));
 		} else {
 			$this->success("撤销成功!", U("trash"));
@@ -487,7 +410,7 @@ class ArticlesController extends CommonController
 		$post = $model->where(['id' => I("get.id")])->find();
 		if (!$post) $this->error("访问出错!", U("index"));
 		$result = $model->where(['id' => I("get.id")])->setField(["post_status" => 0]);
-		if (!result) {
+		if (!$result) {
 			$this->error("发布失败,请稍后再试!", U("index"));
 		} else {
 			$this->success("发布成功!", U("index"));

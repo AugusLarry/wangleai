@@ -17,7 +17,7 @@ class UserModel extends Model
 		['password', 'require', '密码不能为空!', 2],
 		['verify', 'require', '验证码不能为空!', 2],
 		['username', '6,12', '账号长度在6-12位字符之间', 2, 'length'],
-		['password', '6,12', '密码长度在6-12位字符之间', 2, 'length'],
+		['password', '6,18', '密码长度在6-18位字符之间', 2, 'length'],
 		['verify', 'check_verify', '验证码错误', 2, 'function'],
 		['email', 'email', '不是正确的邮箱格式!', 0, 'regex', 1],
 		['password', 'checkPwd', '用户名或密码错误', 1, 'callback', 4],//登录的时候验证

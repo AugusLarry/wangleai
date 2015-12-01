@@ -1,1 +1,1 @@
-<?php	return array ( 'maxSize' => 20971520, 'rootPath' => './Public/Uploads/', 'savePath' => '', 'saveName' => 'uniqid', 'saveExt' => '', 'replace' => false, 'exts' => 'jpg,gif,png,jpeg', 'mimes' => '', 'autoSub' => true, 'subName' => 'date,Y-m-d', 'hash' => true, 'callback' => false, );?>
+<?php	return array ( 'maxSize' => 20971520, 'rootPath' => './Public/Uploads/', 'savePath' => '', 'saveName' => 'uniqid', 'saveExt' => '', 'replace' => false, 'exts' => 'jpg,gif,png,jpeg', 'mimes' => '', 'autoSub' => true, 'hash' => true, 'callback' => false, );?>

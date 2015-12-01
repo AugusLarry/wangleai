@@ -1,6 +1,6 @@
 <?php
 namespace Admin\Controller;
-use Admin\Controller\CommonController;
+use Think;
 /**
  * 用户管理控制器
  */
@@ -10,15 +10,17 @@ class UserController extends CommonController
 	public function index()
 	{
 		//实例化用户表模型
-		$user = D("User");
+		$model = D("User");
 		//对用户列表分页显示
-		$page = getpage($user, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getpage($model, "", I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//查询字段
 		$fields = ['id', 'username', 'email', 'updated_at', 'login_ip', 'status'];
 		//获取分页后的数据
-		$this->user = $user->field($fields)->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$user = $model->field($fields)->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$this->assign("show", $show);
+		$this->assign("user", $user);
 		$this->display();
 	}
 
@@ -26,20 +28,24 @@ class UserController extends CommonController
 	public function details()
 	{
 		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
-		$auth = new \Think\Auth();
+		$auth = new Think\Auth();
 		//获取用户对应的角色
-		$this->group = current($auth->getGroups(I("get.id")));
+		$group = current($auth->getGroups(I("get.id")));
 		//获取用户信息
-		$this->user = D("User")->where(['id' => I("get.id")])->find();
-		if (!$this->user) $this->error("访问出错!", U("Admin/Index/index"));
+		$user = D("User")->where(['id' => I("get.id")])->find();
+		if (!$user) $this->error("访问出错!", U("Admin/Index/index"));
 		//实例化用户活动记录模型
-		$active = M("ActiveRecord");
+		$model = M("ActiveRecord");
 		//对用户记录分页显示
-		$page = getpage($active, ['uid' => I("get.id")], I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getpage($model, ['uid' => I("get.id")], I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的用户活动记录
-		$this->active = $active->where(['uid' => I("get.id")])->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$active = $model->where(['uid' => I("get.id")])->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$this->assign("group", $group);
+		$this->assign("user", $user);
+		$this->assign("show", $show);
+		$this->assign("active", $active);
 		$this->display();
 	}
 
@@ -47,7 +53,8 @@ class UserController extends CommonController
 	public function addUser()
 	{
 		//通过id降序获取角色列表
-		$this->group = D("AuthGroup")->order('id desc')->select();
+		$group = D("AuthGroup")->order('id desc')->select();
+		$this->assign("group", $group);
 		$this->display();
 	}
 
@@ -69,12 +76,15 @@ class UserController extends CommonController
 	{
 		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("details"));
 		//获取id对应的用户
-		$this->user = D("User")->where(['id' => I("get.id")])->find();
-		if (!$this->user) $this->error("访问出错!", U("Admin/Index/index"));
+		$user = D("User")->where(['id' => I("get.id")])->find();
+		if (!$user) $this->error("访问出错!", U("Admin/Index/index"));
 		//获取所有角色
-		$this->group = D("AuthGroup")->order('id desc')->select();
+		$group = D("AuthGroup")->order('id desc')->select();
 		//获取id对应用户的角色id
-		$this->group_id = M("AuthGroupAccess")->where(['uid' => $this->user['id']])->getField("group_id");
+		$group_id = M("AuthGroupAccess")->where(['uid' => $user['id']])->getField("group_id");
+		$this->assign("user", $user);
+		$this->assign("group", $group);
+		$this->assign("group_id", $group_id);
 		$this->display();
 	}
 
@@ -83,6 +93,7 @@ class UserController extends CommonController
 	{
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错!", U("Admin/Index/index"));
 		//实例化用户模型
+		p(I("post."));
 		$user = D("User");
 		if (!$user->create(I("post."), 2)) {
 			$this->error($user->getError(), U("Admin/User/details", ['id' => I("post.id")]));
@@ -116,13 +127,15 @@ class UserController extends CommonController
 	public function group()
 	{
 		//实例化角色模型
-		$group = D("AuthGroup");
+		$model = D("AuthGroup");
 		//对角色列表进行分页
-		$page = getpage($group, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getpage($model, "", I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的角色列表
-		$this->group = $group->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$group = $model->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$this->assign("show", $show);
+		$this->assign("group", $group);
 		$this->display();
 	}
 
@@ -130,7 +143,9 @@ class UserController extends CommonController
 	public function addGroup()
 	{
 		//获取所有权限
-		$this->rule = D("AuthRule")->field(['id', 'title'])->order('id desc')->select();
+		$rule = D("AuthRule")->field(['id', 'title', 'name'])->order('id desc')->select();
+		$this->assign("rule", $rule);
+//		p($rule);die;
 		$this->display();
 	}
 
@@ -162,9 +177,9 @@ class UserController extends CommonController
 		//对角色对应的权限字符串分割成数组
 		$group["rules"] = explode(",", $group["rules"]);
 		//获取所有状态为1的权限
-		$this->rule = D("AuthRule")->where(['status' => 1])->field(['id', 'title'])->order('id desc')->select();
-		//分配角色到模板
-		$this->group = $group;
+		$rule = D("AuthRule")->where(['status' => 1])->field(['id', 'title', 'name'])->order('id desc')->select();
+		$this->assign("rule", $rule);
+		$this->assign("group", $group);
 		$this->display();
 	}
 
@@ -188,13 +203,15 @@ class UserController extends CommonController
 	public function rule()
 	{
 		//实例化权限模型
-		$rule = D("AuthRule");
+		$model = D("AuthRule");
 		//对权限列表进行分页
-		$page = getpage($rule, "", I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getpage($model, "", I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的权限
-		$this->rule = $rule->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$rule = $model->order('id desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$this->assign("show", $show);
+		$this->assign("rule", $rule);
 		$this->display();
 	}
 
@@ -216,16 +233,17 @@ class UserController extends CommonController
 		}
 	}
 
-	//修改规则
+	//修改权限
 	public function updateRule()
 	{
 		if (!IS_GET || I("get.id") == "") $this->error("访问出错!", U("Admin/Index/index"));
-		$this->rule = D("AuthRule")->where(['id' => I("get.id")])->find();
-		if (!$this->rule) $this->error("访问出错!", U("Admin/Index/index"));
+		$rule = D("AuthRule")->where(['id' => I("get.id")])->find();
+		if (!$rule) $this->error("访问出错!", U("Admin/Index/index"));
+		$this->assign("rule", $rule);
 		$this->display();
 	}
 
-	//修改规则表单
+	//修改权限表单
 	public function updateRuleForm()
 	{
 		if (!IS_POST || empty(I("post."))) $this->error("访问出错!", U("Admin/Index/index"));
@@ -255,10 +273,8 @@ class UserController extends CommonController
 		    'replace'      => C("replace"),
 		    'hash'         => C("hash"),
 		    'callback'     => C("callback"),
-		    'driver'       => C("driver"),
-		    'driverConfig' => C("driverConfig"),
 		];
-		$upload = new \Think\Upload($config);// 实例化上传类
+		$upload = new Think\Upload($config);// 实例化上传类
 		$upload->maxSize = 1024*1021*5;//设置上传大小为5M
 		$upload->exts = ['jpg', 'gif', 'png', 'jpeg'];//设置上传文件后缀
 		$upload->savePath = 'avatar/';//设置保存目录

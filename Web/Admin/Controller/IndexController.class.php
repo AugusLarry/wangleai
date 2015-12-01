@@ -1,6 +1,5 @@
 <?php
 namespace Admin\Controller;
-use Admin\Controller\CommonController;
 
 /**
  * 后台首页控制器
@@ -17,11 +16,14 @@ class IndexController extends CommonController
         //and条件,时间大于0点小于24点
         $time['created_at'] = [['gt', $beginToday],['lt', $endToday],'and'];
         //获取今天新增用户
-        $this->newUser = M("User")->where($time)->count();
+        $newUser = M("User")->where($time)->count();
         //获取今天新增评论
-        $this->newComment = M("Comments")->where($time)->count();
+        $newComment = M("Comments")->where($time)->count();
         //获取今天新增文章
-        $this->newPost = M("Posts")->where($time)->count();
+        $newPost = M("Posts")->where($time)->count();
+        $this->assign("newUser", $newUser);
+        $this->assign("newComment", $newComment);
+        $this->assign("newPost", $newPost);
     	$this->display();
     }
 

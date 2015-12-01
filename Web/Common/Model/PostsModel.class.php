@@ -13,13 +13,5 @@ class PostsModel extends RelationModel
 			'relation_foreign_key' => 'term_id',//关联表外键
 			'relation_table' => 'wla_post_term',//中间表名称
 		],
-		"Property" => [//属性
-			'mapping_type' => self::MANY_TO_MANY,
-			'class_name' => 'Property',
-			'mapping_name' => 'property',
-			'foreign_key' => 'post_id',
-			'relation_foreign_key' => 'property_id',
-			'relation_table' => 'wla_post_property',
-		],
 	];
 }

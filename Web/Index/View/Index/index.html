@@ -13,7 +13,7 @@
 				<article class="post">
 					<date class="post-meta">
 						<?php foreach ($v['category'] as $value) {
-							echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
+							echo '<a href="' . U("/Index/c_" . $value['id']) . '" title="' . $v['post_title'] . '"><i class="fa fa-list-ul">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>';
 						}?>
 						<a href="{:U('/Index/a_' . $v['post_author'])}"><i class="fa fa-user" title="作者">&nbsp;{$v.post_author}&nbsp;&nbsp;</i></a>
 						<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>

@@ -11,6 +11,7 @@ class Wla extends TagLib
 		'comments' => ['attr' => '', 'close' => 0]
 	];
 
+	//分类标签
 	public function _navigation($tag, $content)
 	{
 		$limit = isset($tag['limit']) ? $tag['limit'] : 10;
@@ -30,6 +31,7 @@ str;
 		return $str;
 	}
 
+	//sidebar新闻标签
 	public function _news($tag, $content)
 	{
 		$limit = isset($tag['limit']) ? $tag['limit'] : 10;
@@ -48,6 +50,7 @@ str;
 		return $str;
 	}
 
+	//导航标签
 	public function _crumbs($tag)
 	{
 		$id = I("get.id");
@@ -55,7 +58,6 @@ str;
 		$str = "<div class='res-nav'><p><a href='/' title='首页'><span>首页</span></a>&nbsp;&nbsp;/&nbsp;&nbsp;";
 		switch ($level) {
 			case 'show':
-				$title = M("Posts")->where(['id' => $id])->getField("post_title");
 				$post = D("Posts")->relation("terms")->where(['id' => $id])->find();
 				foreach ($post['terms'] as $value) {
 					if ($value['taxonomy'] == 0) {
@@ -97,6 +99,7 @@ str;
 		}
 	}
 
+	//评论标签
 	public function _comments()
 	{
 		$id = I("get.id");
@@ -104,6 +107,7 @@ str;
 		$comments = M("Comments")->where(['comment_post_id' => $id, ['comment_type' => 1]])->select();
 		vendor('myClass.Category', "", ".php");
 		$comments = \Category::unlimitedForComment($comments);
+		$str ="";
 		$str .= "<ol class='comment-list'>";
 		if (!empty($comments)) {
 			foreach ($comments as $v) {
@@ -114,7 +118,7 @@ str;
                 $str .= " id='comment-" . $v["comment_id"] . "'><div class='cl-avatar'>";
 				$avatar = M("User")->where(['display_name' => $v['comment_author']])->getField("avatar");
 				if ($v['user_id'] == 0 || $avatar == "") {
-					$str .= "<img class='avatar' src='__PUBLIC__/static-index/img/avatar.jpg'>";
+					$str .= "<img class='avatar' src='__PUBLIC__/static-index/img/avatar.jpg'/>";
 				} else {
 					$str .= "<img class='avatar' src='" . $avatar . "' width='32'>";
 				}
