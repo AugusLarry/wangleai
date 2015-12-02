@@ -10,14 +10,14 @@
 			<div>
 				<nav id="nav-menu" class="clearfix">
 					<ul class="nav nav-pills">
-						<li role="navigation" <if condition="CONTROLLER_NAME eq 'Index'">class="current"</if>><a href="{$Think.config.SITE_INDEX_URL}">首页</a></li>
+						<li role="navigation" <if condition="CONTROLLER_NAME eq 'Index'">class="current"</if>><a href="{$Think.config.SITE_INDEX_URL}" title="{$Think.config.SITE_INDEX_NAME}">{$Think.config.SITE_INDEX_NAME}</a></li>
 						<navigation limit="10" order="sort">
 							<li role="navigation">
-								<a href="{$url}">{$name}</a>
+								<a href="{$url}" title="{$name}">{$name}</a>
 								<if condition="$child">
 								<ul class="dropdown-menu">
 									<?php foreach($child as $v) :?>
-									<li><a href="{:U('/Index/c_' . $v['id'])}">{$v.name}</a></li>
+									<li><a href="{:U('/Index/c_' . $v['id'])}" title="{$v.name}">{$v.name}</a></li>
 									<?php endforeach;?>
 								</ul>
 								</if>

@@ -9,8 +9,6 @@ return [
 	'TOKEN_TYPE'         => 'md5',//表单令牌加密方式
 	'TOKEN_RESET'        => true,//表单提交后重置令牌
 	'TMPL_CACHE_ON'      => false,//模板缓存
-	'HTML_CACHE_ON'      => false,//静态缓存
-	'HTTP_CACHE_CONTROL' => 'no-cache',//HTTP请求缓存控制
 	'AUTH_CONFIG'        => [//AUTH权限验证
 		'AUTH_ON'           => true,  // 认证开关
 		'AUTH_TYPE'         => 1, // 认证方式，1为实时认证；2为登录认证。
