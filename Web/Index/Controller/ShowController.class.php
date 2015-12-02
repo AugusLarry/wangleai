@@ -1,28 +1,34 @@
 <?php
 namespace Index\Controller;
-use Think\Controller;
 /**
  * 内容页控制器
  */
-class ShowController extends Controller
+class ShowController extends EmptyController
 {
 	/**
 	 * 内容页视图
 	 */
     public function index()
     {
-    	if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("/Index"));
         $model = M("Posts");
         $where = ['id' => I("get.id")];
+		if (!($model->where($where)->find())) {
+			$this->_empty();
+			die;
+		}
 		//将该文章点击率加1
         $model->where($where)->setInc("click_count");
-    	$this->post = $model->where($where)->find();
-		$this->cookie = [
+		/** @var 获取文章 $post */
+		$post = $model->where($where)->find();
+		$cookie = [
 			'author' => cookie(C('COMMENT_COOKIE_PREFIX') . "_comment_author"),
 			'email' => cookie(C('COMMENT_COOKIE_PREFIX') . "_comment_author_email"),
 			'url' => cookie(C('COMMENT_COOKIE_PREFIX') . '_comment_author_url')
 		];
-        $this->article_name = $model->where($where)->getField("post_title");
+        $article_name = $model->where($where)->getField("post_title");
+		$this->assign("post", $post);
+		$this->assign("cookie", $cookie);
+		$this->assign("article_name", $article_name);
     	$this->display();
     }
 

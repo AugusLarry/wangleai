@@ -16,7 +16,7 @@ class IndexController extends Controller
 		//对文章列表分页显示
 		$page = getPageForIndex($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的数据
 		$posts = $posts->relation(true)->where($where)->order('created_at desc')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
@@ -34,8 +34,10 @@ class IndexController extends Controller
 			}
 			unset($posts[$key]['terms']);
 		}
-		$this->posts = $posts;
-    	$this->category = M("Terms")->where(['taxonomy' => 0])->select();
+		$category = M("Terms")->where(['taxonomy' => 0])->select();
+		$this->assign("show", $show);
+		$this->assign("posts", $posts);
+		$this->assign("category", $category);
     	$this->display();
     }
 }

@@ -13,5 +13,5 @@ return array(
 		's' => ['Search/index'],
 		':id\d' => ['Show/index'],
 	],
-	'SHOW_PAGE_TRACE' => true,
+	'SHOW_PAGE_TRACE' => false,
 );

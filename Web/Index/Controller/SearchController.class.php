@@ -1,14 +1,21 @@
 <?php
 namespace Index\Controller;
-use Think\Controller;
-class SearchController extends Controller
+class SearchController extends EmptyController
 {
 	public function index()
 	{
-		if (!I("post.") || empty(I("post."))) $this->display();
+		if (!IS_POST) {
+			$this->_empty();
+			die;
+		}
 		$keyword = I("post.s", "", "htmlspecialchars");
-		$this->posts = M("Posts")->where(['post_title' => ['like', "%" . $keyword . "%"]])->select();
-		$this->keyword = $keyword;
+		if ($keyword == "") {
+			$this->error("请输入要查询的内容");
+			die;
+		}
+		$posts = M("Posts")->where(['post_title' => ['like', "%" . $keyword . "%"]])->select();
+		$this->assign("posts", $posts);
+		$this->assign("keyword", $keyword);
 		$this->display();
 	}
 }

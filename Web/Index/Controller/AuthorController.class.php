@@ -1,24 +1,26 @@
 <?php
 namespace Index\Controller;
-use Think\Controller;
 /**
  * 作者控制器
  */
-class AuthorController extends Controller
+class AuthorController extends EmptyController
 {
 	public function index()
 	{
-		if (!IS_GET || I("get.") == "") $this->error("访问出错!", U("/Index"));
-		$posts = D("Posts");
+		$model = D("Posts");
 		$where = [
 			'post_author' => I("get.id"),
 		];
+		if (!($model->where($where)->find())) {
+			$this->_empty();
+			die;
+		}
 		//对文章列表分页显示
-		$page = getPageForIndex($posts, $where, I("get.onepagenum", C("PAGE_SIZE")));
+		$page = getPageForIndex($model, $where, I("get.onepagenum", C("PAGE_SIZE")));
 		//获取分页标签
-		$this->show = $page->show();
+		$show = $page->show();
 		//获取分页后的数据
-		$posts = $posts->relation(true)->where($where)->order('created_at desc')->limit($page->firstRow.','.$page->listRows)->select();
+		$posts = $model->relation(true)->where($where)->order('created_at desc')->limit($page->firstRow.','.$page->listRows)->select();
 		foreach ($posts as $key => $val) {
 			foreach ($val['terms'] as $k => $v) {
 				if ($v['taxonomy'] == 0) {
@@ -34,7 +36,8 @@ class AuthorController extends Controller
 			}
 			unset($posts[$key]['terms']);
 		}
-		$this->posts = $posts;
+		$this->assign("show", $show);
+		$this->assign("posts", $posts);
     	$this->display();
 	}
 }
