@@ -9,7 +9,7 @@
         * static-index [前台资源]<br>
         * Uploads [上传目录]<br>
     * ThinkPHP [TP核心框架]<br>
-    * Web [模块目录]<br>
+    * Web [应用目录]<br>
         * Admin [后台模块]<br>
             * Conf [配置文件]<br>
             * Controller [控制器]<br>

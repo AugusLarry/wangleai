@@ -47,6 +47,9 @@ class UserModel extends Model
 	}
 
 	//登录后处理(更新时间及IP，存SESSION)
+	/**
+	 * @return bool
+     */
 	public function login()
 	{
 		$user = $this->where(['username' => I("post.username")])->find();
@@ -71,6 +74,14 @@ class UserModel extends Model
 			cookie("comment_author", urlencode($uname), ['prefix' => C("COMMENT_COOKIE_PREFIX") . "_", 'expire' => 60*60*24*365]);
 			cookie("comment_author_email", urlencode($uemail), ['prefix' => C("COMMENT_COOKIE_PREFIX") . "_", 'expire' => 60*60*24*365]);
 			cookie("comment_author_url", urlencode(C("SITE_URL")), ['prefix' => C("COMMENT_COOKIE_PREFIX") . "_", 'expire' => 60*60*24*365]);
+			/** @var 存用户登录的活动记录 $active */
+			$active = [
+				'uid' => $_SESSION['uid'],
+				'dateline' => NOW_TIME,
+				'ip' => get_client_ip(),
+				'module' => $_SERVER['PHP_SELF'] . $_SERVER["QUERY_STRING"]
+			];
+			M("ActiveRecord")->data($active)->add();
 			return true;
 		}
 		return false;

@@ -20,12 +20,12 @@ class CommonController extends Controller
 				$this->error('你没有权限',U('Admin/Index/index'));
 			}
 		}
-		/*$active = [
+		$active = [
 			'uid' => $_SESSION['uid'],
 			'dateline' => NOW_TIME,
 			'ip' => get_client_ip(),
 			'module' => $_SERVER['PHP_SELF'] . $_SERVER["QUERY_STRING"]
 		];
-		M("ActiveRecord")->data($active)->add();*/
+		M("ActiveRecord")->data($active)->add();
 	}
 }
