@@ -29,8 +29,8 @@
 						</h2>
 					</header>
 					<div class="post-content">
-						{$v.post_content|htmlspecialchars_decode}
-						<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读剩余部分 -</a></p>
+						{$v.post_description|htmlspecialchars_decode}
+						<p class="more"><a href="{:U('/Index/' . $v['id'])}">- 阅读全文 -</a></p>
 					</div>
 				</article>
 			<elseif condition="$v['post_type'] eq 1"/>
