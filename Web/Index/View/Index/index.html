@@ -1,6 +1,6 @@
 <extend name="Common:layout"/>
 <block name="seo">
-   <title>{$Think.config.SITE_WEB_NAME}</title>
+   <title>{$Think.config.SITE_WEB_NAME}-{$Think.config.SITE_INDEX_DESCRIPTION}</title>
    <meta name="keywords" content="{$Think.config.SITE_KEYWORDS}">
    <meta name="description" content="{$Think.config.SITE_DESCRIPTION}">
 </block>
@@ -19,9 +19,14 @@
 						<i class="fa fa-clock-o" title="发布时间">&nbsp;{$v.created_at|date="Y-m-d", ###}&nbsp;&nbsp;</i>
 						<a href="{:U('/Index/' . $v['id'] . '#comment')}" title="评论数"><i class="fa fa-comment-o">&nbsp;{$v.comment_count}&nbsp;&nbsp;</i></a>
 						<i class="fa fa-eye" title="点击数">&nbsp;{$v.click_count}&nbsp;&nbsp;</i>
-						<?php foreach ($v['tags'] as $value) {
-							echo '<a href="' . U("/Index/t_" . $value['id']) . '" title="' . $value['name'] . '"><i class="fa fa-tags" title="标签">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</i></a>/';
-						}?>
+						<?php
+							if (isset($v['tags'])) {
+								echo '<i class="fa fa-tags" title="标签"></i>';
+								foreach ($v['tags'] as $value) {
+									echo '<a href="' . U("/Index/t_" . $value['id']) . '" title="' . $value['name'] . '">&nbsp;' . $value["name"] . '&nbsp;&nbsp;</a>/';
+								}
+							}
+						?>
 					</date>
 					<header>
 						<h2 class="post-title">
