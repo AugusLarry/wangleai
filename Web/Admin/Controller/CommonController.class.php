@@ -11,7 +11,8 @@ class CommonController extends Controller
 	public function _initialize ()
 	{
 		if (!isset($_SESSION['uid'])) {
-			$this->error("请重新登录!", U("Login/index"));
+			$this->redirect("Login/index");
+			return false;
 		}
 		$auth = new Think\Auth();
 		$url = strtolower(MODULE_NAME . '/'. CONTROLLER_NAME . '/' . ACTION_NAME);
